@@ -1,0 +1,91 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.team {
+    margin: 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+.teamHeader {
+    text-align: center;
+    width: 50%;
+    color: var(--maroon);
+}
+
+.teamName {
+    padding: 10px 0;
+    border-top: 3px solid var(--maroon);
+}
+
+.teamName h1 {
+    font-weight: 700;
+}
+
+.teamCard {
+    gap: 5rem;
+}
+
+.memberCard {
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    flex: 1;
+    flex-grow: 0;
+    background-color: var(--maroon);
+    border-radius: 15px;
+    width: 480px;
+}
+
+.divPic {
+    padding: 10px;
+}
+
+.divPic img {
+    height: 180px;
+    border: 3px solid var(--white);
+    border-radius: 50%;
+}
+
+.divInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    height: inherit;
+    padding: 25px;
+}
+
+.surname {
+    font-weight: 550;
+    text-transform: uppercase;
+}
+
+.divInfo h5 {
+    font-size: 24px;
+}
+
+.divInfo ul li {
+    font-size: 18px;
+    text-align: left;
+}
+
+@media only screen and (max-width: 1024px) {
+    .teamHeader {
+        width: 100%;
+    }
+
+    .memberCard {
+        flex-direction: column;
+        width: auto;
+    }
+    
+}

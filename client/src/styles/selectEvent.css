@@ -1,0 +1,61 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.election {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0 50px 0;
+}
+
+.electionHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 50%;
+    height: 75vh;
+    padding: 50px;
+}
+
+.electionHeader h1, .electionHeader p {
+    color: var(--maroon);
+}
+
+.electionHeader h1 {
+    font-size: 48px;
+    font-weight: 700;
+    padding-bottom: 50px;
+    border-bottom: 2px solid var(--maroon);
+}
+
+.electionHeader p {
+    font-size: 24px;
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .electionHeader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+        max-width: 100%;
+        padding: 25px;
+        height: 360px;
+    }
+
+    .electionHeader h1 {
+        font-size: 36px;
+        padding-bottom: 25px;
+    }
+    
+    .electionHeader p {
+        font-size: 18px;
+    }
+}

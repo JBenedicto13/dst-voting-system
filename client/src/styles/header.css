@@ -1,0 +1,88 @@
+.headerSec {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    background-color: #5C0017;
+    padding: 25px;
+    height: 780px;
+}
+
+.container {
+    padding: 25px;
+    border: 1px solid var(--white);
+    border-radius: 15px;
+    max-height: 844px;
+
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-direction: column;
+}
+
+.headerTitle h1 {
+    margin-top: 50px;
+    color: var(--white);
+    font-size: 48px;
+}
+
+.headerButtons {
+    width: 100%;
+    justify-content: center;
+}
+
+.headerButtons button {
+    margin: 10px;
+}
+
+.btnVote, .btnRegister {
+    width: 150px;
+    height: 50px;
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.btnVote {
+    background-color: var(--gold);
+    border: none;
+}
+
+.btnRegister {
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid var(--white);
+}
+
+.btnVote:hover {
+    background-color: var(--gold);
+}
+
+.btnRegister:hover {
+    background-color: var(--grey);
+}
+
+.pGuide {
+    text-align: center;
+    color: var(--white);
+    font-size: 24px;
+}
+
+@media only screen and (max-width: 1024px) {
+	.headerSec {
+        padding-bottom: 0;
+        height: auto;
+        padding-bottom: 50px;
+    }
+    .headerTitle h1{
+        text-align: left;
+    }
+    .headerButtons {
+        justify-content: left;
+    }
+    .container {
+        width: 360px;
+    }
+}

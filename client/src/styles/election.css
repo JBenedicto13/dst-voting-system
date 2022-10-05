@@ -1,0 +1,153 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+.election {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--white);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.electionHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    width: 50%;
+    height: 75vh;
+    padding-left: 50px;
+}
+
+.electionHeader h1, .electionHeader p {
+    color: var(--maroon);
+}
+
+.electionHeader h1 {
+    font-size: 48px;
+    font-weight: 700;
+    padding-bottom: 50px;
+    border-bottom: 2px solid var(--maroon);
+}
+
+.electionHeader p {
+    font-size: 18px;
+}
+
+.listbox {
+    background-color: var(--maroon);
+    width: 75%;
+    height: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px;
+    border-radius: 16px;
+}
+
+.chooseEvent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.chooseEvent h1 {
+    color: var(--white);
+    padding: 25px;
+}
+
+.eventList {
+    border: 1px solid var(--white);
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+}
+
+.event-list-group {
+    gap: 10px;
+    margin: auto;
+}
+
+.event-list-group button {
+    text-align: center;
+    font-size: 24px;
+}
+
+@media only screen and (max-width: 1024px) {
+
+    .election {
+        padding-top: 25px;
+        flex-direction: column;
+    }
+
+    .electionHeader {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        width: 100%;
+        padding: 0 50px;
+    }
+    
+    .electionHeader h1, .electionHeader p {
+        color: var(--maroon);
+    }
+    
+    .electionHeader h1 {
+        font-size: 24px;
+        font-weight: 700;
+        border-bottom: 2px solid var(--maroon);
+    }
+    
+    .electionHeader p {
+        font-size: 18px;
+    }
+    
+    .listbox {
+        width: 100%;
+        height: 50vh;
+    }
+
+    .chooseEvent {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .chooseEvent h1 {
+        color: var(--white);
+        padding: 15px;
+    }
+    
+    .eventList {
+        text-align: center;
+        border: 1px solid var(--white);
+        border-radius: 4px;
+        padding: 15px;
+    }
+    
+    .event-list-group {
+        gap: 5px;
+        width: 420px;
+    }
+    
+    .event-list-group button {
+        text-align: center;
+        font-size: 18px;
+        height: 40px;
+    }
+}

@@ -1,0 +1,51 @@
+.UserGuideSec .container {
+	margin-top: 25px;
+	margin-bottom: 100px;
+	border: none;
+	padding: 50px;
+}
+
+.userGuideTitle {
+	text-align: center;
+	background-color: #5C0017;
+}
+
+.userGuideTitle {
+	width: 50%;
+	min-width: 250px;
+	color: #eeeeee;
+	border-radius: 8px;
+}
+
+.pFollow {
+	color: var(--maroon);
+	font-size: 24px;
+}
+
+.carousel {
+	max-width: 1024px;
+	border: 1px solid var(--grey);
+	padding: 15px;
+	border-radius: 15px;
+}
+
+.carousel-inner {
+	border-radius: 8px;
+	max-height: 720px;
+}
+
+@media only screen and (max-width: 1024px) {
+
+	.UserGuideSec .container {
+		margin-top: 25px;
+		margin-bottom: 25px;
+	}
+
+	.pFollow {
+		font-size: 18px;
+	}
+
+	.carousel {
+		min-width: 360px;
+	}
+}

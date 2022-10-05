@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.register, .login {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--grey);
+    display: flex;
+}
+
+.frmRegister, .frmLogin {
+    margin: auto;
+    width: 720px;
+    padding: 50px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.head-title {
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--maroon);
+}
+
+.btnGoogle button {
+    width: 100%;
+    padding: 50px;
+    border: 1px solid red;
+}
+
+.btnSubmit {
+    text-align: center;
+    background-color: var(--maroon);
+    border: none;
+}
+
+.btnSubmit:hover {
+    background-color: var(--maroon);
+    opacity: 0.8;
+}
+
+.spanErrors {
+    font-style: italic;
+    color: var(--maroon);
+    margin-bottom: -10px;
+}
+
+.reglogLink {
+    text-align: center;
+    cursor: pointer;
+    color: var(--black);
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.reglogLink:hover {
+    color: var(--maroon);
+}
+
+@media only screen and (max-width: 1024px) {
+    .frmRegister, .frmLogin {
+        width: max-content;
+    }
+}

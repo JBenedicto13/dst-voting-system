@@ -1,0 +1,87 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.navlight-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 80px;
+	padding: 0 2rem;
+	background-color: var(--white);
+}
+
+.navlight-nav a {
+	margin: 0 1rem;
+	color: var(--maroon);
+	text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 3px;
+}
+
+.navlight-nav a:hover {
+	color: var(--grey);
+}
+
+.navlight-header .nav-btn {
+	padding: 5px;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	outline: none;
+	color: var(--maroon);
+	visibility: hidden;
+	opacity: 0;
+}
+
+.navlight-header div,
+.navlight-nav {
+	display: flex;
+	align-items: center;
+}
+
+@media only screen and (max-width: 1024px) {
+	.navlight-header {
+		justify-content: right;
+	}
+	.navlight-header .nav-btn {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	.navlight-header .navlight-nav {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		background-color: var(--white);
+		transition: 1s;
+		transform: translateY(-100%);
+		z-index: 3;
+	}
+
+	.navlight-header .responsive_nav {
+		transform: none;
+	}
+
+	.navlight-nav .nav-close-btn {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+	}
+
+	.navlight-nav a {
+		font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+	}
+}
