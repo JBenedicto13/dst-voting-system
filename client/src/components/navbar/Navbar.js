@@ -4,8 +4,9 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = ({user}) => {
+    
     return (
-        <nav className='navbar sticky-top navbar-expand-lg'>
+        <nav className='navbar sticky-top navbar-expand-lg newclass'>
             <div className="conatiner-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>

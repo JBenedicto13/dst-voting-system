@@ -27,7 +27,7 @@ function Election() {
                     <div className="eventList row">
                         <h1>Choose an Election Event</h1>
                         <div className="list-group event-list-group">
-                            <button  onClick={() => navigate("/election")} type="button" className="list-group-item list-group-item-action" aria-current="true">
+                            <button  onClick={() => navigate("/vote")} type="button" className="list-group-item list-group-item-action" aria-current="true">
                                 Student Council
                             </button>
                             <button type="button" className="list-group-item list-group-item-action" disabled>College of Computing Studies</button>
