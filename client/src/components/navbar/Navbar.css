@@ -63,7 +63,6 @@
 }
 
 .btn-x {
-    
     font-size: 24px;
     color: white;
     border: none;
@@ -74,4 +73,11 @@
     top: 30px;
     height: 30px;
     width: 30px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .navbar {
+        display: flex;
+        justify-content: flex-end;
+    }
 }

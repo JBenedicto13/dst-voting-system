@@ -1,11 +1,9 @@
 import React from "react";
-import '../styles/vote.css';
-import Nav from './Nav';
+import '../../styles/vote.css';
 
 function Vote() {
     return (
         <>
-            <Nav />
             <div className="vote">
                 <div className="voteHeader">
                         <h1>Web-based Voting System DHVSU Sto. Tomas</h1>
