@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
-import validator from "validator";
 
 const Register = ({user}) => {
 
@@ -176,22 +175,17 @@ const Register = ({user}) => {
 
     function validateForm() {
         if (showEmail) {
-            console.log (true);
             return true;
         }
         if (showWalletAddress) {
-            console.log (true);
             return true;
         }
         if (showPassword) {
-            console.log (true);
             return true;
         }
         if (showConfirmPassword) {
-            console.log (true);
             return true;
         }
-        console.log (false);
         return false;
     }
 
@@ -255,7 +249,7 @@ const Register = ({user}) => {
                 </div>
                 <div className="row mb-3">
                     <button disabled={disableRegister} className="btn btn-danger btnSubmit" type='submit'>Register</button>
-                    <p className="reglogLink">Already registered? Login here.</p>
+                    <Link to="/login" className="reglogLink">Already registered? Login here.</Link>
                 </div>
             </form>
         </div>

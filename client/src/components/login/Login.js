@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
 
@@ -76,7 +76,7 @@ const Login = ({user}) => {
                 )}
                 <div className="row mb-3">
                     <button className="btn btn-danger btnSubmit" type='submit'>Login</button>
-                    <p className="reglogLink">Not yet registered? Register here.</p>
+                    <Link to="/register" className="reglogLink">Not yet registered? Register here.</Link>
                 </div>
             </form>
         </div>
