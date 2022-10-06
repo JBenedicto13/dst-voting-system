@@ -8,6 +8,7 @@ const PORT = process.env.PORT;
 // import routes
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
+const checkRoutes = require("./routes/check");
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(cors());
 // defining routes
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/check", checkRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
