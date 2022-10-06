@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
-router.get("/email", async (req, res) => {
+router.post("/email", async (req, res) => {
     const { email } = req.body;
     let user = await User.findOne({ email });
     if (user) {
@@ -11,7 +11,7 @@ router.get("/email", async (req, res) => {
     }
 })
 
-router.get("/wallet", async (req, res) => {
+router.post("/wallet", async (req, res) => {
     const { walletAddress } = req.body;
     let user = await User.findOne({ walletAddress });
     if (user) {
@@ -19,7 +19,7 @@ router.get("/wallet", async (req, res) => {
     }
 })
 
-router.get("/password", async (req, res) => {
+router.post("/password", async (req, res) => {
     const { email, password } = req.body;
     let user = await User.findOne({ email });
     if (user) {
