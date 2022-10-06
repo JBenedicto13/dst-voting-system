@@ -199,7 +199,6 @@ const Register = ({user}) => {
 
     return (
         <div className="register">
-            <button onClick={validateForm}>Test</button>
             <form className='frmRegister' onSubmit={handleSubmit}>
                 <h1 className='head-title'>Register</h1>
                 <div className="row mb-3">
