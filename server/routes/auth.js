@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
         res.send(token);
     } else {
-        return res.status(400).send("Invalid Password");
+        return res.status(400).send("Invalid Email or Password");
     }
 });
 

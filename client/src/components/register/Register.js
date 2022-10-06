@@ -23,7 +23,7 @@ const Register = ({user}) => {
     const [errMsgP, setErrMsgP] = useState("");
     const [errMsgCP, setErrMsgCP] = useState("");
 
-    const [disableRegister, setDisableRegister] = useState(true);
+    const [disableSubmit, setDisableSubmit] = useState(true);
 
     let navigate = useNavigate();
 
@@ -32,9 +32,9 @@ const Register = ({user}) => {
             navigate(-1);
         }
         if (validateForm() === false) {
-            setDisableRegister(false);
+            setDisableSubmit(false);
         } else {
-            setDisableRegister(true);
+            setDisableSubmit(true);
         }
     })
 
@@ -44,27 +44,53 @@ const Register = ({user}) => {
         username = text.substr(0, i);
     };
 
+    function checkBlank(isBlank) {
+        isBlank = false;
+        if (email === "") {
+            setErrMsgE("Please enter your email");
+            setShowEmail(true);
+            isBlank = true;
+        }
+        if (walletAddress === "") {
+            setErrMsgW("Please enter your wallet address");
+            setShowWalletAddress(true);
+            isBlank = true;
+        }
+        if (password === "") {
+            setErrMsgP("Please enter a password");
+            setShowPassword(true);
+            isBlank = true;
+        }
+        if (confirmPassword === "") {
+            setErrMsgCP("Please confirm your password");
+            setShowConfirmPassword(true);
+            isBlank = true;
+        }
+        return isBlank;
+    }
+
     const handleSubmit = async (e) => {
         
         e.preventDefault();
-        getUsername();
+        if (!checkBlank()) {
+            getUsername();
 
-        try {
-            const {data} = await http.post("/user", {
-                email,
-                username,
-                walletAddress,
-                password,
-            });
-            localStorage.setItem("token", data)
-            window.location = "/";
-        } catch (error) {
-            console.log(error);
-            if (error.response && error.response.status === 400) {
-                setErrMsgE(error.response.data);
-                setShowEmail(true);
-                setPassword("");
-                setConfirmPassword("");
+            try {
+                const {data} = await http.post("/user", {
+                    email,
+                    username,
+                    walletAddress,
+                    password,
+                });
+                localStorage.setItem("token", data)
+                window.location = "/";
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    setErrMsgE(error.response.data);
+                    setShowEmail(true);
+                    setPassword("");
+                    setConfirmPassword("");
+                }
             }
         }
     };
@@ -248,7 +274,7 @@ const Register = ({user}) => {
                     {showConfirmPassword && <p className='spanErrors'>{errMsgCP}</p>}
                 </div>
                 <div className="row mb-3">
-                    <button disabled={disableRegister} className="btn btn-danger btnSubmit" type='submit'>Register</button>
+                    <button disabled={disableSubmit} className="btn btn-danger btnSubmit" type='submit'>Register</button>
                     <Link to="/login" className="reglogLink">Already registered? Login here.</Link>
                 </div>
             </form>

@@ -6,43 +6,112 @@ import "../../styles/reglogForm.css";
 const Login = ({user}) => {
     let username;
     const [email, setEmail] = useState("");
-    const [walletAddress, setWalletAddress] = useState("");
     const [password, setPassword] = useState("");
 
     //Show Errors
     const [showEmail, setShowEmail] = useState(false);
-    const [showWalletAddress, setShowWalletAddress] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
    
     const [errMsgE, setErrMsgE] = useState("");
-    const [errMsgW, setErrMsgW] = useState("");
     const [errMsgP, setErrMsgP] = useState("");
 
     const [error, setError] = useState(null);
+    const [disableSubmit, setDisableSubmit] = useState(true);
     let navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
             navigate(-1);
         }
+        if (validateForm() === false) {
+            setDisableSubmit(false);
+        } else {
+            setDisableSubmit(true);
+        }
     })
+
+    function checkBlank(isBlank) {
+        isBlank = false;
+        if (email === "") {
+            setErrMsgE("Please enter your email");
+            setShowEmail(true);
+            isBlank = true;
+        }
+        if (password === "") {
+            setErrMsgP("Please enter a password");
+            setShowPassword(true);
+            isBlank = true;
+        }
+        return isBlank;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const {data} = await http.post("/auth", {
-                email,
-                password
-            });
-            localStorage.setItem("token", data)
-            window.location = "/";
-        } catch (error) {
-            console.log(error);
-            if (error.response && error.response.status === 400) {
-                setError(error.response.data)
+        
+        if (!checkBlank()) {
+            try {
+                const {data} = await http.post("/auth", {
+                    email,
+                    password
+                });
+                localStorage.setItem("token", data)
+                window.location = "/";
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    setShowPassword(true);
+                    setErrMsgP(error.response.data)
+                }
             }
+        } else {
+
         }
     };
+
+
+/* Validations */
+  var emailValidator = require('validator');
+    //Regex
+    function dhvsuEmailRegex(input) {
+      let regex = /\d*(@dhvsu.edu.ph)/i;
+      return regex.test(input);
+    }
+    const emailValidation = async () => {
+        if (email === "") {
+            setErrMsgE("Please enter your email");
+            setShowEmail(true);
+        } else {
+            var emailValidity = emailValidator.isEmail(email);
+            var dhvsuValidity = dhvsuEmailRegex(email);
+            if (emailValidity && dhvsuValidity) {
+                setShowEmail(false);
+            } else {
+                setErrMsgE("Please enter a valid DHVSU Email Address");
+                setShowEmail(true);
+            }
+        }
+    }
+
+    const passwordValidation = async () => {
+      if (password === "") {
+        setErrMsgP("Please enter a password");
+        setShowPassword(true);
+      } else {
+        setShowPassword(false);
+      }
+    }
+  
+    function validateForm() {
+        if (showEmail) {
+            return true;
+        }
+        if (showPassword) {
+            return true;
+        }
+        return false;
+    }
+
+/* Validations */
+
     return (
         <div className="login">
             <form className='frmLogin' onSubmit={handleSubmit}>
@@ -56,7 +125,9 @@ const Login = ({user}) => {
                         name='email'
                         onChange={(e) => {setEmail(e.target.value)}}
                         value={email}
+                        onBlur={emailValidation}
                     />
+                    {showEmail && <p className='spanErrors'>{errMsgE}</p>}
                 </div>
                 <div className="row mb-3">
                     <label htmlFor='Password'>Password</label>
@@ -67,7 +138,9 @@ const Login = ({user}) => {
                         name='password'
                         onChange={(e) => {setPassword(e.target.value)}}
                         value={password}
+                        onBlur={passwordValidation}
                     />
+                    {showPassword && <p className='spanErrors'>{errMsgP}</p>}
                 </div>
                 {error && (
                     <div className='error_container'>
@@ -75,7 +148,7 @@ const Login = ({user}) => {
                     </div>
                 )}
                 <div className="row mb-3">
-                    <button className="btn btn-danger btnSubmit" type='submit'>Login</button>
+                    <button disabled={disableSubmit} className="btn btn-danger btnSubmit" type='submit'>Login</button>
                     <Link to="/register" className="reglogLink">Not yet registered? Register here.</Link>
                 </div>
             </form>
