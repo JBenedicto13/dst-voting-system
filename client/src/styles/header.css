@@ -8,7 +8,7 @@
     height: 780px;
 }
 
-.container {
+.contHead, .contUserGuide {
     padding: 25px;
     border: 1px solid var(--white);
     border-radius: 15px;

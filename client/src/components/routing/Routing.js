@@ -11,6 +11,8 @@ import PrivateRoute from "./PrivateRoute";
 import About from "../about/About";
 import Election from "../election/Election";
 import Vote from "../election/Vote";
+import PrivateVote from "./PrivateVote";
+import TestVote from "../election/TestVote";
 
 const Routing = ({user}) => {
     return (
@@ -22,9 +24,14 @@ const Routing = ({user}) => {
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/logout' element={<Logout />} />
             </Route>
-            <Route path='/election' element={<Election />} />
+            <Route path='/election' element={<Election />}/>
+            <Route element={<PrivateVote user={user} />}>
+                <Route path='/testvote' element={<TestVote />} />
+            </Route>
+
             <Route path='/vote' element={<Vote />} />
             <Route path='/about' element={<About />} />
+            
         </Routes>
     );
 };

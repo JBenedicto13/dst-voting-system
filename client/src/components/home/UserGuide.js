@@ -7,7 +7,7 @@ import img3 from '../../assets/bg3.jpg';
 function UserGuide() {
     return (
         <section className="UserGuideSec">
-            <div className="container">
+            <div className="container contUserGuide">
                 <div className="userGuideTitle">
                     <h1>User Guide</h1>                   
                 </div>
