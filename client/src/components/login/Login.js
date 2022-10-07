@@ -20,6 +20,27 @@ const Login = ({user}) => {
     
     const [error, setError] = useState(null);
     const [disableSubmit, setDisableSubmit] = useState(true);
+
+// Close Open Modals
+    const handleClose = () => {
+        document.getElementById("staticBackdrop").style.display = "none";
+        document.getElementById("staticBackdrop").classList.remove("show");
+    }
+    const handleShow = () => {
+        document.getElementById("staticBackdrop").style.display = "block";
+        document.getElementById("staticBackdrop").classList.add("show");
+    }
+
+    const handleCloseWallet = () => {
+        document.getElementById("walletNotFound").style.display = "none";
+        document.getElementById("walletNotFound").classList.remove("show");
+    }
+    const handleShowWallet = () => {
+        document.getElementById("walletNotFound").style.display = "block";
+        document.getElementById("walletNotFound").classList.add("show");
+    }
+// Close Open Modals
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -118,21 +139,101 @@ const Login = ({user}) => {
 /* Web3 */
     const { ethers } = require("ethers");
     const [walletButton, setWalletButton] = useState("Connect Wallet");
-    const [bal, setBal] = useState(null);
+    const [wallet, setWallet] = useState("");
 
-    const requestAccount = async (e) => {
+    const networks = {
+        mumbai: {
+          chainId: `0x${Number(80001).toString(16)}`,
+          chainName: "Mumbai Testnet",
+          nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18
+          },
+          rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
+          blockExplorerUrls: ["https://mumbai.polygonscan.com"]
+        }
+      };
+
+    const requestAccount = async () => {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        setWallet(account);
+        verifyWallet(account);
+        // setWalletButton("Wallet Connected");
+    }
+
+    const changeNetwork = async ({ networkName, setError }) => {
+        try {
+          if (!window.ethereum) throw new Error("No crypto wallet found");
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                ...networks[networkName]
+              }
+            ]
+          }).then(handleClose());
+        } catch (err) {
+          setError(err.message);
+        }
+    };
+
+    const handleNetworkSwitch = async (networkName) => {
+        setError();
+        await changeNetwork({ networkName, setError });
+    };
+
+    const connectWallet = async (e) => {
         e.preventDefault();
         if (typeof window.ethereum !== 'undefined') {
-            // const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const account = accounts[0];
-            setWalletButton("Wallet Connected");
-            console.log(account);
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            requestAccount();
+            handleNetworkSwitch("mumbai");
         } else {
             console.log('Please install Metamask');
         }
     }
 
+    const verifyWallet = async (wallet) => {
+        if (wallet !== "") {
+            console.log("WalletAddress: " + wallet);
+
+            try {
+                await http.post("/check/wallet", {
+                    wallet,
+                })
+                .then(setShowEmail(false));
+            } catch (error) {
+                console.log(error);
+                if (error.response && error.response.status === 400) {
+                    setErrMsgE(error.response.data);
+                    setShowEmail(true);
+                    handleShowWallet();
+                }
+            }
+
+        } else {
+            console.log("Wallet not found");
+        }
+    }
+    
+    const networkChanged = (chainId) => {
+        if (chainId !== "0x13881") {
+            handleShow();
+        } else {
+            handleClose();
+        }
+    };
+    
+    useEffect(() => {
+
+        window.ethereum.on("chainChanged", networkChanged);
+           
+        return () => {
+            window.ethereum.removeListener("chainChanged", networkChanged);
+        };
+    }, []);
 
 /* Web3 */
 
@@ -146,9 +247,9 @@ const Login = ({user}) => {
                 </div> */}
                 <div className="row mb-3 mt-3">
                     {/* <button className="btn btn-warning" onClick={signMessage}>{walletButton}</button> */}
-                    <button className="btn btn-danger" onClick={requestAccount}>{walletButton}</button>
+                    <button className="btn btn-danger" onClick={connectWallet}>{walletButton}</button>
                     {showError && <p className='spanErrors'>{errMsg}</p>}
-                    <p>{bal}</p>
+                    <p>{wallet}</p>
                 </div>
                 <h2>OR</h2>
                 <div className="row mb-3">
@@ -188,27 +289,41 @@ const Login = ({user}) => {
                 </div>
             </form>
 
-
-            {/* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Launch static backdrop modal
-            </button>
-
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Incorrect Network</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {/* Modal for changing network */}
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="staticBackdropLabel">Incorrect Network</h1>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                         <p>Please switch to Mumbai Testnet</p>
                     </div>
-                    <div class="modal-footer">
-                        <button onClick={() => handleSwitchNetwork("mumbai")} type="button" class="btn btn-primary" data-bs-dismiss="modal">Switch Network</button>
+                    <div className="modal-footer">
+                        <button onClick={() => handleNetworkSwitch("mumbai")} type="button" className="btn btn-primary" data-bs-dismiss="modal">Switch Network</button>
                     </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
+
+            {/* Modal for Wallet Not Found */}
+            <div className="modal" id="walletNotFound" tabIndex="-1">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Wallet Not Registered</h5>
+                        <button onClick={handleCloseWallet} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                        <p>This wallet is not registered in the system.</p>
+                    </div>
+                    <div className="modal-footer">
+                        <button onClick={handleCloseWallet} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onClick={() => { navigate("/register") }} type="button" className="btn btn-primary">Go to Registration</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

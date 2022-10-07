@@ -15,7 +15,9 @@ router.post("/wallet", async (req, res) => {
     const { walletAddress } = req.body;
     let user = await User.findOne({ walletAddress });
     if (user) {
-        return res.status(400).send("User already exists with this wallet address");
+        return res.status(400).send("User found");
+    } else {
+        return res.status(400).send("User not found");
     }
 })
 
