@@ -216,51 +216,11 @@ const Register = ({user}) => {
     }
 
   /* Validations */
-    const { ethers } = require("ethers");
-    const [walletButton, setWalletButton] = useState("Conect Wallet");
-    const [bal, setBal] = useState("");
-    const requestAccount = async (event) => {
-        event.preventDefault();
-        console.log("Requesting account...");
-        //check if metamask exist
-        if (window.ethereum) {
-            try {
-                const accounts = await window.ethereum.request({
-                    method: "eth_requestAccounts",
-                });
-                setWalletAddress(accounts[0]);
-                setWalletButton("Wallet Connected");
-
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const balance = await provider.getBalance("ethers.eth");
-                // setBal(ethers.utils.formatEther(balance));
-                
-            } catch (error) {
-                console.log("Error connecting...");
-            }
-        }
-    }
-
-    const connectWallet = async (event) => {
-        
-        if (typeof window.ethereum != "undefined") {
-            await requestAccount();
-
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const balance = await provider.getBalance("ethers.eth");
-            setBal(ethers.utils.formatEther(balance));
-        }
-        event.preventDefault();
-    }
+  
     return (
         <div className="register">
             <form className='frmRegister'>
                 <h1 className='head-title'>Register</h1>
-                <div className="row mb-3 mt-3">
-                    <button className="btn btn-danger" onClick={requestAccount}>{walletButton}</button>
-                    <p>{bal}</p>
-                </div>
-                <h2>OR</h2>
                 <div className="row mb-3">
                     <label htmlFor='Email'>Email</label>
                     <input

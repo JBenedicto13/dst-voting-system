@@ -201,7 +201,7 @@ const Login = ({user}) => {
 
             try {
                 await http.post("/check/wallet", {
-                    wallet,
+                    walletAddress: wallet,
                 })
                 .then(setShowEmail(false));
             } catch (error) {
