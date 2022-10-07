@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
-import validator from "validator";
 
 const Register = ({user}) => {
 
@@ -24,12 +23,18 @@ const Register = ({user}) => {
     const [errMsgP, setErrMsgP] = useState("");
     const [errMsgCP, setErrMsgCP] = useState("");
 
-    const [error, setError] = useState(null);
+    const [disableSubmit, setDisableSubmit] = useState(true);
+
     let navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
             navigate(-1);
+        }
+        if (validateForm() === false) {
+            setDisableSubmit(false);
+        } else {
+            setDisableSubmit(true);
         }
     })
 
@@ -39,24 +44,53 @@ const Register = ({user}) => {
         username = text.substr(0, i);
     };
 
+    function checkBlank(isBlank) {
+        isBlank = false;
+        if (email === "") {
+            setErrMsgE("Please enter your email");
+            setShowEmail(true);
+            isBlank = true;
+        }
+        if (walletAddress === "") {
+            setErrMsgW("Please enter your wallet address");
+            setShowWalletAddress(true);
+            isBlank = true;
+        }
+        if (password === "") {
+            setErrMsgP("Please enter a password");
+            setShowPassword(true);
+            isBlank = true;
+        }
+        if (confirmPassword === "") {
+            setErrMsgCP("Please confirm your password");
+            setShowConfirmPassword(true);
+            isBlank = true;
+        }
+        return isBlank;
+    }
+
     const handleSubmit = async (e) => {
         
         e.preventDefault();
-        getUsername();
+        if (!checkBlank()) {
+            getUsername();
 
-        try {
-            const {data} = await http.post("/user", {
-                email,
-                username,
-                walletAddress,
-                password,
-            });
-            localStorage.setItem("token", data)
-            window.location = "/";
-        } catch (error) {
-            console.log(error);
-            if (error.response && error.response.status === 400) {
-                setShowEmail(error.response.data);
+            try {
+                const {data} = await http.post("/user", {
+                    email,
+                    username,
+                    walletAddress,
+                    password,
+                });
+                localStorage.setItem("token", data)
+                window.location = "/";
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    setErrMsgE(error.response.data);
+                    setShowEmail(true);
+                    setPassword("");
+                    setConfirmPassword("");
+                }
             }
         }
     };
@@ -87,7 +121,19 @@ const Register = ({user}) => {
             var emailValidity = emailValidator.isEmail(email);
             var dhvsuValidity = dhvsuEmailRegex(email);
             if (emailValidity && dhvsuValidity) {
-                setShowEmail(false);
+                
+                try {
+                    await http.post("/check/email", {
+                        email,
+                    })
+                    .then(setShowEmail(false));
+                } catch (error) {
+                    console.log(error);
+                    if (error.response && error.response.status === 400) {
+                        setErrMsgE(error.response.data);
+                        setShowEmail(true);
+                    }
+                }
             } else {
                 setErrMsgE("Please enter a valid DHVSU Email Address");
                 setShowEmail(true);
@@ -103,80 +149,118 @@ const Register = ({user}) => {
           setShowWalletAddress(false);
           var walletValidity = walletRegex(walletAddress);
           if (walletValidity) {
-            http
-              .get("/check", {walletAddress})
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => console.log(err))
-          } else {
+                try {
+                    await http.post("/check/wallet", {
+                        walletAddress,
+                    }).then(setShowWalletAddress(false));
+                    
+                } catch (error) {
+                    console.log(error);
+                    if (error.response && error.response.status === 400) {
+                        setErrMsgW(error.response.data);
+                        setShowWalletAddress(true);
+                    }
+                }
+          }
+          else {
             setErrMsgW("Please enter a valid wallet address");
             setShowWalletAddress(true);
           }
         }
       }
+    
+    const passwordValidation = async () => {
+      if (password === "") {
+        setErrMsgP("Please enter a password");
+        setShowPassword(true);
+      } else {
+        if (passwordRegex(password)) {
+          setShowPassword(false);
+        } else {
+          setErrMsgP("Password must contain at least one lowercase, one uppercase and a digit");
+          setShowPassword(true);
+        }
+      }
+    }
+  
+    const confirmPasswordValidation = async () => {
+      if (confirmPassword === "") {
+        setErrMsgCP("Please confirm your password");
+        setShowConfirmPassword(true);
+      } else {
+        setShowConfirmPassword(false);
+        //Confirm Password
+        if (password === confirmPassword) {
+          setShowConfirmPassword(false);
+        } else {
+          setErrMsgCP("Password doesn't match with Confirm Password");
+          setShowConfirmPassword(true);
+        }
+      }
+    }
 
-    // const walletAddressValidation = async () => {
-    //   if (walletAddress === "") {
-    //     setErrMsgW("Please enter your wallet address");
-    //     setShowWalletAddress(true);
-    //   } else {
-    //     setShowWalletAddress(false);
-    //     var walletValidity = walletRegex(walletAddress);
-    //     if (walletValidity) {
-    //       axios
-    //         .get(`http://localhost:3001/checkAddress/${walletAddress}`)
-    //         .then((response) => {
-    //           if (response.data === "") {
-    //             setShowEmail(false);
-    //           } else {
-    //             setErrMsgW("A user is already registered with the wallet address.");
-    //             setShowWalletAddress(true);
-    //           }
-    //         })
-    //         .catch((err) => console.log(err))
-    //     } else {
-    //       setErrMsgW("Please enter a valid wallet address");
-    //       setShowWalletAddress(true);
-    //     }
-    //   }
-    // }
-  
-    // const passwordValidation = async () => {
-    //   if (password === "") {
-    //     setErrMsgP("Please enter a password");
-    //     setShowPassword(true);
-    //   } else {
-    //     if (passwordRegex(password)) {
-    //       setShowPassword(false);
-    //     } else {
-    //       setErrMsgP("Password must contain at least one lowercase, one uppercase and a digit");
-    //       setShowPassword(true);
-    //     }
-    //   }
-    // }
-  
-    // const confirmPasswordValidation = async () => {
-    //   if (confirmPassword === "") {
-    //     setErrMsgCP("Please confirm your password");
-    //     setShowConfirmPassword(true);
-    //   } else {
-    //     setShowConfirmPassword(false);
-    //     //Confirm Password
-    //     if (password === confirmPassword) {
-    //       setShowConfirmPassword(false);
-    //     } else {
-    //       setErrMsgCP("Password doesn't match with Confirm Password");
-    //       setShowConfirmPassword(true);
-    //     }
-    //   }
-    // }
+    function validateForm() {
+        if (showEmail) {
+            return true;
+        }
+        if (showWalletAddress) {
+            return true;
+        }
+        if (showPassword) {
+            return true;
+        }
+        if (showConfirmPassword) {
+            return true;
+        }
+        return false;
+    }
+
   /* Validations */
+    const { ethers } = require("ethers");
+    const [walletButton, setWalletButton] = useState("Conect Wallet");
+    const [bal, setBal] = useState("");
+    const requestAccount = async (event) => {
+        event.preventDefault();
+        console.log("Requesting account...");
+        //check if metamask exist
+        if (window.ethereum) {
+            try {
+                const accounts = await window.ethereum.request({
+                    method: "eth_requestAccounts",
+                });
+                setWalletAddress(accounts[0]);
+                setWalletButton("Wallet Connected");
 
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const balance = await provider.getBalance("ethers.eth");
+                // setBal(ethers.utils.formatEther(balance));
+                
+            } catch (error) {
+                console.log("Error connecting...");
+            }
+        }
+    }
+
+    const connectWallet = async (event) => {
+        
+        if (typeof window.ethereum != "undefined") {
+            await requestAccount();
+
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const balance = await provider.getBalance("ethers.eth");
+            setBal(ethers.utils.formatEther(balance));
+        }
+        event.preventDefault();
+    }
     return (
         <div className="register">
-            <form className='frmRegister' onSubmit={handleSubmit}>
+            <form className='frmRegister'>
                 <h1 className='head-title'>Register</h1>
+                <div className="row mb-3 mt-3">
+                    <button className="btn btn-danger" onClick={requestAccount}>{walletButton}</button>
+                    <p>{bal}</p>
+                </div>
+                <h2>OR</h2>
                 <div className="row mb-3">
                     <label htmlFor='Email'>Email</label>
                     <input
@@ -199,7 +283,9 @@ const Register = ({user}) => {
                         name='walletAddress'
                         onChange={(e) => {setWalletAddress(e.target.value)}}
                         value={walletAddress}
+                        onBlur={walletAddressValidation}
                     />
+                    {showWalletAddress && <p className='spanErrors'>{errMsgW}</p>}
                 </div>
                 <div className="row mb-3">
                     <label htmlFor='Password'>Password</label>
@@ -210,7 +296,9 @@ const Register = ({user}) => {
                         name='password'
                         onChange={(e) => {setPassword(e.target.value)}}
                         value={password}
+                        onBlur={passwordValidation}
                     />
+                    {showPassword && <p className='spanErrors'>{errMsgP}</p>}
                 </div>
                 <div className="row mb-3">
                     <label htmlFor='confirmPassword'>Confirm Password</label>
@@ -221,16 +309,13 @@ const Register = ({user}) => {
                         name='confirmPassword'
                         onChange={(e) => {setConfirmPassword(e.target.value)}}
                         value={confirmPassword}
+                        onBlur={confirmPasswordValidation}
                     />
+                    {showConfirmPassword && <p className='spanErrors'>{errMsgCP}</p>}
                 </div>
-                {error && (
-                    <div className='error_container'>
-                        <span className='form_error'>{error}</span>
-                    </div>
-                )}
                 <div className="row mb-3">
-                    <button className="btn btn-danger btnSubmit" type='submit'>Register</button>
-                    <p className="reglogLink">Already registered? Login here.</p>
+                    <button onClick={handleSubmit} disabled={disableSubmit} className="btn btn-danger btnSubmit" type='submit'>Register</button>
+                    <Link to="/login" className="reglogLink">Already registered? Login here.</Link>
                 </div>
             </form>
         </div>

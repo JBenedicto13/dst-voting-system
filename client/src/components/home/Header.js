@@ -6,7 +6,7 @@ function Header() {
     const navigate = useNavigate();
     return (
         <section className="headerSec">
-            <div className="container">
+            <div className="container contHead">
                 <div className="row headerTitle">
                     <h1>Honorians, cast your votes now!</h1>
                 </div>

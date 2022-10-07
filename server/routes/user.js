@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
     // Checking User
     let user = await User.findOne({ email });
     if (user) {
-        return res.status(400).send("User already exists");
+        return res.status(400).send("User already exists with this email");
     }
 
     // Save User Into Database

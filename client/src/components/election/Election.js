@@ -30,7 +30,7 @@ function Election() {
                             <button  onClick={() => navigate("/vote")} type="button" className="list-group-item list-group-item-action" aria-current="true">
                                 Student Council
                             </button>
-                            <button type="button" className="list-group-item list-group-item-action" disabled>College of Computing Studies</button>
+                            <button onClick={() => navigate("/testvote")} type="button" className="list-group-item list-group-item-action">College of Computing Studies</button>
                             <button type="button" className="list-group-item list-group-item-action" disabled>College of Education</button>
                             <button type="button" className="list-group-item list-group-item-action" disabled>College of Hospitality and Management</button>
                             <button type="button" className="list-group-item list-group-item-action" disabled>College of Business Studies</button>
