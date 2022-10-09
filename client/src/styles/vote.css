@@ -2,5 +2,148 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+}	
+
+.voteContainer {
+	background-color: #5C0017;
+	color: white;
+	margin-left:-100%;
+	margin-right:-100%;
+	padding-top: 30px;
 }
+.govContainer {
+	background-color: white;
+	
+	margin-left:-100%;
+	margin-right:-100%;
+}
+
+.box{
+	display: flex;
+	padding: 10px 15px;
+	line-height: 38px;
+	word-spacing: 4px;
+	letter-spacing: 2px;
+}
+.box1{
+	border: none;
+	color: #5C0017;
+	border-radius: 8px;
+	background-color: rgba(207, 168, 28, 0.885);
+	min-height: 50px;
+	padding: 10px 15px;   
+	margin-top: 80px;
+	text-align: center;
+	margin-bottom: 50px;
+	font-weight: bold;
+}
+.box2{
+	border: none;
+	color: maroon;
+	border-radius: 8px;
+	background-color: yellow;
+	min-height: 50px;
+	padding: 10px 15px;   
+	margin-top: 80px;
+	text-align: center;
+	margin-bottom: 50px;
+	font-weight: bold;
+}
+.candidate1 {
+	width: 80px;
+	border-radius: 40px;
+	object-fit: cover;
+ 
+}
+.candidate2 {
+	width: 80px;
+	border-radius: 40px;
+	object-fit: cover;
+}
+.card{
+	padding: 15px 14px;
+	border-radius: 10px;
+}
+.candidate3{
+	display: flex;
+	flex-direction: column;
+}
+.btn {
+	background-color: rgba(207, 168, 28, 0.885);
+	border: none;
+	margin-top: 40px;
+	color: white;
+	font-weight: bold;
+	padding: 4px 20px;
+	margin-bottom: 20px;
+	word-spacing: 4px;
+	letter-spacing: 4px;
+}
+.box h1{
+	color: rgb(206, 206, 62);
+	font-weight: bolder;
+}
+input{
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+@media only screen and (min-width: 1024px) {
+	.container .box p {
+		font-size: 24px;
+	}
+	.box h1 {
+		font-size: 48px;
+	}
+
+	.box1{
+		font-size: 48px;
+	}
+	.box2{
+		font-size: 48px;
+	}
+	.card {
+		cursor: pointer;
+		display: flex;
+		flex-direction: row;
+		width: 250px;
+	}
+
+
+}
+@media only screen and (max-width: 1024px) {
+	.container .box p {
+		font-size: 24px;
+	}
+	.box {
+		font-size: 24px;
+	}
+	.box1{
+		font-size: 24px;
+	}
+	.box2{
+		font-size: 24px;
+	}
+	.card {
+	 cursor: pointer;
+		display: flex;
+	 width: 150px;
+	}
+	.candidate2 {
+		width: 60px;
+	}
+	.tryLang{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row-reverse;
+	}
+	.fix {
+		width: 165px;
+	}
+
+}
+
 
