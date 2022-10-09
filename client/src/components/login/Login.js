@@ -235,6 +235,16 @@ const Login = ({user}) => {
         };
     }, []);
 
+    const checkWallet = async (walletExist) => {
+        try {
+            await http.post("/check/wallet", {
+                walletAddress: walletExist,
+            }).then((res) => console.log(res));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 /* Web3 */
 
     return (
@@ -242,9 +252,9 @@ const Login = ({user}) => {
             <form className='frmLogin'>
                 
                 <h1 className='head-title'>Login</h1>
-                {/* <div className="row mb-3 mt-3">
-                    <button onClick={() => handleSwitchNetwork("mumbai")} type="button" class="btn btn-outline-warning">Swicth to Mumbai</button>
-                </div> */}
+                <div className="row mb-3 mt-3">
+                    <button onClick={() => checkWallet("0xf71e4251ff6fae886373753d21ac4d00a437a7e5")} type="button" class="btn btn-outline-warning">Check Wallet</button>
+                </div>
                 <div className="row mb-3 mt-3">
                     {/* <button className="btn btn-warning" onClick={signMessage}>{walletButton}</button> */}
                     <button className="btn btn-danger" onClick={connectWallet}>{walletButton}</button>
