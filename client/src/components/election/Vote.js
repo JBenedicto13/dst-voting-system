@@ -96,7 +96,7 @@ function Vote() {
       <div class="container">
       <div class="row justify-content-center gx-3 d-flex align-items-center">
         <div class="col justify-content-center gx-3 d-flex align-items-center">
-        <button type="button" class="btn btn-secondary">Cast Vote</button>
+        <button type="button" class="btn btn-secondary button">Cast Vote</button>
       </div>
       </div>
     </div>
