@@ -1,112 +1,76 @@
-import React from "react";
+import {React, useState} from 'react';
 import '../../styles/vote.css';
 import candidate1 from '../../assets/candidate1.png';
 import candidate2 from '../../assets/candidate2.png';
+import dstsc_logo from '../../assets/logos/dstsc-logo.png';
 
-function Vote() {
-    return (
-        <div className="container-fluid ">
-          <section className="voteContainer">
-          <div className="container">
-            <div className="row gx-3 d-flex align-items-center  justify-content-center ">
-              <div className="col-sm-12 col-md-10 col-lg-10 col-xl-6">
-                <div className="box">
-                  <h1>Student Council Election A.Y 2022-2023</h1> 
+const Vote = () => {
+  const [selectedValue, setSelectedValue] = useState("Test");
+
+  function handleSubmit (e) {
+    alert("Voted: " + selectedValue);
+    e.preventDefault();
+  }
+
+  return (
+    <div className='vote'>
+        <div className='headerVote'>
+          <div className='headerContainer'>
+            <div className='headerTitle'>
+              <h1>Student Council Election{<br/>}A.Y 2022-2023</h1>
+              <p>
+                  Lorem ipsum dolor sit amet,
+                  consectetur adipiscing elit, sed do
+                  eiusmod tempor incididunt ut
+                  labore et dolore magna aliqua.
+              </p>
+            </div>
+            <div className='headerLogo'>
+              <img src={dstsc_logo} alt='logo'></img>
+            </div>
+          </div>
+        </div>
+        <form className='voteForm'>
+          <div className='positionGroup mb-3'>
+            <div className='titleDiv'>
+              <h1>Governor</h1>
+            </div>
+            <div className='cardsGroup'>
+              <div className='candidateCard' id='candidateCard1'>
+                <div className='card'>
+                    <div className='elipseBg'><img src={candidate1} alt='candidate'></img></div>
+                    <div className='candidateInfo'>
+                      <h2>Maria Clara</h2>
+                      <h3>Sample Partylist</h3>
+                    </div>
                 </div>
-                <div className="box">
-                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi reprehenderit excepturi doloribus in nostrum fugiat.
-                    </p>
-                 </div>
-              </div>
-              <div className="col-sm-12 col-md-10 col-lg-10 col-xl-6  ">
-                <img src="" class="card-img-top candidate2" alt="LOGO"/>
-              </div>
-            </div>
-          </div>
-          </section>
-          <section className="govContainer">
-          <div className="container">
-            <div className="row justify-content-center gx-3 d-flex align-items-center ">
-                <div className="col-md-8 col-lg-6 col-xl-8 gov">
-                <div className="box1">Governor</div>
+                <div className='btnRadio'>
+                  <input className='btn-check' type="radio" name="gender" value="Male" id='govCandidate1' onChange={e => setSelectedValue(e.target.value)} autoComplete="off" />
+                  <label class="btn btn-outline-danger" for="govCandidate1">Select</label>
                 </div>
-            </div>
-          </div>
-
-          <div class="container govVote ">
-        <div class="row justify-content-center gx-3 d-flex align-items-center tryLang">
-          <div class="col-xs-4 col-sm-4 justify-content-center gx-3 d-flex align-items-center candidate3 fix">
-          <label for="govVote1" class="form-check-label d-flex flex-column-reverse " >
-            <div class="card justify-content-center gx-3 d-flex align-items-center" id="change" >
-              <img src={candidate1} class="card-img-top candidate2" alt="..."/>
-              <div class="card-body">
-                <p class="card-text">Dela Cruz, <br/> Juan Ted L.</p>
               </div>
-            </div>
-          </label>
-          <input type="radio" class="form-check-input"  name="govVote" id="govVote1"/>
-        </div>
-        <div class="col-xs-4 col-sm-4 justify-content-center gx-3 d-flex align-items-center candidate3 fix">
-        
-          <label for="govVote2" class="form-check-label d-flex flex-column-reverse " >
-            <div class="card justify-content-center gx-3 d-flex align-items-center" id="change">
-              <img src={candidate2} class="card-img-top candidate2" alt="..."/>
-              <div class="card-body">
-                <p class="card-text">Dela Cruz, <br/> Juan Ted N.</p>
+
+              <div className='candidateCard' id='candidateCard2'>
+                <div className='card'>
+                    <div className='elipseBg'><img src={candidate2} alt='candidate'></img></div>
+                    <div className='candidateInfo'>
+                      <h2>Juan Dela Cruz</h2>
+                      <h3>Sample Partylist</h3>
+                    </div>
+                </div>
+                <div className='btnRadio'>
+                  <input className='btn-check' type="radio" name="gender" value="Female" id='govCandidate2' onChange={e => setSelectedValue(e.target.value)} autoComplete="off" />
+                  <label className="btn btn-outline-danger" for="govCandidate2">Select</label>
+                </div>
               </div>
-            </div>
-          </label>
-          <input type="radio" class="form-check-input "  name="govVote" id="govVote2"/>
-        </div>
-      </div>    
-    </div>
-    <div class="container">
-      <div class="row justify-content-center gx-3 d-flex align-items-center ">
-        <div class="col-md-8 col-lg-6 col-xl-8 gov">
-          <div class="box1">Vice-Governor</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="container viceVote ">
-      <div class="row justify-content-center gx-3 d-flex align-items-center">
-        <div class="col-xs-4 col-sm-4 justify-content-center gx-3 d-flex align-items-center candidate3 fix">
-        <label for="viceGov1" class="form-check-label d-flex flex-column-reverse " >
-          <div class="card justify-content-center gx-3 d-flex align-items-center" >
-            <img src={candidate1} class="card-img-top candidate2" alt="..."/>
-            <div class="card-body">
-              <p class="card-text">Dela Cruz, <br/> Juan Ted L.</p>
             </div>
+            
           </div>
-        </label>
-        <input type="radio" class="form-check-input"  name="viceGov" id="viceGov1"/>
-      </div>
-      <div class="col-xs-4 col-sm-4 justify-content-center gx-3 d-flex align-items-center candidate3 fix">
-      
-        <label for="viceGov2" class="form-check-label d-flex flex-column-reverse " >
-          <div class="card justify-content-center gx-3 d-flex align-items-center" >
-            <img src={candidate2} class="card-img-top candidate2" alt="..."/>
-            <div class="card-body">
-              <p class="card-text">Dela Cruz, <br/> Juan Ted L.</p>
-            </div>
-          </div>
-        </label>
-        <input type="radio" class="form-check-input "  name="viceGov" id="viceGov2"/>
-      </div>
-      <div class="container">
-      <div class="row justify-content-center gx-3 d-flex align-items-center">
-        <div class="col justify-content-center gx-3 d-flex align-items-center">
-        <button type="button" class="btn btn-secondary button">Cast Vote</button>
-      </div>
-      </div>
+            <button className="btn btn-warning btnCastSubmit" type="submit" onSubmit={() => handleSubmit()}>Cast Vote</button>
+        </form>
     </div>
-
-    </div>    
-  </div>
-
-        </section>
-       </div>
-    )
+  )
 }
 
 export default Vote
