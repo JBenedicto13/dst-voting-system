@@ -1,9 +1,3 @@
-* {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-}
-
 .team {
     margin: 50px;
 
@@ -62,6 +56,7 @@
     color: var(--white);
     height: inherit;
     padding: 25px;
+    width: 480px;
 }
 
 .surname {
@@ -86,6 +81,10 @@
     .memberCard {
         flex-direction: column;
         width: auto;
+    }
+
+    .divInfo {
+        width: 100%;
     }
     
 }

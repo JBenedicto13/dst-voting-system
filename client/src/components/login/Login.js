@@ -158,9 +158,9 @@ const Login = ({user}) => {
     const requestAccount = async () => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
+        
         setWallet(account);
         verifyWallet(account);
-        // setWalletButton("Wallet Connected");
     }
 
     const changeNetwork = async ({ networkName, setError }) => {
@@ -187,8 +187,8 @@ const Login = ({user}) => {
     const connectWallet = async (e) => {
         e.preventDefault();
         if (typeof window.ethereum !== 'undefined') {
+            await requestAccount();
             const provider = new ethers.providers.Web3Provider(window.ethereum);
-            requestAccount();
             handleNetworkSwitch("mumbai");
         } else {
             console.log('Please install Metamask');
@@ -200,16 +200,21 @@ const Login = ({user}) => {
             console.log("WalletAddress: " + wallet);
 
             try {
-                await http.post("/check/wallet", {
+                const {data} = await http.post("/auth/wallet", {
                     walletAddress: wallet,
                 })
-                .then(setShowEmail(false));
+                .then(
+                    setShowPassword(false),
+                    setWalletButton("Wallet Connected"),
+                );
+                localStorage.setItem("token", data);
+                window.location = "/";
             } catch (error) {
                 console.log(error);
                 if (error.response && error.response.status === 400) {
-                    setErrMsgE(error.response.data);
-                    setShowEmail(true);
-                    handleShowWallet();
+                    setErrMsgP(error.response.data);
+                    setShowPassword(true);
+                    setWalletButton("Connect Wallet");
                 }
             }
 
@@ -221,15 +226,20 @@ const Login = ({user}) => {
     const networkChanged = (chainId) => {
         if (chainId !== "0x13881") {
             handleShow();
+            setWalletButton("Connect Wallet");
         } else {
             handleClose();
+            setWalletButton("Wallet Connected");
         }
     };
     
     useEffect(() => {
 
         window.ethereum.on("chainChanged", networkChanged);
-           
+        // window.ethereum.on('accountsChanged', function () {
+        //     console.log("Account Changed!");
+        // });
+        
         return () => {
             window.ethereum.removeListener("chainChanged", networkChanged);
         };
@@ -242,14 +252,10 @@ const Login = ({user}) => {
             <form className='frmLogin'>
                 
                 <h1 className='head-title'>Login</h1>
-                {/* <div className="row mb-3 mt-3">
-                    <button onClick={() => handleSwitchNetwork("mumbai")} type="button" class="btn btn-outline-warning">Swicth to Mumbai</button>
-                </div> */}
                 <div className="row mb-3 mt-3">
                     {/* <button className="btn btn-warning" onClick={signMessage}>{walletButton}</button> */}
                     <button className="btn btn-danger" onClick={connectWallet}>{walletButton}</button>
                     {showError && <p className='spanErrors'>{errMsg}</p>}
-                    <p>{wallet}</p>
                 </div>
                 <h2>OR</h2>
                 <div className="row mb-3">

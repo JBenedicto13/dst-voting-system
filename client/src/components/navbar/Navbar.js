@@ -1,6 +1,5 @@
-import React from "react";
+import {React, useState} from "react";
 import { NavLink } from "react-router-dom";
-
 import "./Navbar.css";
 
 const Navbar = ({user}) => {
@@ -13,7 +12,7 @@ const Navbar = ({user}) => {
                 </button>
                 <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div className="offcanvas-body">
-                        <button type="button" className="btn-x" data-bs-dismiss="offcanvas" aria-label="Close">X</button>
+                        {<button type="button" className="btn-x" data-bs-dismiss="offcanvas" aria-label="Close">X</button>}
                         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li className="nav-item">
                                 <NavLink to='/' className="nav-link" aria-current="page">Home</NavLink>

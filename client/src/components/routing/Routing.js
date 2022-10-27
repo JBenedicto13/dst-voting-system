@@ -12,7 +12,7 @@ import About from "../about/About";
 import Election from "../election/Election";
 import Vote from "../election/Vote";
 import PrivateVote from "./PrivateVote";
-import TestVote from "../election/TestVote";
+import TestVote from "../election/Vote";
 
 const Routing = ({user}) => {
     return (

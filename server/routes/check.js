@@ -13,13 +13,10 @@ router.post("/email", async (req, res) => {
 
 router.post("/wallet", async (req, res) => {
     const { walletAddress } = req.body;
-    // let user = await User.findOne({ walletAddress });
-    let user = await  User.find({'walletAddress': { $regex: new RegExp("^" + walletAddress.toLowerCase(), "i") }});
+    let user = await User.findOne({ walletAddress }).collation({locale: 'en', strength: 1});
    
     if (user) {
-        return res.status(400).send("User found");
-    } else {
-        return res.status(400).send("User not found");
+        return res.status(400).send("User already exists with this wallet address");
     }
 })
 
