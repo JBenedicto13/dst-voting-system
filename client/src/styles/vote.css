@@ -73,6 +73,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-bottom: 25px;
 }
 
 .card {
@@ -84,7 +85,6 @@
         6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
         22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
         100px 100px 80px rgba(0, 0, 0, 0.07);
-    
 }
 
 .card img {
@@ -170,5 +170,10 @@
     
     .headerVote .headerLogo img {
         max-width: 120px;
+    }
+
+    .cardsGroup {
+        display: flex;
+        flex-direction: column;
     }
 }

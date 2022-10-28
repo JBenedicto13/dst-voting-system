@@ -1,10 +1,11 @@
 import React from "react";
 import "../../styles/team.css";
-import memberPic from '../../assets/teamMember.png';
 import Almario from '../../assets/team/Almario.png';
 import Ardena from '../../assets/team/Ardena.png';
 import Benedicto from '../../assets/team/Benedicto.png';
 import Lopez from '../../assets/team/Lopez.png';
+import Nuqui from '../../assets/team/Nuqui.png';
+import Manalang from '../../assets/team/Manalang.png';
 
 function Team() {
     return(
@@ -75,7 +76,7 @@ function Team() {
 
                 <div className="memberCard">
                     <div className="col divPic">
-                        <img src={memberPic} alt="..."></img>
+                        <img src={Nuqui} alt="..."></img>
                     </div>
                     <div className="col divInfo">
                         <h5 className="surname">Nuqui,</h5>
@@ -89,7 +90,7 @@ function Team() {
 
                 <div className="memberCard">
                     <div className="col divPic">
-                        <img src={memberPic} alt="..."></img>
+                        <img src={Manalang} alt="..."></img>
                     </div>
                     <div className="col divInfo">
                         <h5 className="surname">Manalang,</h5>
