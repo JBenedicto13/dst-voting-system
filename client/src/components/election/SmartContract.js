@@ -3,7 +3,7 @@ import {React, useState } from 'react';
 import { ethers } from 'ethers';
 import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
 
-const ElectionContract = "0x88b32d322cE8e39f3Ef960545d403013f81E1236";
+const ElectionContract = "0x3C65685cDB44f2bA55DDBfCE689c4974bdd3370a";
 
 const SmartContract = () => {
   const [provider, setProvider] = useState(null);
