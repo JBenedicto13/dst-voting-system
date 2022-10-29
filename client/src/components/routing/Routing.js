@@ -12,7 +12,7 @@ import About from "../about/About";
 import Election from "../election/Election";
 import Vote from "../election/Vote";
 import PrivateVote from "./PrivateVote";
-import TestVote from "../election/Vote";
+import SmartContract from "../election/SmartContract";
 
 const Routing = ({user}) => {
     return (
@@ -26,12 +26,10 @@ const Routing = ({user}) => {
             </Route>
             <Route path='/election' element={<Election />}/>
             <Route element={<PrivateVote user={user} />}>
-                <Route path='/testvote' element={<TestVote />} />
+                <Route path='/vote' element={<Vote />} />
             </Route>
-
-            <Route path='/vote' element={<Vote />} />
             <Route path='/about' element={<About />} />
-            
+            <Route path='/smartcontract' element={<SmartContract />}/>
         </Routes>
     );
 };

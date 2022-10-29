@@ -1,7 +1,18 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: Unlicense
+
 pragma solidity >=0.7.0 < 0.9.0;
 
-contract Election {
+contract Test {
+
+    event NewCandidate(
+        uint date,
+        address indexed from
+    );
+
+    event viewCandidate(
+        uint date,
+        address indexed from
+    );
 
     uint candidateCount;
 
@@ -31,7 +42,7 @@ contract Election {
 
     //Authenticate Voters
 
-    function giveRightToVote(address voter) public {
+    function giveRightToVote(address voter) external {
         require( msg.sender == chairperson,
                     'Only the Chairperson can give access to vote');
         require(!voters[voter].voted,
@@ -40,7 +51,7 @@ contract Election {
         voters[voter].weight = 1;
     }
 
-    function addCandidates(string[] memory _position, string[] memory _name) public {
+    function addCandidates(string[] memory _position, string[] memory _name) external {
         candidateCount = _name.length;
         for (uint i = 0; i < candidateCount; i++) {
             candidates.push(Candidate({
@@ -50,6 +61,7 @@ contract Election {
                 voteCount: 0
             }));
         }
+        emit NewCandidate(block.timestamp, msg.sender);
     }
 
     //Voting Function

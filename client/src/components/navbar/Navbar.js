@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React} from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
@@ -11,8 +11,12 @@ const Navbar = ({user}) => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div className="offcanvas-header offHeader">
+                        <h5 className="offcanvas-title" id="offcanvasNavbarLabel">DST Voting System</h5>
+                        <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
                     <div className="offcanvas-body">
-                        {<button type="button" className="btn-x" data-bs-dismiss="offcanvas" aria-label="Close">X</button>}
+                        {/* {<button type="button" className="btn-x" data-bs-dismiss="offcanvas" aria-label="Close">X</button>} */}
                         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li className="nav-item">
                                 <NavLink to='/' className="nav-link" aria-current="page">Home</NavLink>
@@ -28,16 +32,10 @@ const Navbar = ({user}) => {
                                 <li className="nav-item">
                                     <NavLink to='/login' className="nav-link" aria-current="page">Login</NavLink>
                                 </li>
-                                <li className="nav-item">
-                                    <NavLink to='/register' className="nav-link" aria-current="page">Register</NavLink>
-                                </li>
                             </>
                         }
                         {user &&
                             <>
-                                <li className="nav-item">
-                                    <NavLink to='/profile' className="nav-link" aria-current="page">Profile</NavLink>
-                                </li>
                                 <li className="nav-item">
                                     <NavLink to='/logout' className="nav-link" aria-current="page">Logout</NavLink>
                                 </li>

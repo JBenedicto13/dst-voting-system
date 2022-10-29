@@ -16,8 +16,9 @@ const Vote = () => {
   const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [candidatesInput, setCandidatesInput] = useState("");
+  const [uint, setUint] = useState(null);
 
-  const addCandidates = async () => {
+  const updateEthers = async () => {
     if (typeof window.ethereum != "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -26,12 +27,17 @@ const Vote = () => {
       setProvider(provider);
       setSigner(signer);
       setContract(contract);
-      try {
-        
-      } catch (error) { 
-        console.log(error);
-      }
+
+      console.log(contract.address);
     }
+  }
+
+  const getCandidate = async (data) => {
+    const _contract = new ethers.Contract(ElectionContract, ElectionSrc.abi, signer);
+    var callPromise = await _contract.vote(data.uint);
+    
+    console.log(callPromise);
+    // console.log(data.uint);
   }
 
   const handleSubmit = (event) => {
@@ -95,8 +101,11 @@ const Vote = () => {
             <button className="btn btn-warning btnCastSubmit" type="submit">Cast Vote</button>
         </form>
         <div className='mb-5'>
-          <input type="text" onChange={e => setCandidatesInput(e.target.value)}/><br/>
-          <button onClick={() => addCandidates()} className='btn btn-danger' type='button'>addCandidates</button>
+          <button onClick={() => updateEthers()} className='btn btn-danger' type='button'>Update</button><br/>
+        </div>
+        <div className='mb-5'>
+          <input type="text" onChange={e => setUint(e.target.value)}/><br/>
+          <button onClick={() => getCandidate({uint})} className='btn btn-primary' type='button'>Candidates</button>
         </div>
     </div>
   )

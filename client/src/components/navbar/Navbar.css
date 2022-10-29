@@ -66,6 +66,11 @@
     gap: 25px;
 }
 
+.offHeader {
+    background-color: var(--maroon);
+    color: var(--white);
+}
+
 .btn-x {
     font-size: 24px;
     color: white;
