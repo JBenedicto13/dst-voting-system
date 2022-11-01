@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
 
@@ -14,16 +14,30 @@ if (localStorage.token) {
     logUser = jwtDecode(jwt);
 }
 
+let isBackend;
+if (localStorage.isBackend) {
+    const val = localStorage.getItem("isBackend");
+    if (val) {
+        localStorage.setItem("isBackend", false);
+    }
+    isBackend = val;
+    console.log(isBackend);
+}
+
 const App = () => {
+    
     const [user, setUser] = useState(logUser);
+    const [backend, setBackend] = useState(isBackend);
+    console.log(backend);
+    
     console.log(user);
 
     return (
         <Router>
             <div className='app'>
-                <Navbar user={user} />
+                {backend ? <></> : <Navbar user={user}/>}
                 <div className='main'>
-                    <Routing user={user} />
+                    <Routing user={user} backend={backend} />
                 </div>
             </div>
         </Router>

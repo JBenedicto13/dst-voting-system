@@ -11,10 +11,10 @@ import PrivateRoute from "./PrivateRoute";
 import About from "../about/About";
 import Election from "../election/Election";
 import Vote from "../election/Vote";
-import PrivateVote from "./PrivateVote";
 import SmartContract from "../election/SmartContract";
+import AdminLogin from "../admin/AdminLogin";
 
-const Routing = ({user}) => {
+const Routing = ({user, backend}) => {
     return (
         <Routes>
             <Route path='/' element={<Home />} />
@@ -25,10 +25,12 @@ const Routing = ({user}) => {
                 <Route path='/logout' element={<Logout />} />
             </Route>
             <Route path='/election' element={<Election />}/>
-            <Route element={<PrivateVote user={user} />}>
+            <Route element={<PrivateRoute user={user} />}>
                 <Route path='/vote' element={<Vote />} />
             </Route>
             <Route path='/about' element={<About />} />
+
+            <Route path='/admin/login' element={<AdminLogin backend={backend}/>}/>
             <Route path='/smartcontract' element={<SmartContract />}/>
         </Routes>
     );
