@@ -235,7 +235,12 @@ const Login = ({user}) => {
     
     useEffect(() => {
 
-        window.ethereum.on("chainChanged", networkChanged);
+        if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.on("chainChanged", networkChanged);
+        } else {
+            alert('Metamask not found, please install it to be able to login through wallet');
+        }
+        
         // window.ethereum.on('accountsChanged', function () {
         //     console.log("Account Changed!");
         // });

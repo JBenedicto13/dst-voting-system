@@ -14,7 +14,8 @@ contract Election {
         address indexed from
     );
 
-    uint candidateCount;
+    uint public candidateCount;
+    bool public isElectionStart;
 
     struct Voter {
         uint[] vote;
@@ -24,6 +25,7 @@ contract Election {
 
     struct Candidate {
         // address addr;
+        uint id;
         string position;
         // string party;
         string name;
@@ -38,23 +40,29 @@ contract Election {
     constructor() {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
+        isElectionStart = false;
     }
 
-    //Authenticate Voters
+    //Start/Stop Election
+    function startElection() external {
+        require (chairperson == msg.sender, 'Only the Chairperson can start the Election');
+        require(isElectionStart == false, 'The Election has started already.');
+        
+        isElectionStart = true;
+    }
 
-    function giveRightToVote(address voter) external {
-        require( msg.sender == chairperson,
-                    'Only the Chairperson can give access to vote');
-        require(!voters[voter].voted,
-                'The voter has already voted');
-        require(voters[voter].weight == 0);
-        voters[voter].weight = 1;
+    function stopElection() external {
+        require (chairperson == msg.sender, 'Only the Chairperson can stop the Election');
+        require(isElectionStart == true, 'The Election has not yet started.');
+        
+        isElectionStart = false;
     }
 
     function addCandidates(string[] memory _position, string[] memory _name) external {
-        candidateCount = _name.length;
-        for (uint i = 0; i < candidateCount; i++) {
+        candidateCount += _name.length;
+        for (uint i = 0; i < _name.length; i++) {
             candidates.push(Candidate({
+                id: i+1,
                 position: _position[i],
                 // party: _party[i],
                 name: _name[i],
@@ -65,9 +73,10 @@ contract Election {
     }
 
     //Voting Function
-    function vote(uint[] calldata _candidates) public {
+    function vote(bool _validVoter, uint[] calldata _candidates) public {
+        require(isElectionStart == true, 'The Election has not yet started.');
+        require(_validVoter == true, 'This address has no right to vote');
         Voter storage sender = voters[msg.sender];
-        require(sender.weight != 0, 'Has no right to vote');
         require(!sender.voted, 'Already voted');
         sender.voted = true;
 
