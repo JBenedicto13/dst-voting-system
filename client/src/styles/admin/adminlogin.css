@@ -12,6 +12,18 @@
 }
 
 .frmAdminLogin {
-    background-color: aliceblue;
+    background-color: var(--maroon);
+    padding: 50px;
     width: 75%;
+    border-radius: 15px;
+    color: var(--white);
+}
+
+.frmAdminLogin .form-title {
+    text-align: center;
+}
+
+.btnLogin {
+    border: none;
+    background-color: var(--gold);
 }

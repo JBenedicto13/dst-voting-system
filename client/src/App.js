@@ -14,30 +14,17 @@ if (localStorage.token) {
     logUser = jwtDecode(jwt);
 }
 
-let isBackend;
-if (localStorage.isBackend) {
-    const val = localStorage.getItem("isBackend");
-    if (val) {
-        localStorage.setItem("isBackend", false);
-    }
-    isBackend = val;
-    console.log(isBackend);
-}
-
 const App = () => {
-    
     const [user, setUser] = useState(logUser);
-    const [backend, setBackend] = useState(isBackend);
-    console.log(backend);
     
     console.log(user);
 
     return (
         <Router>
             <div className='app'>
-                {backend ? <></> : <Navbar user={user}/>}
+                 <Navbar user={user}/>
                 <div className='main'>
-                    <Routing user={user} backend={backend} />
+                    <Routing user={user} />
                 </div>
             </div>
         </Router>

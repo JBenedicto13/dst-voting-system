@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const Admin = require("../models/admin");
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -47,6 +48,31 @@ router.post("/wallet", async (req, res) => {
 router.post("/", async (req, res) => {
     const { walletAddress } = req.body;
     let user = await User.findOne({ walletAddress }).collation({locale: 'en', strength: 1});
+});
+
+//adminlogin
+router.post("/admin", async (req, res) => {
+    const { username } = req.body;
+    let validPass = false;
+    await User.findOne({ username })
+    .then((res) => {
+        //validate against hash
+        validPass = bcrypt.compareSync(req.body.password, res.password);
+    })
+    .catch((err) => console.log(err))
+    
+    if (validPass) {
+        let user = await User.findOne({ username });
+        if (!user) return res.status(400).send("Invalid Username");
+
+        //generate JWT token
+        const jwtData = {_id: user.id, username: user.username}
+        const admintoken = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
+
+        res.send(admintoken);
+    } else {
+        return res.status(400).send("Invalid Username or Password");
+    }
 });
 
 module.exports = router;
