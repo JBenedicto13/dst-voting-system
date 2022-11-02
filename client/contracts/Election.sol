@@ -27,7 +27,6 @@ contract Election {
         // address addr;
         uint id;
         string position;
-        // string party;
         string name;
         uint voteCount;
     }
@@ -36,7 +35,6 @@ contract Election {
     mapping(address => Voter) public voters;
 
     address public chairperson;
-    // string[] memory _party,
     constructor() {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
@@ -64,7 +62,6 @@ contract Election {
             candidates.push(Candidate({
                 id: i+1,
                 position: _position[i],
-                // party: _party[i],
                 name: _name[i],
                 voteCount: 0
             }));

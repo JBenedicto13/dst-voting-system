@@ -11,15 +11,7 @@ function Election() {
             <div className="electionHeader col">
                 <h1>Web-based Voting System DHVSU Sto. Tomas</h1>
                 <p>
-                    Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua.
-
-                    Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua.
+                    This was developed to provide online access to voting and it was integrated with the blockchain for added security through the help of a voting smart contract.
                 </p>
             </div>
             <div className="chooseEvent col">

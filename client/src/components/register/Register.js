@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
+import MetamaskPDF from '../../assets/files/CreateMetamaskGuide.pdf';
 
 const Register = ({user}) => {
 
@@ -216,6 +217,10 @@ const Register = ({user}) => {
     }
 
   /* Validations */
+
+    function openPdf() {
+        window.open(MetamaskPDF);
+    }
   
     return (
         <div className="register">
@@ -245,6 +250,7 @@ const Register = ({user}) => {
                         value={walletAddress}
                         onBlur={walletAddressValidation}
                     />
+                    <span onClick={()=>openPdf()} className="getWallet">How to get your wallet address?</span>
                     {showWalletAddress && <p className='spanErrors'>{errMsgW}</p>}
                 </div>
                 <div className="row mb-3">

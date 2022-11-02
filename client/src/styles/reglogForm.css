@@ -41,6 +41,11 @@ h2 {
     opacity: 0.8;
 }
 
+.getWallet:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .spanErrors {
     font-style: italic;
     color: var(--maroon);

@@ -1,10 +1,10 @@
-import {React, useState } from 'react';
+import {React, useState, useEffect } from 'react';
 import RegCanList from './RegCanList';
 
 import { ethers } from 'ethers';
 import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
 
-const ElectionContract = "0x92AB3fCf0d71a43848D47628278A35701632EE3e";
+const ElectionContract = "0xb347509c83e4e13799D34CAB20E6b7b3bd29ED47";
 
 const SmartContract = () => {
   const [provider, setProvider] = useState(null);
@@ -92,24 +92,18 @@ const SmartContract = () => {
     setCandidateInfo([
         ...candidateInfo, 
         {
-            id: candidateInfo.length,
             position: _pos,
             name: _name
         }
     ]);
+    
     setCandidatePos([...candidatePos, _pos]);
     setCandidateName([...candidateName, _name]);
     setPosInp('');
     setNameInp('');
-
-    console.log(candidateInfo);
-    console.log(candidatePos);
-    console.log(candidateName);
   }
 
   const registerCandidates = async () => {
-    console.log(candidatePos);
-    console.log(candidateName);
     const result = await signerContract.addCandidates(candidatePos, candidateName);
     setPosInp('');
     setNameInp('');
@@ -121,26 +115,32 @@ const SmartContract = () => {
     const result = await signerContract.vote(items);
     console.log(result);
   }
+
+  var tempRegCandidates = [];
+
   const viewCandidates = async () => {
     
     const counter = await providerContract.candidateCount();
     for (var i = 0; i < counter; i++) {
       var result = await signerContract.candidates(i);
-      console.log(result);
-      console.log(result.name);
-      setRegCandidates([
-        ...regCandidates,
-        {
-          id: i+1,
-          position: result[1],
-          name: result[2]
-        }
-      ])
+      tempRegCandidates[i] = ({
+        id: i+1,
+        position: result[1],
+        name: result[2]
+      });
+
+      console.log(tempRegCandidates[i]);
     }
+
+    setRegCandidates(tempRegCandidates)
   }
 
-  var sample = [{name: "Apple", color: "Red"}, {name: "Banana", color: "Yellow"}];
+  var sample = [{name: "Apple", color: "Red"}, {name: "Banana", color: "Yellow"}, {name: "cherry", color: "Red"}];
+  useEffect(() => {
+    console.log(candidateInfo)
+  }, [candidateInfo])
   
+
   return (
     <div className='smartContract'>
         <div className="input-group mb-3 mt-3 justify-content-center">
@@ -155,8 +155,8 @@ const SmartContract = () => {
             <button onClick={() => viewCandidates()} className="btn btn-secondary" type="button" id="button-addon6">View Candidates</button>
             <h5>Candidates to Add</h5>
             <ul>
-                {candidateInfo.map(data=>(
-                    <li key={data.id}>{data.position + " | " + data.name}</li>
+                {candidateInfo.map((data, index)=>(
+                    <li key={index}>{data.position + " | " + data.name}</li>
                 ))}
             </ul>
 
@@ -169,9 +169,12 @@ const SmartContract = () => {
 
             <h5>Sample List</h5>
             <ul>
-                {sample.map((sampleData, index) => {
-                  return <li key={index}>{sampleData.name + " | " + sampleData.color}</li>
-                })}
+                {
+                 sample.filter(sampleData => sampleData.color === "Red")
+                 .map((sampleData, index) => {
+                    return <li key={index}>{sampleData.name}|{sampleData.color} </li>
+                  })
+                }
             </ul>
         </div>
         <div className="mb-3">

@@ -42,7 +42,7 @@ function Team() {
                         <h5 className="surname">Ardeña,</h5>
                         <h5 className="firstname">Renato</h5>
                         <ul>
-                            <li>Web Developer</li>
+                            <li>Documenter</li>
                         </ul>
                     </div>
                 </div>
@@ -69,7 +69,6 @@ function Team() {
                         <h5 className="firstname">Janine Rose</h5>
                         <ul>
                             <li>Documenter</li>
-                            <li>Blockchain Developer</li>
                         </ul>
                     </div>
                 </div>
@@ -82,8 +81,7 @@ function Team() {
                         <h5 className="surname">Nuqui,</h5>
                         <h5 className="firstname">Joshua Daniel</h5>
                         <ul>
-                            <li>Web Developer</li>
-                            <li>Blockchain Developer</li>
+                            <li>Documenter</li>
                         </ul>
                     </div>
                 </div>
@@ -96,8 +94,7 @@ function Team() {
                         <h5 className="surname">Manalang,</h5>
                         <h5 className="firstname">Juan Paulo</h5>
                         <ul>
-                            <li>Web Developer</li>
-                            <li>Blockchain Developer</li>
+                            <li>Documenter</li>
                         </ul>
                     </div>
                 </div>
