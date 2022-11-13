@@ -160,4 +160,3 @@ const AdminLogin = ({user}) => {
 };
 
 export default AdminLogin;
-

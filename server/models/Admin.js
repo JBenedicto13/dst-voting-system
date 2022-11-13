@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 mongoose.pluralize(null);
 
 const adminSchema = new mongoose.Schema({
+    lastName: { type: String, required: true },
+    firstName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    username: { type: String, required: true },
     walletAddress: { type: String },
     password: { type: String, required: true },
 });

@@ -13,6 +13,7 @@ import Election from "../election/Election";
 import Vote from "../election/Vote";
 import SmartContract from "../election/SmartContract";
 import AdminLogin from "../admin/AdminLogin";
+import AddAdmin from "../admin/AddAdmin";
 
 const Routing = ({user, backend}) => {
     return (
@@ -31,6 +32,7 @@ const Routing = ({user, backend}) => {
             <Route path='/about' element={<About />} />
 
             <Route path='/admin/login' element={<AdminLogin backend={backend}/>}/>
+            <Route path='addadmin' element={<AddAdmin/>}/>
             <Route path='/smartcontract' element={<SmartContract />}/>
         </Routes>
     );
