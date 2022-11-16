@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
 
-const AdminLogin = ({user}) => {
+const AdminLogin = ({admin}) => {
     let username;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,7 +22,7 @@ const AdminLogin = ({user}) => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        if (user) {
+        if (admin) {
             navigate(-1);
         }
         if (validateForm() === false) {
@@ -52,12 +52,12 @@ const AdminLogin = ({user}) => {
         
         if (!checkBlank()) {
             try {
-                const {data} = await http.post("/admin", {
-                    username,
+                const {data} = await http.post("/auth/admin", {
+                    email,
                     password
                 });
-                localStorage.setItem("admintoken", data)
-                window.location = "/";
+                localStorage.setItem("admin-token", data)
+                window.location = "/dashboard";
             } catch (error) {
                 if (error.response && error.response.status === 400) {
                     setShowPassword(true);

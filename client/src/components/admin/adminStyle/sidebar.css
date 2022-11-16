@@ -1,0 +1,33 @@
+.sidebar {
+    display: flex;
+    gap: 1rem;
+    color: var(--maroon);
+    align-items: center;
+    padding: 1rem;
+}
+.date {
+    text-transform: uppercase;
+    color: var(--white);
+}
+.sidebarlist {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--maroon);
+    height: 100vh;
+    width: 280px;
+}
+
+.sidebarlist li {
+    list-style: none;
+    text-transform: uppercase;
+    color: var(--white);
+    font-size: 18px;
+    padding: 1rem 2rem;
+}
+
+.sidebarlist li:hover {
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: var(--gold);
+}

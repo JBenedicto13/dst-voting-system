@@ -6,25 +6,36 @@ import "./App.css";
 import Navbar from "./components/navbar/Navbar";
 import Routing from "./components/routing/Routing";
 import setAuthToken from "./utils/setAuthToken";
+import setAuthTokenAdmin from "./utils/setAuthTokenAdmin";
 
 let logUser;
-if (localStorage.token) {
+if (localStorage.getItem("token")) {
     const jwt = localStorage.getItem("token");
     setAuthToken(jwt);
     logUser = jwtDecode(jwt);
 }
 
+let logAdmin;
+if (localStorage.getItem("admin-token")) {
+    const jwt = localStorage.getItem("admin-token");
+    setAuthTokenAdmin(jwt);
+    logAdmin = jwtDecode(jwt);
+}
+
 const App = () => {
     const [user, setUser] = useState(logUser);
+    const [admin, setAdmin] = useState(logAdmin);
     
-    console.log(user);
+
+    console.log("Admin: ", admin);
+    console.log("User: ", user);
 
     return (
         <Router>
             <div className='app'>
                  <Navbar user={user}/>
                 <div className='main'>
-                    <Routing user={user} />
+                    <Routing user={user} admin={admin} />
                 </div>
             </div>
         </Router>

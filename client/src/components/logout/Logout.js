@@ -6,7 +6,7 @@ const Logout = () => {
         window.location = "/";
     }, [])
   return (
-    <h1>This is Logout Component</h1>
+    <></>
   )
 }
 
