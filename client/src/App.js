@@ -33,7 +33,7 @@ const App = () => {
     return (
         <Router>
             <div className='app'>
-                 <Navbar user={user}/>
+                {admin?<></>:<Navbar user={user}/>}
                 <div className='main'>
                     <Routing user={user} admin={admin} />
                 </div>

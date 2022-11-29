@@ -1,7 +1,9 @@
 import React from 'react';
-import SideBar from './sidebar';
+import SideBar from './Sidebar';
+import '../admin/adminStyle/dashboard.css';
 
-const dashboard = () => {
+const Dashboard = () => {
+  
   return (
     <div className='dashboard'>
         <SideBar />
@@ -9,4 +11,4 @@ const dashboard = () => {
   )
 }
 
-export default dashboard
+export default Dashboard

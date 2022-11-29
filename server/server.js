@@ -10,6 +10,7 @@ const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 const checkRoutes = require("./routes/check");
 const adminRoutes = require("./routes/admin");
+const electionRoutes = require("./routes/election");
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +20,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/check", checkRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/election", electionRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);

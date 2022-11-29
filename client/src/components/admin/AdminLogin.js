@@ -23,7 +23,7 @@ const AdminLogin = ({admin}) => {
 
     useEffect(() => {
         if (admin) {
-            navigate(-1);
+            navigate("/admin/dashboard");
         }
         if (validateForm() === false) {
             setDisableSubmit(false);
@@ -57,7 +57,7 @@ const AdminLogin = ({admin}) => {
                     password
                 });
                 localStorage.setItem("admin-token", data)
-                window.location = "/dashboard";
+                window.location = "/admin/dashboard";
             } catch (error) {
                 if (error.response && error.response.status === 400) {
                     setShowPassword(true);

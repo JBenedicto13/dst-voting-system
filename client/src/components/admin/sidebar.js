@@ -1,28 +1,43 @@
 import React from 'react'
 import GetCurrentDate from '../../utils/GetCurrentDate';
 import '../admin/adminStyle/sidebar.css';
-import { MdOutlineSpaceDashboard } from "react-icons/md";
-import { MdOutlineHowToVote } from "react-icons/md";
-import { MdOutlinePersonPin } from "react-icons/md";
-import { MdPeopleOutline } from "react-icons/md";
-import { TfiLayoutMediaCenter } from "react-icons/tfi";
-import { MdOutlineManageAccounts } from "react-icons/md";
+import {SideBarData} from './SideBarData.js';
+import candidate1 from '../../assets/candidate1.png';
 
-const sidebar = () => {
+const Sidebar = () => {
   return (
     <div className='sidebar'>
-        <p className='date'><GetCurrentDate /></p>
-        <ul className='sidebarlist'>
-                <li><MdOutlineSpaceDashboard/>Dashboard</li>
-                <li><MdOutlineHowToVote/>Election</li>
-                <li><MdOutlinePersonPin/>Voters</li>
-                <li><MdPeopleOutline/>Candidates</li>
-                <li><TfiLayoutMediaCenter/>Contents</li>
-                <li><MdOutlineManageAccounts/>Accounts</li>
-                <li><MdOutlineManageAccounts/>Logout</li>
-        </ul>
+      <p className='date'><GetCurrentDate /></p>
+      <ul className='sidebarlist'>
+        {SideBarData.map((val,key) => {
+          return (
+            <li
+              className='sidebaritem'
+              id={window.location.pathname == val.link ? "active" : ""}
+              key={key} onClick={()=>{
+              window.location.pathname = val.link;
+            }}>
+            <div id='icon'>{val.icon}</div>
+            <div id='title'>
+              {val.title}
+            </div>
+            </li>
+          )
+        })}
+      </ul>
+      <div className='accountTab'>
+          <div className='col pfpImage'>
+            <img src={candidate1} alt='pfp'></img>
+          </div>
+          <div className='col info'>
+            <p>JOHN BENEDICT
+              <br></br>
+              2019988131@dhvsu.edu.ph
+            </p>
+          </div>
+      </div>
     </div>
   )
 }
 
-export default sidebar
+export default Sidebar

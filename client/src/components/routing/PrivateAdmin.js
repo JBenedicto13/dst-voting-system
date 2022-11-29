@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const PrivateAdmin = ({admin}) => {
   return (
-    admin ? <Outlet /> : <Navigate to="/admin-login" />
+    admin ? <Outlet /> : <Navigate to="/admin/login" />
   )
 }
 

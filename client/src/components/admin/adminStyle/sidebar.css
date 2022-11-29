@@ -1,33 +1,78 @@
 .sidebar {
-    display: flex;
-    gap: 1rem;
-    color: var(--maroon);
-    align-items: center;
-    padding: 1rem;
-}
-.date {
-    text-transform: uppercase;
-    color: var(--white);
-}
-.sidebarlist {
-    position: absolute;
-    left: 0;
-    top: 0;
+    height: 100%;
+    width: 250px;
     background-color: var(--maroon);
-    height: 100vh;
-    width: 280px;
 }
 
-.sidebarlist li {
-    list-style: none;
-    text-transform: uppercase;
+.date {
     color: var(--white);
+    text-align: center;
+    padding: 30px;
     font-size: 18px;
-    padding: 1rem 2rem;
+    text-transform: uppercase;
 }
 
-.sidebarlist li:hover {
+.sidebarlist {
+    height: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebarlist .sidebaritem {
+    width: 100%;
+    height: 60px;
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    color: var(--white);
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.sidebarlist .sidebaritem:hover {
     cursor: pointer;
-    border-radius: 5px;
-    background-color: var(--gold);
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.sidebarlist #active {
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.sidebaritem #icon {
+    flex: 30%;
+    display: grid;
+    place-items: center;
+}
+.sidebaritem #title {
+    flex: 70%;
+}
+
+.accountTab {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid white;
+    column-gap: 0.5rem;
+    padding: 10px 15px;
+}
+
+.accountTab:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.accountTab .pfpImage img {
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.accountTab .info {
+    color: var(--white);
+    font-size: 14px;
 }

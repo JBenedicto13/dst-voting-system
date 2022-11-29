@@ -19,7 +19,7 @@
     color: var(--maroon);
 }
 
-h2 {
+.frmLogin h2 {
     color: var(--maroon);
     text-align: center;
 }

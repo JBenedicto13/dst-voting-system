@@ -3,6 +3,11 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
+router.post("/test", async (req, res) => {
+    const { email } = req.body;
+    return res.send(email);
+})
+
 router.post("/email", async (req, res) => {
     const { email } = req.body;
     let user = await User.findOne({ email });

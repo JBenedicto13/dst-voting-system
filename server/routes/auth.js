@@ -52,9 +52,9 @@ router.post("/", async (req, res) => {
 
 //adminlogin
 router.post("/admin", async (req, res) => {
-    const { username } = req.body;
+    const { email } = req.body;
     let validPass = false;
-    await User.findOne({ username })
+    await Admin.findOne({ email })
     .then((res) => {
         //validate against hash
         validPass = bcrypt.compareSync(req.body.password, res.password);
@@ -62,16 +62,16 @@ router.post("/admin", async (req, res) => {
     .catch((err) => console.log(err))
     
     if (validPass) {
-        let user = await User.findOne({ username });
-        if (!user) return res.status(400).send("Invalid Username");
+        let admin = await Admin.findOne({ email });
+        if (!admin) return res.status(400).send("Invalid Email");
 
         //generate JWT token
-        const jwtData = {_id: user.id, username: user.username}
+        const jwtData = {_id: admin.id, email: admin.email}
         const admintoken = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
 
         res.send(admintoken);
     } else {
-        return res.status(400).send("Invalid Username or Password");
+        return res.status(400).send("Invalid Email or Password");
     }
 });
 

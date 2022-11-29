@@ -12,11 +12,13 @@ import About from "../about/About";
 import Election from "../election/Election";
 import Vote from "../election/Vote";
 
-import Dashboard from "../admin/dashboard";
+import Dashboard from "../admin/Dashboard";
 import SmartContract from "../election/SmartContract";
 import AdminLogin from "../admin/AdminLogin";
 import AddAdmin from "../admin/AddAdmin";
-
+import AdminLogout from "../admin/AdminLogout";
+import AdminElections from "../admin/Elections";
+import AdminVoters from "../admin/Voters";
 
 const Routing = ({user, admin}) => {
     return (
@@ -33,12 +35,15 @@ const Routing = ({user, admin}) => {
             </Route>
             <Route path='/about' element={<About />} />
 
-            <Route path='/admin-login' element={<AdminLogin admin={admin}/>}/>
+            <Route path='/admin/login' element={<AdminLogin admin={admin}/>}/>
             
             <Route element={<PrivateAdmin admin={admin} />}>
-                <Route path='/dashboard' element={<Dashboard />}/>
-                <Route path='/addadmin' element={<AddAdmin/>}/>
-                <Route path='/smartcontract' element={<SmartContract />}/>
+                <Route path='admin/dashboard' element={<Dashboard />}/>
+                <Route path='admin/addadmin' element={<AddAdmin/>}/>
+                <Route path='admin/smartcontract' element={<SmartContract />}/>
+                <Route path='admin/logout' element={<AdminLogout />}/>
+                <Route path='admin/elections' element={<AdminElections />}/>
+                <Route path='admin/voters' element={<AdminVoters />} />
             </Route>
             
         </Routes>

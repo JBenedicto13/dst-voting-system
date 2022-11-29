@@ -15,9 +15,9 @@ router.get("/", auth, async (req, res) => {
 router.post("/", async (req, res) => {
 
     // const { email } = req.body;
-    const { lastName, firstName, email, walletAddress, password } = req.body;
+    const { lastName, firstName, email, walletAddress } = req.body;
     //Hash Password
-    // const password = bcrypt.hashSync(req.body.password, 10);
+    const password = bcrypt.hashSync(req.body.password, 10);
     // Checking User
     let admin = await Admin.findOne({ email });
     if (admin) {

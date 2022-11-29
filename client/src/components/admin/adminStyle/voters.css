@@ -1,0 +1,89 @@
+.voters {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--white);
+    display: flex;
+}
+
+.voters-main-container {
+    width: 100%;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2rem;
+}
+
+.votersForm {
+    width: 100%;
+    border-radius: 30px;
+    background-color: var(--grey);
+    padding: 2rem;
+    padding-bottom: 1rem;
+}
+
+.votersForm form {
+    width: 50%;
+}
+
+.votersForm input, .votersForm label {
+    font-size: 18px;
+}
+
+.btnAdd {
+    background-color: var(--gold);
+    width: 120px;
+}
+
+.tblVoters {
+    width: 100%;
+    border-radius: 30px;
+    background-color: var(--grey);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+
+.tblVoters table {
+    background-color: var(--white);
+    color: var(--black);
+    border-radius: 15px;
+}
+
+.votersForm h2, .tblVoters h2 {
+    margin-top: 2rem;
+    text-align: left;
+    margin-left: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    color: var(--maroon);
+}
+
+.tblVoters table .colActions {
+    text-align: center;
+}
+.tdActions {
+    text-align: center;
+    color: var(--white);
+}
+
+.tdActions .btnDelete {
+    background-color: var(--maroon);
+    border: none;
+}
+
+.tdActions .btnEdit {
+    background-color: var(--gold);
+    border: none;
+}
+
+.tblVoters table th {
+    font-size: 24px;
+    padding: 30px;
+}
+
+.tblVoters table td {
+    font-size: 18px;
+    padding: 15px;
+}

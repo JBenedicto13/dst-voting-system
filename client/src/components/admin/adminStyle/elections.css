@@ -1,0 +1,140 @@
+.elections {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--white);
+    display: flex;
+}
+
+.elections-main-container {
+    width: 100%;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 2rem;
+}
+
+.elections-container-top {
+    width: 100%;
+    border-radius: 30px;
+    background-color: var(--grey);
+    padding-bottom: 1rem;
+}
+
+.elections-container-top h2 {
+    margin-top: 2rem;
+    text-align: left;
+    margin-left: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    color: var(--maroon);
+}
+
+.tables, .elections-tables {
+    display: flex;
+    gap: 5rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.tableLabel {
+    font-size: 24px;
+    color: var(--black);
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.dataCard {
+    background-color: var(--white);
+    width: 480px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.dataCard th, td {
+    padding: 1rem;
+}
+
+.dataCard th {
+    font-size: 24px;
+}
+.dataCard td {
+    font-size: 18px;
+}
+
+/* elections-container */
+
+.elections-container {
+    background-color: var(--grey);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 30px;
+    padding: 2rem;
+}
+
+.elections-container h2 {
+    margin-top: 2rem;
+    text-align: left;
+    margin-left: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    color: var(--maroon);
+}
+
+.elections-tables {
+    width: 100%;
+}
+.elections-tables .dataCard {
+    width: 100%;
+}
+
+/* Add Election Event */
+
+.elections-container-bottom {
+    background-color: var(--grey);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 30px;
+    padding: 2rem;
+}
+
+.elections-container-bottom h2 {
+    margin-top: 2rem;
+    text-align: left;
+    margin-left: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+    color: var(--maroon);
+}
+
+.frmAddElectionEvent {
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+.frmAddElectionEvent .form-label {
+    font-size: 18px;
+}
+
+.frmAddElectionEvent #inpTitle {
+    font-size: 18px;
+    width: 50%;
+}
+
+.frmAddElectionEvent #inpSCA, .frmAddElectionEvent #inpABI {
+    font-size: 18px;
+    width: 50%;
+}
+
+/* Button */
+.btnRow {
+    width: 100%;
+}
+.btnAdd {
+    width: 20%;
+}
