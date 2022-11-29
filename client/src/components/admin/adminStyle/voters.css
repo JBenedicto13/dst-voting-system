@@ -81,9 +81,28 @@
 .tblVoters table th {
     font-size: 24px;
     padding: 30px;
+    text-align: center;
 }
 
 .tblVoters table td {
     font-size: 18px;
     padding: 15px;
+    text-align: center;
 }
+
+.tblVoters .tfootVoterList {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.voters .modal-header {
+    background-color: var(--grey);
+}
+
+.voters .modal-title {
+    text-transform: uppercase;
+}
+

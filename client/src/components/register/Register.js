@@ -8,17 +8,36 @@ const Register = ({user}) => {
 
     //useState for user inputs
     let username;
+    const [lastName, setLastName] = useState("");
+    const [firstName, setfirstName] = useState("");
+    const [course, setCourse] = useState("");
+    const [yearLevel, setYearLevel] = useState("");
+    const [section, setSection] = useState("");
     const [email, setEmail] = useState("");
     const [walletAddress, setWalletAddress] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const courseOptions = ["BSBA", "BSHM", "BSED", "BSIT"];
+    const yearLevelOptions = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+    const sectionOptions = ["A", "B", "C", "D"];
+
     //Show Errors
+    const [showLastName, setShowLastName] = useState(false);
+    const [showFirstName, setShowFirstName] = useState(false);
+    const [showCourse, setShowCourse] = useState(false);
+    const [showYearLevel, setShowYearLevel] = useState(false);
+    const [showSection, setShowSection] = useState(false);
     const [showEmail, setShowEmail] = useState(false);
     const [showWalletAddress, setShowWalletAddress] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [errMsgLN, setErrMsgLN] = useState("");
+    const [errMsgFN, setErrMsgFN] = useState("");
+    const [errMsgC, setErrMsgC] = useState("");
+    const [errMsgY, setErrMsgY] = useState("");
+    const [errMsgS, setErrMsgS] = useState("");
     const [errMsgE, setErrMsgE] = useState("");
     const [errMsgW, setErrMsgW] = useState("");
     const [errMsgP, setErrMsgP] = useState("");
@@ -37,7 +56,7 @@ const Register = ({user}) => {
         } else {
             setDisableSubmit(true);
         }
-    })
+    },[])
 
     const getUsername = () => {
         let text = email;
@@ -47,6 +66,31 @@ const Register = ({user}) => {
 
     function checkBlank(isBlank) {
         isBlank = false;
+        if (lastName === "") {
+            setErrMsgLN("Please enter your last name");
+            setShowLastName(true);
+            isBlank = true;
+        }
+        if (firstName === "") {
+            setErrMsgFN("Please enter your first name");
+            setShowFirstName(true);
+            isBlank = true;
+        }
+        if (course === "") {
+            setErrMsgC("Please enter your course");
+            setShowCourse(true);
+            isBlank = true;
+        }
+        if (yearLevel === "") {
+            setErrMsgY("Please enter your year level");
+            setShowYearLevel(true);
+            isBlank = true;
+        }
+        if (section === "") {
+            setErrMsgS("Please enter your section");
+            setShowSection(true);
+            isBlank = true;
+        }
         if (email === "") {
             setErrMsgE("Please enter your email");
             setShowEmail(true);
@@ -78,6 +122,11 @@ const Register = ({user}) => {
 
             try {
                 const {data} = await http.post("/user", {
+                    lastName,
+                    firstName,
+                    course,
+                    yearLevel,
+                    section,
                     email,
                     username,
                     walletAddress,
@@ -112,6 +161,51 @@ const Register = ({user}) => {
     function passwordRegex(input) {
       let regex = /((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20})/g;
       return regex.test(input);
+    }
+
+    const lastnameValidation = async () => {
+        if (lastName === "") {
+            setErrMsgLN("Please enter your last name");
+            setShowLastName(true);
+        } else {
+            setShowLastName(false);
+        }
+    }
+
+    const firstnameValidation = async () => {
+        if (firstName === "") {
+            setErrMsgFN("Please enter your first name");
+            setShowFirstName(true);
+        } else {
+            setShowFirstName(false);
+        }
+    }
+
+    const courseValidation = async () => {
+        if (course === "") {
+            setErrMsgC("Please select a course");
+            setShowCourse(true);
+        } else {
+            setShowCourse(false);
+        }
+    }
+
+    const yearLevelValidation = async () => {
+        if (yearLevel === "") {
+            setErrMsgY("Please select a year level");
+            setShowYearLevel(true);
+        } else {
+            setShowYearLevel(false);
+        }
+    }
+
+    const sectionValidation = async () => {
+        if (section === "") {
+            setErrMsgS("Please select a section");
+            setShowSection(true);
+        } else {
+            setShowSection(false);
+        }
     }
 
     const emailValidation = async () => {
@@ -226,6 +320,61 @@ const Register = ({user}) => {
         <div className="register">
             <form className='frmRegister'>
                 <h1 className='head-title'>Register</h1>
+                <div className="row mb-3">
+                    <div className="col mb-3">
+                        <label htmlFor='lastName'>Last Name</label>
+                        <input
+                            className='form-control'
+                            placeholder="Dela Cruz"
+                            type='text'
+                            name='lastName'
+                            onChange={(e) => {setLastName(e.target.value)}}
+                            value={lastName}
+                            onBlur={lastnameValidation}
+                        />
+                        {showLastName && <p className='spanErrors'>{errMsgLN}</p>}
+                    </div>
+                    <div className="col mb-3">
+                        <label htmlFor='firstName'>First Name</label>
+                        <input
+                            className='form-control'
+                            placeholder="Juan"
+                            type='text'
+                            name='firstName'
+                            onChange={(e) => {setfirstName(e.target.value)}}
+                            value={firstName}
+                            onBlur={firstnameValidation}
+                        />
+                        {showFirstName && <p className='spanErrors'>{errMsgFN}</p>}
+                    </div>
+                </div>
+                <div className="row mb-3">
+                    <div className="col mb-3">
+                        <label htmlFor='course'>Course</label>
+                        <select value={course} onChange={(e) => setCourse(e.target.value)} className="form-select" name="course" aria-label="Default select example" onBlur={courseValidation}>
+                            <option defaultValue="" value="">Select Course</option>
+                            {courseOptions.map((val, key) =><option key={key}>{val}</option>)}
+                        </select>
+                        {showCourse && <p className='spanErrors'>{errMsgC}</p>}
+                    </div>
+                    <div className="col mb-3">
+                        <label htmlFor='yearLevel'>Year Level</label>
+                        <select value={yearLevel} onChange={(e) => setYearLevel(e.target.value)} className="form-select" name="yearLevel" aria-label="Default select example" onBlur={yearLevelValidation}>
+                            <option defaultValue="" value="">Select Year Level</option>
+                            {yearLevelOptions.map((val, key) =><option key={key}>{val}</option>)}
+                        </select>
+                        {showYearLevel && <p className='spanErrors'>{errMsgY}</p>}
+                    </div>
+                    <div className="col mb-3">
+                        <label htmlFor='section'>Section</label>
+                        <select value={section} onChange={(e) => setSection(e.target.value)} className="form-select" name="section" aria-label="Default select example" onBlur={sectionValidation}>
+                            <option defaultValue="" value="">Select Section</option>
+                            {sectionOptions.map((val, key) =><option key={key}>{val}</option>)}
+                        </select>
+                        {showSection && <p className='spanErrors'>{errMsgS}</p>}
+                    </div>
+                </div>
+                
                 <div className="row mb-3">
                     <label htmlFor='Email'>Email</label>
                     <input

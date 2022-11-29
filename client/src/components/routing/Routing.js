@@ -25,7 +25,7 @@ const Routing = ({user, admin}) => {
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login user={user} />} />
-            <Route path='/register' element={<Register />} />
+            <Route path='/register' element={<Register user={user} />} />
             <Route element={<PrivateRoute user={user} />}>
                 <Route path='/logout' element={<Logout />} />
             </Route>
