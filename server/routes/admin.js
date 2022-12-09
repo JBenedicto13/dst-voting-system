@@ -29,9 +29,10 @@ router.post("/", async (req, res) => {
     await admin.save();
 
     //generate JWT token
-    const jwtData = {_id: admin.id, name: admin.email}
+    const jwtData = {_id: admin.id, name: admin.email, walletAddress: admin.walletAddress}
     const token = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
-    
+    sessionStorage.setItem('admin-wallet', admin.walletAddress)
+
     res.send(token);
 });
 

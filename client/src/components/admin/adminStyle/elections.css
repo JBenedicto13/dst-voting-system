@@ -138,3 +138,21 @@
 .btnAdd {
     width: 20%;
 }
+
+.edit-position-body {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.divPositionList th, .divPositionList td {
+    padding: 18px;
+}
+
+.frmAddPositions {
+    margin: 10px;
+}
+
+.errortext {
+    color: var(--maroon);
+}

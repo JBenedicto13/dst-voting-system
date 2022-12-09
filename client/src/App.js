@@ -25,7 +25,6 @@ if (localStorage.getItem("admin-token")) {
 const App = () => {
     const [user, setUser] = useState(logUser);
     const [admin, setAdmin] = useState(logAdmin);
-    
 
     console.log("Admin: ", admin);
     console.log("User: ", user);

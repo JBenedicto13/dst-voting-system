@@ -4,7 +4,7 @@ import RegCanList from './RegCanList';
 import { ethers } from 'ethers';
 import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
 
-const ElectionContract = "0xb347509c83e4e13799D34CAB20E6b7b3bd29ED47";
+const ElectionContract = "0xe42473F1e11418c7D9C6E302E082008D9103D813";
 
 const SmartContract = () => {
   const [provider, setProvider] = useState(null);

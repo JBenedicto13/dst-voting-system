@@ -4,9 +4,10 @@ import http from "../../utils/http";
 import "../../styles/reglogForm.css";
 
 const Login = ({user}) => {
+
     let username;
     const [email, setEmail] = useState("");
-    const [walletAddress, setWalletAddress] = useState("");
+    // const [walletAddress, setWalletAddress] = useSession('');
     const [password, setPassword] = useState("");
 
     //Show Errors
@@ -86,8 +87,6 @@ const Login = ({user}) => {
                     setErrMsgP(error.response.data)
                 }
             }
-        } else {
-
         }
     };
 
@@ -197,6 +196,7 @@ const Login = ({user}) => {
 
     const verifyWallet = async (wallet) => {
         if (wallet !== "") {
+            sessionStorage.setItem('user-wallet', wallet);
             console.log("WalletAddress: " + wallet);
 
             try {

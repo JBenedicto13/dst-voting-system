@@ -19,6 +19,7 @@ import AddAdmin from "../admin/AddAdmin";
 import AdminLogout from "../admin/AdminLogout";
 import AdminElections from "../admin/Elections";
 import AdminVoters from "../admin/Voters";
+import AdminCandidates from "../admin/Candidates";
 
 const Routing = ({user, admin}) => {
     return (
@@ -31,7 +32,7 @@ const Routing = ({user, admin}) => {
             </Route>
             <Route path='/election' element={<Election />}/>
             <Route element={<PrivateRoute user={user} />}>
-                <Route path='/vote' element={<Vote />} />
+                <Route path='/vote/:address' element={<Vote />} />
             </Route>
             <Route path='/about' element={<About />} />
 
@@ -44,6 +45,7 @@ const Routing = ({user, admin}) => {
                 <Route path='admin/logout' element={<AdminLogout />}/>
                 <Route path='admin/elections' element={<AdminElections />}/>
                 <Route path='admin/voters' element={<AdminVoters />} />
+                <Route path='admin/candidates' element={<AdminCandidates />} />
             </Route>
             
         </Routes>

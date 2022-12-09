@@ -3,8 +3,33 @@ import { useNavigate, Link } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
 import MetamaskPDF from '../../assets/files/CreateMetamaskGuide.pdf';
+import Swal from "sweetalert2";
 
 const Register = ({user}) => {
+
+    //SweetAlert2.0
+    
+    function successAlert(res) {
+        Swal.fire({
+            title: "Success",
+            text: res.data,
+            icon: "success",
+            iconColor: 'var(--maroon)',
+            confirmButtonColor: 'var(--maroon)',
+            background: 'var(--white)'
+        })
+    }
+
+    function errorAlert(err) {
+        Swal.fire({
+            title: "Error",
+            text: err,
+            icon: "error",
+            iconColor: 'var(--maroon)',
+            confirmButtonColor: 'var(--maroon)',
+            background: 'var(--white)'
+        })
+    }
 
     //useState for user inputs
     let username;
@@ -117,32 +142,63 @@ const Register = ({user}) => {
     const handleSubmit = async (e) => {
         
         e.preventDefault();
-        if (!checkBlank()) {
-            getUsername();
-
-            try {
-                const {data} = await http.post("/user", {
-                    lastName,
-                    firstName,
-                    course,
-                    yearLevel,
-                    section,
-                    email,
-                    username,
-                    walletAddress,
-                    password,
-                });
-                localStorage.setItem("token", data)
-                window.location = "/";
-            } catch (error) {
-                if (error.response && error.response.status === 400) {
-                    setErrMsgE(error.response.data);
-                    setShowEmail(true);
-                    setPassword("");
-                    setConfirmPassword("");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Please confirm to register your account",
+            icon: 'question',
+            iconColor: 'var(--maroon)',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--maroon)',
+            cancelButtonColor: 'var(--gold)',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            background: 'var(--white)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (!checkBlank()) {
+                    getUsername();
+                    var candidate = {
+                        "electionName": "",
+                        "position": "",
+                        "partyList": "",
+                        "votes": 0,
+                        "isDeployed": false
+                    };
+        
+                    http.post("/user", {
+                        lastName,
+                        firstName,
+                        course,
+                        yearLevel,
+                        section,
+                        isCandidate: false,
+                        candidate,
+                        email,
+                        username,
+                        walletAddress,
+                        password,
+                    }).then((res) => {
+                        Swal.fire({
+                            title: "Success",
+                            text: "Registration successful!",
+                            icon: "success",
+                            iconColor: 'var(--maroon)',
+                            confirmButtonColor: 'var(--maroon)',
+                            background: 'var(--white)'
+                        }).then(() => {
+                            localStorage.setItem("token", res.data);
+                            window.location = "/";
+                        })
+                        
+                    }).catch((err) => {
+                        setErrMsgE(err.response.data);
+                        setShowEmail(true);
+                        setPassword("");
+                        setConfirmPassword("");
+                    })
+                    }
                 }
-            }
-        }
+        })
     };
 
     /* Validations */

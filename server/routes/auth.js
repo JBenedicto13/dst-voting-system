@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
         if (!user) return res.status(400).send("Invalid Email");
 
         //generate JWT token
-        const jwtData = {_id: user.id, username: user.username}
+        const jwtData = {_id: user.id, username: user.username, walletAddress: user.walletAddress}
         const token = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
 
         res.send(token);
@@ -36,7 +36,7 @@ router.post("/wallet", async (req, res) => {
     let user = await User.findOne({ walletAddress }).collation({locale: 'en', strength: 1});
    
     if (user) {
-        const jwtData = {_id: user.id, username: user.username}
+        const jwtData = {_id: user.id, username: user.username, walletAddress: user.walletAddress}
         const token = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
 
         return res.send(token);
@@ -66,7 +66,7 @@ router.post("/admin", async (req, res) => {
         if (!admin) return res.status(400).send("Invalid Email");
 
         //generate JWT token
-        const jwtData = {_id: admin.id, email: admin.email}
+        const jwtData = {_id: admin.id, email: admin.email, walletAddress: admin.walletAddress}
         const admintoken = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
 
         res.send(admintoken);

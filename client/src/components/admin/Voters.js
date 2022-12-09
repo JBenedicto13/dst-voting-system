@@ -2,8 +2,34 @@ import { React, useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import '../admin/adminStyle/voters.css';
 import http from "../../utils/http";
+import Swal from 'sweetalert2';
 
 const Voters = () => {
+
+    //SweetAlert2.0
+    
+    function successAlert(res) {
+        Swal.fire({
+            title: "Success",
+            text: res.data,
+            icon: "success",
+            iconColor: 'var(--maroon)',
+            confirmButtonColor: 'var(--maroon)',
+            background: 'var(--white)'
+        })
+    }
+
+    function errorAlert(err) {
+        Swal.fire({
+            title: "Error",
+            text: err,
+            icon: "error",
+            iconColor: 'var(--maroon)',
+            confirmButtonColor: 'var(--maroon)',
+            background: 'var(--white)'
+        })
+    }
+
     let username;
     let password;
     const [lastName, setLastName] = useState("");
@@ -50,6 +76,7 @@ const Voters = () => {
         let i = text.indexOf("@");
         username = text.substr(0, i);
         password = username;
+        console.log(password);
     };
 
     function checkBlank(isBlank) {
@@ -232,30 +259,51 @@ const Voters = () => {
 
     const saveData = async(e) => {
         e.preventDefault();
-        if (!checkBlank()) {
-            getUsernamePassword();
-            try {
-                const {data} = await http.post("/user/addVoter", {
-                    lastName,
-                    firstName,
-                    course,
-                    yearLevel,
-                    section,
-                    email,
-                    username,
-                    walletAddress,
-                    password,
-                });
-                alert(data);
-                clearForm();
-                loadUserData();
-                document.getElementById('btnCloseModal').click();
-            } catch (error) {
-                if (error.response && error.response.status === 400) {
-                    console.log(error);
+        Swal.fire({
+            title: 'Are you sure you want to add this voter?',
+            icon: 'question',
+            iconColor: 'var(--maroon)',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--maroon)',
+            cancelButtonColor: 'var(--gold)',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            background: 'var(--white)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (!checkBlank()) {
+                    getUsernamePassword();
+                    var candidate = {
+                        "electionName": "",
+                        "position": "",
+                        "partyList": "",
+                        "votes": 0,
+                        "isDeployed": false
+                    };
+        
+                    http.post("/user/addVoter", {
+                        lastName,
+                        firstName,
+                        course,
+                        yearLevel,
+                        section,
+                        isCandidate: false,
+                        candidate,
+                        email,
+                        username,
+                        walletAddress,
+                        password : password,
+                    }).then((res) => {
+                        successAlert(res)
+                        clearForm()
+                        loadUserData()
+                        document.getElementById('btnCloseModal').click();
+                    }).catch((err) => errorAlert(err))
+                    
                 }
             }
-        }
+        })
+
         
     }
 
@@ -271,14 +319,27 @@ const Voters = () => {
     }
 
     const deleteUser = (id) => {
-        http.delete(`/user/deleteVoter/${id}`)
-            .then((res) => alert(res.data))
-            .catch((error) => {
-                if (error.response && error.response.status === 400) {
-                    console.log(error);
-                }
-            })
-        loadUserData();
+
+        Swal.fire({
+            title: 'Are you sure you want to delete this voter?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            confirmButtonText: 'Yes',
+            iconColor: 'var(--maroon)',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--maroon)',
+            cancelButtonColor: 'var(--gold)',
+            cancelButtonText: 'Cancel',
+            background: 'var(--white)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                http.delete(`/user/deleteVoter/${id}`)
+                .then((res) => successAlert(res))
+                .then(() => loadUserData())
+                .catch((err) => errorAlert(err))
+                
+            }
+        })
     }
 
     const updateUser = (val) => {

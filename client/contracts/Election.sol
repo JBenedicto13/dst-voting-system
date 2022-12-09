@@ -24,10 +24,9 @@ contract Election {
     }
 
     struct Candidate {
-        // address addr;
+        address addr;
         uint id;
         string position;
-        string name;
         uint voteCount;
     }
 
@@ -56,13 +55,13 @@ contract Election {
         isElectionStart = false;
     }
 
-    function addCandidates(string[] memory _position, string[] memory _name) external {
-        candidateCount += _name.length;
-        for (uint i = 0; i < _name.length; i++) {
+    function addCandidates(address[] memory _addr, string[] memory _position) external {
+        candidateCount += _addr.length;
+        for (uint i = 0; i < _addr.length; i++) {
             candidates.push(Candidate({
                 id: i+1,
+                addr: _addr[i],
                 position: _position[i],
-                name: _name[i],
                 voteCount: 0
             }));
         }
@@ -85,7 +84,7 @@ contract Election {
 
     //ShowingResults
 
-    function showWinning(string memory _pos) public view returns (uint _winningCandidate, string memory _winningName, uint winningVoteCount) {
+    function showWinning(string memory _pos) public view returns (uint _winningCandidate, address _winningAddress, uint winningVoteCount) {
         winningVoteCount = 0;
         for (uint i = 0; i < candidateCount; i++) {
             if (keccak256(abi.encodePacked(candidates[i].position)) == keccak256(abi.encodePacked(_pos))) {
@@ -95,7 +94,7 @@ contract Election {
                 }
             }
         }
-        _winningName = candidates[_winningCandidate].name;
+        _winningAddress = candidates[_winningCandidate].addr;
     }
 
 }
