@@ -7,7 +7,7 @@
     background-color: var(--maroon);
 }
 
-.navbar a {
+.navbar a, .usernamespan {
     color: var(--white);
     text-decoration: none;
     text-transform: uppercase;
@@ -19,7 +19,7 @@
     position: relative;
 }
 
-.navbar a:hover {
+.navbar a:hover, .usernamespan:hover {
     color: var(--white);
 }
 

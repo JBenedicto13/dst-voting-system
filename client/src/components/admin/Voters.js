@@ -294,10 +294,39 @@ const Voters = () => {
                         walletAddress,
                         password : password,
                     }).then((res) => {
-                        successAlert(res)
-                        clearForm()
-                        loadUserData()
-                        document.getElementById('btnCloseModal').click();
+
+                        http.post("/organizations/members/add", {
+                            orgName: "DHVSU Sto. Tomas Student Council",
+                            email: email,
+                        })
+                        .then(() => {
+                            var orgName = "";
+                            switch(course) {
+                                case "BSBA": 
+                                    orgName = "College of Business Administration";
+                                break;
+
+                                case "BSHM":
+                                    orgName = "College of Hospitality and Management";
+                                break;
+
+                                case "BSED":
+                                    orgName = "College of Education";
+                                break;
+
+                                case "BSIT": 
+                                    orgName = "College of Computing Studies";
+                                break;
+                            }
+                            http.post("/organizations/members/add", {
+                                orgName: orgName,
+                                email: email,
+                            }).then((res) => console.log(res));
+                            successAlert(res)
+                            clearForm()
+                            loadUserData()
+                            document.getElementById('btnCloseModal').click();
+                        })
                     }).catch((err) => errorAlert(err))
                     
                 }

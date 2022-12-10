@@ -20,6 +20,11 @@ import AdminLogout from "../admin/AdminLogout";
 import AdminElections from "../admin/Elections";
 import AdminVoters from "../admin/Voters";
 import AdminCandidates from "../admin/Candidates";
+import UnrouteUser from "./UnrouteUser";
+import UnrouteAdmin from "./UnrouteAdmin";
+import Navbar from "../navbar/Navbar";
+import Sidebar from "../admin/Sidebar";
+
 
 const Routing = ({user, admin}) => {
     return (
@@ -32,7 +37,7 @@ const Routing = ({user, admin}) => {
             </Route>
             <Route path='/election' element={<Election />}/>
             <Route element={<PrivateRoute user={user} />}>
-                <Route path='/vote/:address' element={<Vote />} />
+                <Route path='/vote/:address' element={<Vote user={user} />} />
             </Route>
             <Route path='/about' element={<About />} />
 
@@ -47,7 +52,10 @@ const Routing = ({user, admin}) => {
                 <Route path='admin/voters' element={<AdminVoters />} />
                 <Route path='admin/candidates' element={<AdminCandidates />} />
             </Route>
-            
+
+            <Route element={<UnrouteAdmin admin={admin} />}>
+                <Route element={<Sidebar admin={admin} />} />
+            </Route>
         </Routes>
     );
 };

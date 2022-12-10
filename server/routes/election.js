@@ -3,14 +3,14 @@ const router = express.Router();
 const Election = require("../models/Election");
 
 router.post("/addEvent", async (req, res) => {
-    const { title, address, abi, positions, partylists, voted, voters, isStart } = req.body;
+    const { title, address, abi, organization, positions, partylists, voted, voters, isStart } = req.body;
 
     let election = await Election.findOne({ title });
     if (election) {
         return res.status(400).send("Event already added");
     }
 
-    election = new Election({ title, address, abi, positions, partylists, voted, voters, isStart });
+    election = new Election({ title, address, abi, organization, positions, partylists, voted, voters, isStart });
     await election.save();
 
     res.send("Event Added Successfully");

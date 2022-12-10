@@ -30,8 +30,17 @@ router.post("/", async (req, res) => {
     //generate JWT token
     const jwtData = {_id: user.id, name: user.username, walletAddress: user.walletAddress}
     const token = jwt.sign(jwtData, process.env.JWTSECRET, {expiresIn: "2h"})
-    sessionStorage.setItem('user-wallet', user.walletAddress);
+
     res.send(token);
+});
+
+router.post("/getEmail", async (req, res) => {
+
+    const { email } = req.body;
+
+    await User.findOne({email})
+       .then((result) => res.send(result.walletAddress))
+       .catch((error) => res.send(error))
 });
 
 router.post("/addVoter", async (req, res) => {
@@ -96,7 +105,7 @@ router.get("/viewCandidate", async (req, res) => {
 
 router.post("/forDeployment", async (req, res) => {
     const {electionName} = req.body;
-    const candidates = await User.find({"candidate.electionName": electionName});
+    const candidates = await User.find({"candidate.electionName": electionName, "candidate.isDeployed": false});
     res.send(candidates);
 })
 
@@ -187,20 +196,16 @@ router.post("/updateCandidate", async (req, res) => {
     res.send("Candidate Added Successfully")
 });
 
-router.post("/isVoted", async (req, res) => {
-    User.find({"walletAddress": { $regex: req.body.walletAddress, $options: 'i'}}, {"isVoted": true})
-        .then((item) => res.send(item))
-        .catch((error)=> res.send(error))
-});
+router.post("/candidate/updatevotes", async (req, res) => {
+    const { walletAddress, electionName, votes } = req.body;
 
-router.post("/castVote/user", async (req, res) => {
-    const { walletAddress } = req.body;
-
-    await User.findOneAndUpdate(
-        {"walletAddress": walletAddress}, {$set: {"isVoted": true}}
+    await User.updateOne(
+        {"walletAddress": walletAddress, "candidate.electionName": electionName}, 
+        {$set: 
+            {"candidate.$.votes": votes}
+        }
     )
-
-    res.send("Vote Casted Successfully")
+    res.send("Votes Updated Successfully");
 });
 
 module.exports = router;

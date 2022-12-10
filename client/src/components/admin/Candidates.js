@@ -496,10 +496,6 @@ const Candidates = () => {
             const signerContract = new ethers.Contract(_address, _abi, signer);
             const providerContract = new ethers.Contract(_address, _abi, provider);
 
-            const count = await signerContract.candidateCount();
-            const decimal = parseInt(count, 16);
-      
-            setcandidateCount(decimal+1);
             setProvider(provider);
             setSigner(signer);
             setProviderContract(providerContract);
@@ -509,13 +505,16 @@ const Candidates = () => {
     }
 
     const addCandidatesToSC = async (_walletAddress, _position, _signerContract) => {
+        var counter = 0;
+        await _signerContract.candidateCount()
+        .then((res) => {
+            counter = parseInt(res, 16);
+        })
         await _signerContract.addCandidates(_walletAddress, _position)
         .then((res) => {
             successAlert(res)
         })
         .catch((err) => errorAlert(err))
-
-        let counter = candidateCount;
 
         deploymentData.map(async (val, key) => {
             counter++;
@@ -609,7 +608,7 @@ const Candidates = () => {
                 <table>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>No.</th>
                         <th>Last Name</th>
                         <th>First Name</th>
                         <th>Username</th>
@@ -625,7 +624,7 @@ const Candidates = () => {
                         .map((val, key) => {
                             return (
                             <tr key={key}>
-                                <td>{val.id}</td>
+                                <td>{key + 1}</td>
                                 <td>{val.lastName}</td>
                                 <td>{val.firstName}</td>
                                 <td>{val.username}</td>
@@ -758,7 +757,7 @@ const Candidates = () => {
                             <table>
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>No.</th>
                                     <th>Username</th>
                                     <th>Position</th>
                                     <th>Party List</th>

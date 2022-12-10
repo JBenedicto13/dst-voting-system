@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import GetCurrentDate from '../../utils/GetCurrentDate';
 import '../admin/adminStyle/sidebar.css';
 import {SideBarData} from './SideBarData.js';
 import candidate1 from '../../assets/candidate1.png';
 
-const Sidebar = () => {
+const Sidebar = ({admin}) => {
+
+  useEffect(() => {
+    console.log(admin);
+  }, [])
+  
   return (
     <div className='sidebar'>
       <p className='date'><GetCurrentDate /></p>
@@ -30,10 +35,7 @@ const Sidebar = () => {
             <img src={candidate1} alt='pfp'></img>
           </div>
           <div className='col info'>
-            <p>JOHN BENEDICT
-              <br></br>
-              2019988131@dhvsu.edu.ph
-            </p>
+            <p>{sessionStorage.getItem("admin-email")}</p>
           </div>
       </div>
     </div>

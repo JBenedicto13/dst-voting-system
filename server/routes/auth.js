@@ -31,6 +31,8 @@ router.post("/", async (req, res) => {
     }
 });
 
+
+
 router.post("/wallet", async (req, res) => {
     const { walletAddress } = req.body;
     let user = await User.findOne({ walletAddress }).collation({locale: 'en', strength: 1});

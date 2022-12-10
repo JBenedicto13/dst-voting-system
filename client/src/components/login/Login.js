@@ -75,12 +75,20 @@ const Login = ({user}) => {
         
         if (!checkBlank()) {
             try {
-                const {data} = await http.post("/auth", {
+                await http.post("/auth", {
                     email,
                     password
-                });
-                localStorage.setItem("token", data)
-                window.location = "/";
+                })
+                .then((res) => {
+                    localStorage.setItem("token", res)
+                    http.post("/user/getEmail", {email})
+                       .then((wallet) => {
+                        sessionStorage.setItem('user-wallet', wallet)
+                        window.location = "/"
+                       })
+                       .catch((err) => console.log(err));     
+                })
+                
             } catch (error) {
                 if (error.response && error.response.status === 400) {
                     setShowPassword(true);

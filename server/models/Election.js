@@ -5,6 +5,7 @@ const electionSchema = new mongoose.Schema({
     title: { type: String, required: true },
     address: { type: String, required: true, unique: true },
     abi: { type: String, required: true },
+    organization: { type: String },
     positions: [{
         posTitle: { type: String },
         number: { type: Number }

@@ -31,6 +31,7 @@ contract Election {
     }
 
     Candidate[] public candidates;
+
     mapping(address => Voter) public voters;
 
     address public chairperson;
@@ -38,6 +39,12 @@ contract Election {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
         isElectionStart = false;
+        candidates.push(Candidate({
+                id: 0,
+                addr: chairperson,
+                position: "None",
+                voteCount: 0
+        }));
     }
 
     //Start/Stop Election

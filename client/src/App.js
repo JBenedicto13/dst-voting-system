@@ -26,6 +26,12 @@ const App = () => {
     const [user, setUser] = useState(logUser);
     const [admin, setAdmin] = useState(logAdmin);
 
+    if (user) {
+        sessionStorage.setItem("user-email", user.email);
+    }
+    if (admin) {
+        sessionStorage.setItem("admin-email", admin.email);
+    }
     console.log("Admin: ", admin);
     console.log("User: ", user);
 

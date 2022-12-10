@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import http from '../../utils/http';
 import Swal from 'sweetalert2';
 
-const Vote = () => {
+const Vote = ({user}) => {
 
   //SweetAlert2.0
   
@@ -37,6 +37,13 @@ const Vote = () => {
   
   const {address} = useParams();
   const [walletAddress, setwalletAddress] = useState("");
+
+  var email = "";
+  var orgName = "";
+
+  const [emailState, setemailState] = useState("");
+  const [orgNameState, setOrgNameState] = useState("");
+
   const [isVoted, setisVoted] = useState(false);
   const [electionData, setelectionData] = useState({});
   const [selectedValue, setSelectedValue] = useState([]);
@@ -53,20 +60,19 @@ const Vote = () => {
     await http.post("/election/view", {address})
         .then((res) => {
           setelectionData(res.data)
+          orgName = res.data.organization;
           setpositionList(res.data.positions)
           updateEthers(res.data.abi)
         })
         .catch((err) => {
           console.log(err);
         })
-
-    let account = sessionStorage.getItem("user-wallet");
-    checkIsVoted(account);
-    // setwalletAddress(account);
   }
 
   const checkIsVoted = async (acc) => {
-    await http.post("/user/isVoted", {"walletAddress": acc})
+    setemailState(email)
+    setOrgNameState(orgName)
+    await http.post("/organizations/members/isVoted", {orgName, "email": acc})
     .then((res) => {
       if (res.data[0].isVoted) {
         Swal.fire({
@@ -109,6 +115,7 @@ const Vote = () => {
     .catch((err) => {
       console.log(err);
     })
+    checkIsVoted(email);
   }
 
   const [posData, setposData] = useState([]);
@@ -143,17 +150,23 @@ const Vote = () => {
     vote = JSON.stringify(vote);
   }
 
-  const handleCastVote = async () => {
-    await signerContract.vote(true, voteData)
-      .then((res) => {
-        successAlert(res)
-        document.getElementById('btnCloseModalCandidate').click()
+  const handleCastVote = async (_orgName, _email) => {
+    try {
+      await signerContract.vote(true, voteData).then(() => {
+        http.post('/organizations/members/castvote', {"orgName": _orgName, "email": _email})
+        .then((res) => {
+          document.getElementById('btnCloseModalCandidate').click()
+          Swal.fire({
+            title: "Vote Casted!",
+            text: res,
+            icon: "info"
+          })
+        .then(()=> window.location = "/");
+        })
       })
-      .catch((err) => errorAlert(err.error.data.message))
-
-    await http.post('/user/castVote/user', {walletAddress})
-      .then((res) => successAlert(res))
-      .catch((err) => console.log(err))
+    } catch(err){
+      errorAlert(err.error.data.message)
+    }
   }
 
   const handleChangeSelect = (e) => {
@@ -168,6 +181,8 @@ const Vote = () => {
 
   useEffect(()=>{
     fetchABI()
+    setwalletAddress(user.walletAddress)
+    email = (user.username + "@dhvsu.edu.ph")
   },[])
   
   return (
@@ -277,7 +292,7 @@ const Vote = () => {
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" id='btnCloseModalCandidate' data-bs-dismiss="modal">CLOSE</button>
-            <button onClick={handleCastVote} type="button" className="btn btn-primary">CONFIRM</button>
+            <button onClick={()=>handleCastVote(orgNameState, emailState)} type="button" className="btn btn-primary">CONFIRM</button>
           </div>
         </div>
       </div>

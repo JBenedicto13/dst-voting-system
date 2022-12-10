@@ -32,6 +32,8 @@ function errorAlert(err) {
 }
 
   const [voteCount, setvoteCount] = useState(0);
+  const [orgList, setorgList] = useState([]);
+  const [contractOrg, setcontractOrg] = useState("");
   const [contractTitle, setContractTitle] = useState("");
   const [contractAddress, setContractAddress] = useState("");
   const [contractABI, setContractABI] = useState("");
@@ -82,6 +84,7 @@ function errorAlert(err) {
           title: contractTitle,
           address: contractAddress,
           abi: contractABI,
+          organization: contractOrg,
           positions: [],
           partylists: [],
           voted: voted,
@@ -98,6 +101,7 @@ function errorAlert(err) {
   }
 
   function clearForm() {
+    setcontractOrg("");
     setContractTitle("");
     setContractAddress("");
     setContractABI("");
@@ -116,6 +120,20 @@ function errorAlert(err) {
     http.get("/user/view")
       .then((res) => {
         setVoters(res.data.length)
+      })
+      .catch((err) => console.log(err))
+    
+    http.get("/organizations/load")
+     .then((res) => setorgList(res.data))
+     .catch((err) => console.log(err))
+  }
+
+  async function updateTotalVoters() {
+
+    http.get("/user/view")
+      .then((res) => {
+        setVoters(res.data.length)
+        console.log(res.data.length)
       })
       .catch((err) => console.log(err))
   }
@@ -281,6 +299,7 @@ const handleAddPosition = async (e) => {
     .catch((err) => {
       console.log(err);
     })
+
   }
 
   const handleAddPartylist = async (e) => {
@@ -346,9 +365,10 @@ const handleAddPosition = async (e) => {
     }
 
   const getVoteCount = async () => {
-    console.log(providerContract[0]);
-    await providerContract[0].showWinning("Governor")
-      .then((res) => console.log(parseInt(res.winningVoteCount, 16)))
+    updateTotalVoters();
+    // console.log(providerContract[0]);
+    // await providerContract[0].showWinning("Governor")
+    //   .then((res) => console.log(parseInt(res.winningVoteCount, 16)))
   }
 
   useEffect(() => {
@@ -362,7 +382,6 @@ const handleAddPosition = async (e) => {
         <Sidebar />
         <div className='elections-main-container'>
           <div className='elections-container-top'>
-            <button onClick={() => getVoteCount()}>GetVoteCount</button>
             <h2>Election Events</h2>
             <div className='tables'>
 
@@ -379,7 +398,13 @@ const handleAddPosition = async (e) => {
                       return (
                         <tr key={key}>
                           <td>{val.title}</td>
-                          <td>{val.voted}/{val.voters}</td>
+                          {orgList
+                          .filter((org) => org.orgName === val.organization)
+                          .map((orgItem, key) => {
+                            return (
+                              <td key={key}>{val.voted}/{orgItem.members.length}</td>
+                            )
+                          })}
                         </tr>
                       )
                     })}
@@ -401,7 +426,13 @@ const handleAddPosition = async (e) => {
                       return (
                         <tr key={key}>
                           <td>{val.title}</td>
-                          <td>{val.voted}/{val.voters}</td>
+                          {orgList
+                          .filter((org) => org.orgName === val.organization)
+                          .map((orgItem, key) => {
+                            return (
+                              <td key={key}>{val.voted}/{orgItem.members.length}</td>
+                            )
+                          })}
                         </tr>
                       )
                     })}
@@ -423,7 +454,13 @@ const handleAddPosition = async (e) => {
                       return (
                         <tr key={key}>
                           <td>{val.title}</td>
-                          <td>{val.voted}/{val.voters}</td>
+                          {orgList
+                          .filter((org) => org.orgName === val.organization)
+                          .map((orgItem, key) => {
+                            return (
+                              <td key={key}>{val.voted}/{orgItem.members.length}</td>
+                            )
+                          })}
                         </tr>
                       )
                     })}
@@ -456,7 +493,14 @@ const handleAddPosition = async (e) => {
                           <td>{key+1}</td>
                           <td>{val.title}</td>
                           <td>{val.voted}</td>
-                          <td>{val.voters}</td>
+                          {orgList
+                          .filter((org) => org.orgName === val.organization)
+                          .map((orgItem, key) => {
+                            return (
+                              <td key={key}>{orgItem.members.length}</td>
+                            )
+                          })}
+                          
                           <td><button
                             onClick={(e)=>{
                               setbtnStart(e.target.innerText)
@@ -501,6 +545,13 @@ const handleAddPosition = async (e) => {
             <div className='addElectionEvent'>
                 <form className='frmAddElectionEvent'>
                   <div className='row'>
+                    <div className="mb-3">
+                        <label htmlFor='org'>Organization</label>
+                        <select value={contractOrg} onChange={(e) => setcontractOrg(e.target.value)} className="form-select" name="org" aria-label="Default select example">
+                            <option defaultValue="" value="">Select Organization</option>
+                            {orgList.map((val, key) =><option key={key}>{val.orgName}</option>)}
+                        </select>
+                    </div>
                     <div className='mb-3'>
                         <label className='form-label' htmlFor="inpTitle">Title</label>
                         <input
