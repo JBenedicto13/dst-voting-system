@@ -19,11 +19,9 @@ function Election() {
         .then((res) => {
           setElectionList(res.data);
           setElectionListCount(res.data.length);
-          populateTempDataDisplay()
+          populateTempDataDisplay();
         })
-        .catch((err) => {
-          console.log(err);
-        })
+        .catch((err) => console.log(err))
     }
 
     async function loadPositionData(address) {
