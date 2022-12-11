@@ -17,6 +17,7 @@ function Election() {
     const loadElectionData = async () => {
         http.get("/election/load")
         .then((res) => {
+            console.log(res);
           setElectionList(res.data);
           setElectionListCount(res.data.length);
           populateTempDataDisplay();
