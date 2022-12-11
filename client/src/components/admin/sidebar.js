@@ -6,7 +6,6 @@ import candidate1 from '../../assets/candidate1.png';
 
 const Sidebar = () => {
 
-  
   return (
     <div className='sidebar'>
       <p className='date'><GetCurrentDate /></p>

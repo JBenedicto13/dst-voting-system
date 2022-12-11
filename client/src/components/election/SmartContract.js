@@ -1,11 +1,11 @@
 import {React, useState, useEffect } from 'react';
 
 import { ethers } from 'ethers';
-import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
-
-const ElectionContract = "0xe42473F1e11418c7D9C6E302E082008D9103D813";
+// import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
 
 const SmartContract = () => {
+  const [abi, setabi] = useState("");
+  const ElectionContract = "0xe42473F1e11418c7D9C6E302E082008D9103D813";
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [signerContract, setSignerContract] = useState(null);
@@ -19,8 +19,8 @@ const SmartContract = () => {
     if (typeof window.ethereum != "undefined") {
        const provider = new ethers.providers.Web3Provider(window.ethereum);
        const signer = provider.getSigner();
-       const signerContract = new ethers.Contract(ElectionContract, ElectionSrc.abi, signer);
-       const providerContract = new ethers.Contract(ElectionContract, ElectionSrc.abi, provider);
+       const signerContract = new ethers.Contract(ElectionContract, abi, signer);
+       const providerContract = new ethers.Contract(ElectionContract, abi, provider);
 
        setProvider(provider);
        setSigner(signer);
