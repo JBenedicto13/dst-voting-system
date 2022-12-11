@@ -1,8 +1,5 @@
 import React from "react";
 import '../../styles/userguide.css';
-import img1 from '../../assets/bg1.jpg';
-import img2 from '../../assets/bg2.jpg';
-import img3 from '../../assets/bg3.jpg';
 import gif from '../../assets/gif.jpg';
 
 function UserGuide() {

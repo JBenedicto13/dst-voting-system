@@ -7,30 +7,6 @@ import Swal from "sweetalert2";
 
 const Register = ({user}) => {
 
-    //SweetAlert2.0
-    
-    function successAlert(res) {
-        Swal.fire({
-            title: "Success",
-            text: res.data,
-            icon: "success",
-            iconColor: 'var(--maroon)',
-            confirmButtonColor: 'var(--maroon)',
-            background: 'var(--white)'
-        })
-    }
-
-    function errorAlert(err) {
-        Swal.fire({
-            title: "Error",
-            text: err,
-            icon: "error",
-            iconColor: 'var(--maroon)',
-            confirmButtonColor: 'var(--maroon)',
-            background: 'var(--white)'
-        })
-    }
-
     //useState for user inputs
     let username;
     const [lastName, setLastName] = useState("");
@@ -81,7 +57,7 @@ const Register = ({user}) => {
         } else {
             setDisableSubmit(true);
         }
-    },[])
+    },[user, navigate])
 
     const getUsername = () => {
         let text = email;
@@ -206,9 +182,9 @@ const Register = ({user}) => {
                                         orgName = "College of Education";
                                     break;
 
-                                    case "BSIT": 
+                                    default: 
                                         orgName = "College of Computing Studies";
-                                    break;
+
                                 }
 
                                 http.post("/organizations/members/add", {

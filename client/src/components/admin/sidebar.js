@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import GetCurrentDate from '../../utils/GetCurrentDate';
 import '../admin/adminStyle/sidebar.css';
 import {SideBarData} from './SideBarData.js';
 import candidate1 from '../../assets/candidate1.png';
 
-const Sidebar = ({admin}) => {
+const Sidebar = () => {
 
-  useEffect(() => {
-    console.log(admin);
-  }, [])
   
   return (
     <div className='sidebar'>
@@ -18,7 +15,7 @@ const Sidebar = ({admin}) => {
           return (
             <li
               className='sidebaritem'
-              id={window.location.pathname == val.link ? "active" : ""}
+              id={window.location.pathname === val.link ? "active" : ""}
               key={key} onClick={()=>{
               window.location.pathname = val.link;
             }}>

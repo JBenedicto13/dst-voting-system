@@ -5,9 +5,7 @@ import "../../styles/reglogForm.css";
 
 const Login = ({user}) => {
 
-    let username;
     const [email, setEmail] = useState("");
-    // const [walletAddress, setWalletAddress] = useSession('');
     const [password, setPassword] = useState("");
 
     //Show Errors
@@ -36,10 +34,6 @@ const Login = ({user}) => {
         document.getElementById("walletNotFound").style.display = "none";
         document.getElementById("walletNotFound").classList.remove("show");
     }
-    const handleShowWallet = () => {
-        document.getElementById("walletNotFound").style.display = "block";
-        document.getElementById("walletNotFound").classList.add("show");
-    }
 // Close Open Modals
 
     let navigate = useNavigate();
@@ -53,7 +47,7 @@ const Login = ({user}) => {
         } else {
             setDisableSubmit(true);
         }
-    })
+    },[user, navigate])
 
     function checkBlank(isBlank) {
         isBlank = false;
@@ -144,9 +138,7 @@ const Login = ({user}) => {
 /* Validations */
 
 /* Web3 */
-    const { ethers } = require("ethers");
     const [walletButton, setWalletButton] = useState("Connect Wallet");
-    const [wallet, setWallet] = useState("");
 
     const networks = {
         mumbai: {
@@ -166,7 +158,6 @@ const Login = ({user}) => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
         
-        setWallet(account);
         verifyWallet(account);
     }
 
@@ -195,7 +186,6 @@ const Login = ({user}) => {
         e.preventDefault();
         if (typeof window.ethereum !== 'undefined') {
             await requestAccount();
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
             handleNetworkSwitch("mumbai");
         } else {
             console.log('Please install Metamask');
@@ -249,14 +239,10 @@ const Login = ({user}) => {
             alert('Metamask not found, please install it to be able to login through wallet');
         }
         
-        // window.ethereum.on('accountsChanged', function () {
-        //     console.log("Account Changed!");
-        // });
-        
         return () => {
             window.ethereum.removeListener("chainChanged", networkChanged);
         };
-    }, []);
+    });
 
 /* Web3 */
 
@@ -266,7 +252,6 @@ const Login = ({user}) => {
                 
                 <h1 className='head-title'>Login</h1>
                 <div className="row mb-3 mt-3">
-                    {/* <button className="btn btn-warning" onClick={signMessage}>{walletButton}</button> */}
                     <button className="btn btn-danger" onClick={connectWallet}>{walletButton}</button>
                     {showError && <p className='spanErrors'>{errMsg}</p>}
                 </div>

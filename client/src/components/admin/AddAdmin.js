@@ -12,17 +12,18 @@ const AddAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const {data} = await http.post("/admin", {
+            await http.post("/admin", {
                 lastName,
                 firstName,
                 email,
                 walletAddress,
                 password,
-            });
-            localStorage.setItem("admin-token", data);
-            document.getElementById('btnCancel').click();
-            alert("Account added successfully");
-            clearForm();
+            }).then((data) => {
+                localStorage.setItem("admin-token", data);
+                document.getElementById('btnCancel').click();
+                alert("Account added successfully");
+                clearForm();
+            })
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 console.log(error);

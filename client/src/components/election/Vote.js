@@ -1,6 +1,5 @@
 import {React, useState, useEffect} from 'react';
 import '../../styles/vote.css';
-import candidate1 from '../../assets/candidate1.png';
 import candidate2 from '../../assets/candidate2.png';
 import dstsc_logo from '../../assets/logos/dstsc-logo.png';
 
@@ -12,17 +11,6 @@ import Swal from 'sweetalert2';
 const Vote = ({user}) => {
 
   //SweetAlert2.0
-  
-  function successAlert(res) {
-    Swal.fire({
-        title: "Success",
-        text: res.data,
-        icon: "success",
-        iconColor: 'var(--maroon)',
-        confirmButtonColor: 'var(--maroon)',
-        background: 'var(--white)'
-    })
-  }
 
   function errorAlert(err) {
       Swal.fire({
@@ -36,7 +24,6 @@ const Vote = ({user}) => {
   }
   
   const {address} = useParams();
-  const [walletAddress, setwalletAddress] = useState("");
 
   var email = "";
   var orgName = "";
@@ -44,8 +31,6 @@ const Vote = ({user}) => {
   const [emailState, setemailState] = useState("");
   const [orgNameState, setOrgNameState] = useState("");
 
-  const [isVoted, setisVoted] = useState(false);
-  const [electionData, setelectionData] = useState({});
   const [selectedValue, setSelectedValue] = useState([]);
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -59,7 +44,6 @@ const Vote = ({user}) => {
 
     await http.post("/election/view", {address})
         .then((res) => {
-          setelectionData(res.data)
           orgName = res.data.organization;
           setpositionList(res.data.positions)
           updateEthers(res.data.abi)
@@ -181,7 +165,6 @@ const Vote = ({user}) => {
 
   useEffect(()=>{
     fetchABI()
-    setwalletAddress(user.walletAddress)
     email = (user.username + "@dhvsu.edu.ph")
   },[])
   
@@ -279,7 +262,7 @@ const Vote = ({user}) => {
                 return (
                   <div key={index}>
                     {candidateList
-                    .filter((chosen) => chosen.candidate[0].id == vote)
+                    .filter((chosen) => chosen.candidate[0].id === vote)
                     .map((candidate, key) => {
                       return (
                         <p key={candidate._id}><b>{candidate.candidate[0].position}:</b> {candidate.lastName}, {candidate.firstName}</p>

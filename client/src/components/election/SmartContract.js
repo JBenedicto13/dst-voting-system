@@ -1,5 +1,4 @@
 import {React, useState, useEffect } from 'react';
-import RegCanList from './RegCanList';
 
 import { ethers } from 'ethers';
 import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';

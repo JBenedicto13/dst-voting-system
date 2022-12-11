@@ -9,7 +9,7 @@ function Header({user}) {
         if (user) {
             navigate("-1");
         }
-    },[])
+    },[user, navigate])
     return (
         <section className="headerSec">
             <div className="container contHead">

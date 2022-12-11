@@ -43,9 +43,6 @@ const Voters = () => {
     const courseOptions = ["BSBA", "BSHM", "BSED", "BSIT"];
     const yearLevelOptions = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
     const sectionOptions = ["A", "B", "C", "D"];
-
-    const [name, setname] = useState("");
-    const [mobile, setmobile] = useState("");
     const [userList, setuserList] = useState([]);
 
     //Show Errors
@@ -64,8 +61,6 @@ const Voters = () => {
     const [errMsgS, setErrMsgS] = useState("");
     const [errMsgE, setErrMsgE] = useState("");
     const [errMsgW, setErrMsgW] = useState("");
-    const [errMsgP, setErrMsgP] = useState("");
-    const [errMsgCP, setErrMsgCP] = useState("");
 
     const [disableSubmit, setDisableSubmit] = useState(true);
 
@@ -314,9 +309,9 @@ const Voters = () => {
                                     orgName = "College of Education";
                                 break;
 
-                                case "BSIT": 
+                                default: 
                                     orgName = "College of Computing Studies";
-                                break;
+                                
                             }
                             http.post("/organizations/members/add", {
                                 orgName: orgName,

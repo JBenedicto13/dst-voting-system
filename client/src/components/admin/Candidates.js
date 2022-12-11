@@ -4,10 +4,10 @@ import '../admin/adminStyle/voters.css';
 import http from "../../utils/http";
 import Swal from 'sweetalert2';
 import { ethers } from 'ethers';
-import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
-import { id } from 'ethers/lib/utils';
+// import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
+// import { id } from 'ethers/lib/utils';
 
-const ElectionContract = "0xe42473F1e11418c7D9C6E302E082008D9103D813";
+// const ElectionContract = "0xe42473F1e11418c7D9C6E302E082008D9103D813";
 
 const Candidates = () => {
     //SweetAlert2.0
@@ -78,8 +78,6 @@ const Candidates = () => {
     const [errMsgS, setErrMsgS] = useState("");
     const [errMsgE, setErrMsgE] = useState("");
     const [errMsgW, setErrMsgW] = useState("");
-    const [errMsgP, setErrMsgP] = useState("");
-    const [errMsgCP, setErrMsgCP] = useState("");
     const [errMsgEN, seterrMsgEN] = useState("");
     const [errMsgRP, seterrMsgRP] = useState("");
     const [errMsgPT, seterrMsgPT] = useState("");
@@ -112,54 +110,6 @@ const Candidates = () => {
         }
     }
     
-
-    const getUsernamePassword = () => {
-        let text = email;
-        let i = text.indexOf("@");
-        username = text.substr(0, i);
-        password = username;
-    };
-
-    function checkBlank(isBlank) {
-        isBlank = false;
-        if (lastName === "") {
-            setErrMsgLN("Please enter your last name");
-            setShowLastName(true);
-            isBlank = true;
-        }
-        if (firstName === "") {
-            setErrMsgFN("Please enter your first name");
-            setShowFirstName(true);
-            isBlank = true;
-        }
-        if (course === "") {
-            setErrMsgC("Please enter your course");
-            setShowCourse(true);
-            isBlank = true;
-        }
-        if (yearLevel === "") {
-            setErrMsgY("Please enter your year level");
-            setShowYearLevel(true);
-            isBlank = true;
-        }
-        if (section === "") {
-            setErrMsgS("Please enter your section");
-            setShowSection(true);
-            isBlank = true;
-        }
-        if (email === "") {
-            setErrMsgE("Please enter your email");
-            setShowEmail(true);
-            isBlank = true;
-        }
-        if (walletAddress === "") {
-            setErrMsgW("Please enter your wallet address");
-            setShowWalletAddress(true);
-            isBlank = true;
-        }
-        return isBlank;
-    }
-
     function candidateCheckBlank(isBlank) {
         isBlank = false;
         if (electionName === "") {
@@ -182,62 +132,6 @@ const Candidates = () => {
     }
 
 /* Validations */
-  var emailValidator = require('validator');
-  //Regex
-    function dhvsuEmailRegex(input) {
-      let regex = /\d*(@dhvsu.edu.ph)/i;
-      return regex.test(input);
-    }
-  
-    function walletRegex(input) {
-      let regex = /^0x[a-fA-F0-9]{40}$/g;
-      return regex.test(input);
-    }
-
-    const lastnameValidation = async () => {
-        if (lastName === "") {
-            setErrMsgLN("Please enter your last name");
-            setShowLastName(true);
-        } else {
-            setShowLastName(false);
-        }
-    }
-
-    const firstnameValidation = async () => {
-        if (firstName === "") {
-            setErrMsgFN("Please enter your first name");
-            setShowFirstName(true);
-        } else {
-            setShowFirstName(false);
-        }
-    }
-
-    const courseValidation = async () => {
-        if (course === "") {
-            setErrMsgC("Please select a course");
-            setShowCourse(true);
-        } else {
-            setShowCourse(false);
-        }
-    }
-
-    const yearLevelValidation = async () => {
-        if (yearLevel === "") {
-            setErrMsgY("Please select a year level");
-            setShowYearLevel(true);
-        } else {
-            setShowYearLevel(false);
-        }
-    }
-
-    const sectionValidation = async () => {
-        if (section === "") {
-            setErrMsgS("Please select a section");
-            setShowSection(true);
-        } else {
-            setShowSection(false);
-        }
-    }
 
     const electionNameValidation = async () => {
         if (electionName === "") {
@@ -265,63 +159,7 @@ const Candidates = () => {
             setshowPartylist(false);
         }
     }
-
-    const emailValidation = async () => {
-        if (email === "") {
-            setErrMsgE("Please enter your email");
-            setShowEmail(true);
-        } else {
-            var emailValidity = emailValidator.isEmail(email);
-            var dhvsuValidity = dhvsuEmailRegex(email);
-            if (emailValidity && dhvsuValidity) {
-                
-                try {
-                    await http.post("/check/email", {
-                        email,
-                    })
-                    .then(setShowEmail(false));
-                } catch (error) {
-                    console.log(error);
-                    if (error.response && error.response.status === 400) {
-                        setErrMsgE(error.response.data);
-                        setShowEmail(true);
-                    }
-                }
-            } else {
-                setErrMsgE("Please enter a valid DHVSU Email Address");
-                setShowEmail(true);
-            }
-        }
-    }
   
-    const walletAddressValidation = async () => {
-        if (walletAddress === "") {
-          setErrMsgW("Please enter your wallet address");
-          setShowWalletAddress(true);
-        } else {
-          setShowWalletAddress(false);
-          var walletValidity = walletRegex(walletAddress);
-          if (walletValidity) {
-                try {
-                    await http.post("/check/wallet", {
-                        walletAddress,
-                    }).then(setShowWalletAddress(false));
-                    
-                } catch (error) {
-                    console.log(error);
-                    if (error.response && error.response.status === 400) {
-                        setErrMsgW(error.response.data);
-                        setShowWalletAddress(true);
-                    }
-                }
-          }
-          else {
-            setErrMsgW("Please enter a valid wallet address");
-            setShowWalletAddress(true);
-          }
-        }
-      }
-
     function validateForm() {
         if (showEmail) {
             return true;
@@ -347,35 +185,6 @@ const Candidates = () => {
         setelectionName("");
         setrunningPosistion("");
         setpartyList("");
-    }
-
-    const saveData = async(e) => {
-        e.preventDefault();
-        if (!checkBlank()) {
-            getUsernamePassword();
-            try {
-                const {data} = await http.post("/user/addVoter", {
-                    lastName,
-                    firstName,
-                    course,
-                    yearLevel,
-                    section,
-                    email,
-                    username,
-                    walletAddress,
-                    password,
-                });
-                alert(data);
-                clearForm();
-                loadUserData();
-                document.getElementById('btnCloseModal').click();
-            } catch (error) {
-                if (error.response && error.response.status === 400) {
-                    console.log(error);
-                }
-            }
-        }
-        
     }
 
     const loadUserData = async() => {
@@ -477,13 +286,12 @@ const Candidates = () => {
     const [signer, setSigner] = useState(null);
     const [signerContract, setSignerContract] = useState(null);
     const [providerContract, setProviderContract] = useState(null);
-    const [candidateCount, setcandidateCount] = useState(0);
 
     const updateEthers = async (_address, _abi) => {
         const _walletAddress = [];
         const _position = [];
 
-        deploymentData.map((val, key) => {
+        deploymentData.map((val) => {
             _walletAddress.push(val.walletAddress)
             _position.push(val.candidate[0].position)
         });
@@ -558,7 +366,7 @@ const Candidates = () => {
         } else {
             setDisableSubmit(true);
         }
-    }, [])
+    }, [loadCandidatesData, loadUserData])
 
   return (
     <div className='voters'>

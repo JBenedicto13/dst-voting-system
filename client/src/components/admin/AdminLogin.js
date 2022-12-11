@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
 
 const AdminLogin = ({admin}) => {
-    let username;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     //Show Errors
     const [showEmail, setShowEmail] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [showError, setShowError] = useState(false);
    
     const [errMsgE, setErrMsgE] = useState("");
     const [errMsgP, setErrMsgP] = useState("");
@@ -30,7 +28,7 @@ const AdminLogin = ({admin}) => {
         } else {
             setDisableSubmit(true);
         }
-    })
+    }, [admin, navigate, validateForm])
 
     function checkBlank(isBlank) {
         isBlank = false;
