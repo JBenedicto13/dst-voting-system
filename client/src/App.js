@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react";
+import {React, useState} from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
 
@@ -7,6 +7,8 @@ import Navbar from "./components/navbar/Navbar";
 import Routing from "./components/routing/Routing";
 import setAuthToken from "./utils/setAuthToken";
 import setAuthTokenAdmin from "./utils/setAuthTokenAdmin";
+
+
 
 let logUser;
 if (localStorage.getItem("token")) {
@@ -23,6 +25,7 @@ if (localStorage.getItem("admin-token")) {
 }
 
 const App = () => {
+
     const [user, setUser] = useState(logUser);
     const [admin, setAdmin] = useState(logAdmin);
 

@@ -161,7 +161,7 @@ const Vote = ({user}) => {
             text: res,
             icon: "info"
           })
-        .then(()=> window.location = "/");
+          .then(()=> window.location = "/");
         })
       })
     } catch(err){

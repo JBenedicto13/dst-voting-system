@@ -20,10 +20,6 @@ import AdminLogout from "../admin/AdminLogout";
 import AdminElections from "../admin/Elections";
 import AdminVoters from "../admin/Voters";
 import AdminCandidates from "../admin/Candidates";
-import UnrouteUser from "./UnrouteUser";
-import UnrouteAdmin from "./UnrouteAdmin";
-import Navbar from "../navbar/Navbar";
-import Sidebar from "../admin/Sidebar";
 
 
 const Routing = ({user, admin}) => {
@@ -53,9 +49,6 @@ const Routing = ({user, admin}) => {
                 <Route path='admin/candidates' element={<AdminCandidates />} />
             </Route>
 
-            <Route element={<UnrouteAdmin admin={admin} />}>
-                <Route element={<Sidebar admin={admin} />} />
-            </Route>
         </Routes>
     );
 };
