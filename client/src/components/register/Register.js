@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
-import MetamaskPDF from '../../assets/files/CreateMetamaskGuide.pdf';
+import MetamaskCpPDF from '../../assets/files/MetaMaskAccntSetupPhone.pdf';
+import MetamaskDesktopPDF from '../../assets/files/MetaMask-SetupDesktop.pdf';
 import Swal from "sweetalert2";
+import {isMobile} from 'react-device-detect';
 
 const Register = ({user}) => {
 
@@ -184,7 +186,6 @@ const Register = ({user}) => {
 
                                     default: 
                                         orgName = "College of Computing Studies";
-
                                 }
 
                                 http.post("/organizations/members/add", {
@@ -376,7 +377,11 @@ const Register = ({user}) => {
   /* Validations */
 
     function openPdf() {
-        window.open(MetamaskPDF);
+        if (isMobile) {
+            window.open(MetamaskCpPDF);
+        } else {
+            window.open(MetamaskDesktopPDF);
+        }
     }
   
     return (
