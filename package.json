@@ -1,5 +1,22 @@
 {
+  "name": "dst-voting-system",
+  "version": "3.0.0",
+  "description": "Deploying capstone project into vercel",
+  "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
+
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Benedicto, John Benedict",
+  "license": "ISC",
   "dependencies": {
-    "pdfjs": "^2.4.7"
+    "pdfjs": "^2.4.7",
+    "express": "4.18.2",
+    "nodemon": "2.0.20"
   }
 }
