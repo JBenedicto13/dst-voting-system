@@ -37,6 +37,11 @@ const Accounts = () => {
     const [email, setEmail] = useState("");
     const [walletAddress, setWalletAddress] = useState("");
 
+    const courseOptions = ["BSBA", "BSHM", "BSED", "BSIT"];
+    const yearLevelOptions = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+    const sectionOptions = ["A", "B", "C", "D"];
+    const [adminlist, setadminlist] = useState([]);
+
     //Show Errors
     const [showLastName, setShowLastName] = useState(false);
     const [showFirstName, setShowFirstName] = useState(false);
@@ -50,14 +55,13 @@ const Accounts = () => {
 
     const [disableSubmit, setDisableSubmit] = useState(true);
 
-    const [updatedUserData, setupdatedUserData] = useState({});
+    const [updatedAdminData, setupdatedAdminData] = useState({});
 
     const getUsernamePassword = () => {
         let text = email;
         let i = text.indexOf("@");
         username = text.substr(0, i);
         password = username;
-        console.log(password);
     };
 
     function checkBlank(isBlank) {
@@ -111,33 +115,6 @@ const Accounts = () => {
         }
     }
 
-    const courseValidation = async () => {
-        if (course === "") {
-            setErrMsgC("Please select a course");
-            setShowCourse(true);
-        } else {
-            setShowCourse(false);
-        }
-    }
-
-    const yearLevelValidation = async () => {
-        if (yearLevel === "") {
-            setErrMsgY("Please select a year level");
-            setShowYearLevel(true);
-        } else {
-            setShowYearLevel(false);
-        }
-    }
-
-    const sectionValidation = async () => {
-        if (section === "") {
-            setErrMsgS("Please select a section");
-            setShowSection(true);
-        } else {
-            setShowSection(false);
-        }
-    }
-
     const emailValidation = async () => {
         if (email === "") {
             setErrMsgE("Please enter your email");
@@ -147,7 +124,7 @@ const Accounts = () => {
             if (emailValidity) {
                 
                 try {
-                    await http.post("/check/email", {
+                    await http.post("/admin/email", {
                         email,
                     })
                     .then(setShowEmail(false));
@@ -174,7 +151,7 @@ const Accounts = () => {
           var walletValidity = walletRegex(walletAddress);
           if (walletValidity) {
                 try {
-                    await http.post("/check/wallet", {
+                    await http.post("/admin/wallet", {
                         walletAddress,
                     }).then(setShowWalletAddress(false));
                     
@@ -208,9 +185,6 @@ const Accounts = () => {
     function clearForm() {
         setLastName("");
         setfirstName("");
-        setCourse("");
-        setYearLevel("");
-        setSection("");
         setEmail("");
         setWalletAddress("");
         username = "";
@@ -220,7 +194,7 @@ const Accounts = () => {
     const saveData = async(e) => {
         e.preventDefault();
         Swal.fire({
-            title: 'Are you sure you want to add this voter?',
+            title: 'Are you sure you want to add this new admin?',
             icon: 'question',
             iconColor: 'var(--maroon)',
             showCancelButton: true,
@@ -233,73 +207,38 @@ const Accounts = () => {
             if (result.isConfirmed) {
                 if (!checkBlank()) {
                     getUsernamePassword();
-                    var candidate = {
-                        "electionName": "",
-                        "position": "",
-                        "partyList": "",
-                        "votes": 0,
-                        "isDeployed": false
-                    };
-        
-                    http.post("/user/addVoter", {
+                    
+                    http.post("/admin/register", {
                         lastName,
                         firstName,
-                        course,
-                        yearLevel,
-                        section,
-                        isCandidate: false,
-                        candidate,
                         email,
                         username,
                         walletAddress,
                         password : password,
-                    }).then((res) => {
-
-                        http.post("/organizations/members/add", {
-                            orgName: "DHVSU Sto. Tomas Student Council",
-                            email: email,
+                        role: "Admin"
+                    })
+                    .then(() => {
+                        Swal.fire({
+                            title: 'Succes!',
+                            icon: 'success',
+                            iconColor: 'var(--maroon)',
+                            background: 'var(--white)',
+                            confirmButtonColor: "var(--maroon)",
+                            confirmButtonText: "OK"
                         })
-                        .then(() => {
-                            var orgName = "";
-                            switch(course) {
-                                case "BSBA": 
-                                    orgName = "College of Business Administration";
-                                break;
-
-                                case "BSHM":
-                                    orgName = "College of Hospitality and Management";
-                                break;
-
-                                case "BSED":
-                                    orgName = "College of Education";
-                                break;
-
-                                default: 
-                                    orgName = "College of Computing Studies";
-                                
-                            }
-                            http.post("/organizations/members/add", {
-                                orgName: orgName,
-                                email: email,
-                            }).then((res) => console.log(res));
-                            successAlert(res)
-                            clearForm()
-                            loadUserData()
-                            document.getElementById('btnCloseModal').click();
-                        })
-                    }).catch((err) => errorAlert(err))
-                    
+                        document.getElementById('btnCloseModal').click();
+                        loadAdminData();
+                    })
+                    .catch((err) => errorAlert(err))
                 }
             }
-        })
-
-        
+        }) 
     }
 
-    const loadUserData = async() => {
+    const loadAdminData = async() => {
         try {
-            const {data} = await http.get("/user/view");
-            setuserList(data);
+            const {data} = await http.get("/admin/view");
+            setadminlist(data);
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 console.log(error);
@@ -310,7 +249,7 @@ const Accounts = () => {
     const deleteUser = (id) => {
 
         Swal.fire({
-            title: 'Are you sure you want to delete this voter?',
+            title: 'Are you sure you want to delete this admin?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             confirmButtonText: 'Yes',
@@ -322,9 +261,9 @@ const Accounts = () => {
             background: 'var(--white)'
         }).then((result) => {
             if (result.isConfirmed) {
-                http.delete(`/user/deleteVoter/${id}`)
+                http.delete(`/admin/delete/${id}`)
                 .then((res) => successAlert(res))
-                .then(() => loadUserData())
+                .then(() => loadAdminData())
                 .catch((err) => errorAlert(err))
                 
             }
@@ -332,12 +271,12 @@ const Accounts = () => {
     }
 
     const updateUser = (val) => {
-        setupdatedUserData(val);
+        setupdatedAdminData(val);
     }
 
     const updateChange = (e) => {
         const { name, value } = e.target; //not literally the name state variable
-        setupdatedUserData((prev) => {
+        setupdatedAdminData((prev) => {
             return {
                 ...prev,
                 [name]: value,
@@ -345,20 +284,23 @@ const Accounts = () => {
         });
     }
 
-    const saveUpdatedUser = () => {
-        http.put(`/user/editVoter/${updatedUserData._id}`, updatedUserData)
-            .then((res) => alert(res.data))
+    const saveUpdatedAdmin = () => {
+        http.put(`/admin/edit/${updatedAdminData._id}`, updatedAdminData)
+            .then((res) => {
+                successAlert(res).then(() => {
+                    document.getElementById('btnCloseModal').click();
+                    loadAdminData();
+                })
+            })
             .catch((error) => {
                 if (error.response && error.response.status === 400) {
                     console.log(error);
                 }
             })
-        document.getElementById('btnCloseModal').click();
-        loadUserData();
     }
 
     useEffect(() => {
-        loadUserData()
+        loadAdminData()
         
         if (validateForm() === false) {
             setDisableSubmit(false);
@@ -372,35 +314,31 @@ const Accounts = () => {
         <Sidebar />
         <div className='voters-main-container'>
             <div className='tblVoters'>
-                <h2>Voters List</h2>
+                <h2>Accounts List</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>Id</th>
                         <th>Last Name</th>
                         <th>First Name</th>
-                        <th>Course</th>
-                        <th>Year Level</th>
-                        <th>Section</th>
-                        <th>Username</th>
                         <th>Email</th>
                         <th>Wallet Address</th>
+                        <th>Role</th>
                         <th colSpan="2" className='colActions'>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {userList.map((val, key) => {
+                        {adminlist
+                        .filter(admin => admin.role === "Admin")
+                        .map((val, key) => {
                             return (
                             <tr key={key}>
                                 <td>{key+1}</td>
                                 <td>{val.lastName}</td>
                                 <td>{val.firstName}</td>
-                                <td>{val.course}</td>
-                                <td>{val.yearLevel}</td>
-                                <td>{val.section}</td>
-                                <td>{val.username}</td>
                                 <td>{val.email}</td>
                                 <td>{val.walletAddress}</td>
+                                <td>{val.role}</td>
                                 <td className='tdActions'><button onClick={() => deleteUser(val._id)} className='btn btn-danger btnDelete'>DELETE</button></td>
                                 <td className='tdActions'>
                                     <button onClick={() => updateUser(val)} type="button" className="btn btn-warning btnEdit" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -413,7 +351,7 @@ const Accounts = () => {
                     </tbody>
                 </table>
                 <div className='tfootVoterList'>
-                    <button type='button' className='btn btn-warning' data-bs-toggle="modal" data-bs-target="#addModal">ADD VOTER</button>
+                    <button type='button' className='btn btn-warning' data-bs-toggle="modal" data-bs-target="#addModal">ADD ADMIN</button>
                 </div>
             </div>
         </div>
@@ -424,7 +362,7 @@ const Accounts = () => {
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h2 className="modal-title fs-5" id="addModalLabel">ADD NEW VOTER</h2>
+                    <h2 className="modal-title fs-5" id="addModalLabel">ADD NEW ADMIN</h2>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body mx-3">
@@ -457,38 +395,12 @@ const Accounts = () => {
                                 {showFirstName && <p className='spanErrors'>{errMsgFN}</p>}
                             </div>
                         </div>
-                        <div className="row mb-3">
-                            <div className="col mb-3">
-                                <label htmlFor='course'>Course</label>
-                                <select value={course} onChange={(e) => setCourse(e.target.value)} className="form-select" name="course" aria-label="Default select example" onBlur={courseValidation}>
-                                    <option defaultValue="" value="">Select Course</option>
-                                    {courseOptions.map((val, key) =><option key={key}>{val}</option>)}
-                                </select>
-                                {showCourse && <p className='spanErrors'>{errMsgC}</p>}
-                            </div>
-                            <div className="col mb-3">
-                                <label htmlFor='yearLevel'>Year Level</label>
-                                <select value={yearLevel} onChange={(e) => setYearLevel(e.target.value)} className="form-select" name="yearLevel" aria-label="Default select example" onBlur={yearLevelValidation}>
-                                    <option defaultValue="" value="">Select Year Level</option>
-                                    {yearLevelOptions.map((val, key) =><option key={key}>{val}</option>)}
-                                </select>
-                                {showYearLevel && <p className='spanErrors'>{errMsgY}</p>}
-                            </div>
-                            <div className="col mb-3">
-                                <label htmlFor='section'>Section</label>
-                                <select value={section} onChange={(e) => setSection(e.target.value)} className="form-select" name="section" aria-label="Default select example" onBlur={sectionValidation}>
-                                    <option defaultValue="" value="">Select Section</option>
-                                    {sectionOptions.map((val, key) =><option key={key}>{val}</option>)}
-                                </select>
-                                {showSection && <p className='spanErrors'>{errMsgS}</p>}
-                            </div>
-                        </div>
-
+                        
                         <div className="row mb-3">
                             <label htmlFor='Email'>Email</label>
                             <input
                                 className='form-control'
-                                placeholder="12345678@dhvsu.edu.ph"
+                                placeholder="juandelacruz@gmail.com"
                                 type='email'
                                 name='email'
                                 onChange={(e) => {setEmail(e.target.value)}}
@@ -514,7 +426,7 @@ const Accounts = () => {
                 </div>
                 <div className="modal-footer">
                     <button id='btnCloseModal' type="button" className="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
-                    <button type="button"className="btn btn-warning btnAdd" onClick={saveData} disabled={disableSubmit}>ADD VOTER</button>
+                    <button type="button"className="btn btn-warning btnAdd" onClick={saveData} disabled={disableSubmit}>ADD ADMIN</button>
                 </div>
                 </div>
             </div>
@@ -540,7 +452,7 @@ const Accounts = () => {
                                     type='text'
                                     name='lastName'
                                     onChange={updateChange}
-                                    value={updatedUserData.lastName ? updatedUserData.lastName : ""}
+                                    value={updatedAdminData.lastName ? updatedAdminData.lastName : ""}
                                 />
                             </div>
                             <div className="col mb-3">
@@ -551,34 +463,10 @@ const Accounts = () => {
                                     type='text'
                                     name='firstName'
                                     onChange={updateChange}
-                                    value={updatedUserData.firstName ? updatedUserData.firstName : ""}
+                                    value={updatedAdminData.firstName ? updatedAdminData.firstName : ""}
                                 />
                             </div>
                         </div>
-                        <div className="row mb-3">
-                            <div className="col mb-3">
-                                <label htmlFor='course'>Course</label>
-                                <select value={updatedUserData.course} onChange={updateChange} className="form-select" name="course" aria-label="Default select example">
-                                    <option defaultValue="" value="">Select Course</option>
-                                    {courseOptions.map((val, key) =><option key={key}>{val}</option>)}
-                                </select>
-                            </div>
-                            <div className="col mb-3">
-                                <label htmlFor='yearLevel'>Year Level</label>
-                                <select value={updatedUserData.yearLevel} onChange={updateChange} className="form-select" name="yearLevel" aria-label="Default select example">
-                                    <option defaultValue="" value="">Select Year Level</option>
-                                    {yearLevelOptions.map((val, key) =><option key={key}>{val}</option>)}
-                                </select>
-                            </div>
-                            <div className="col mb-3">
-                                <label htmlFor='section'>Section</label>
-                                <select value={updatedUserData.section} onChange={updateChange} className="form-select" name="section" aria-label="Default select example">
-                                    <option defaultValue="" value="">Select Section</option>
-                                    {sectionOptions.map((val, key) =><option key={key}>{val}</option>)}
-                                </select>
-                            </div>
-                        </div>
-
                         <div className="row mb-3">
                             <label htmlFor='Email'>Email</label>
                             <input
@@ -587,7 +475,7 @@ const Accounts = () => {
                                 type='email'
                                 name='email'
                                 onChange={updateChange}
-                                value={updatedUserData.email ? updatedUserData.email : ""}
+                                value={updatedAdminData.email ? updatedAdminData.email : ""}
                             />
                         </div>
                         <div className="row mb-3">
@@ -598,14 +486,14 @@ const Accounts = () => {
                                 type='text'
                                 name='walletAddress'
                                 onChange={updateChange}
-                                value={updatedUserData.walletAddress ? updatedUserData.walletAddress : ""}
+                                value={updatedAdminData.walletAddress ? updatedAdminData.walletAddress : ""}
                             />
                         </div>
                     </form>
                 </div>
                 <div className="modal-footer">
                     <button id='btnCloseModal' type="button" className="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
-                    <button type="button"className="btn btn-warning btnAdd" onClick={() => saveUpdatedUser()}>SAVE</button>
+                    <button type="button"className="btn btn-warning btnAdd" onClick={() => saveUpdatedAdmin()}>SAVE</button>
                 </div>
                 </div>
             </div>

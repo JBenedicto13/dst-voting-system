@@ -39,6 +39,7 @@ const Login = ({user}) => {
     let navigate = useNavigate();
 
     useEffect(() => {
+        // checkExpiry();
         if (user) {
             navigate(-1);
         }
@@ -63,6 +64,26 @@ const Login = ({user}) => {
         }
         return isBlank;
     }
+
+    // const checkExpiry = async () => {
+    //     await http.post("/user/expiry", {email: "2019988131@dhvsu.edu.ph"})
+    //         .then((res) => {
+
+    //             let newDate = new Date()
+    //             let now = newDate.getFullYear();
+
+    //             var isExpire = (now > res);
+
+    //             if (isExpire == true) {
+    //                 console.log(res);
+    //                 console.log("Expired");
+    //             } else {
+    //                 console.log(res);
+    //                 console.log("Not Expired");
+    //             }
+    //         })
+    //         .catch((err) => console.log(err))
+    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();

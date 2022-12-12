@@ -54,8 +54,15 @@ const AdminLogin = ({admin}) => {
                     email,
                     password
                 });
+
                 localStorage.setItem("admin-token", data)
-                window.location = "/admin/dashboard";
+
+                await http.post(("/admin/role"), {email})
+                    .then((res) => {
+                        sessionStorage.setItem("role", res.data)
+                        window.location = "/admin/elections";
+                    })
+                
             } catch (error) {
                 if (error.response && error.response.status === 400) {
                     setShowPassword(true);

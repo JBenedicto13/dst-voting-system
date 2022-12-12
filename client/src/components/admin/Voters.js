@@ -71,7 +71,6 @@ const Voters = () => {
         let i = text.indexOf("@");
         username = text.substr(0, i);
         password = username;
-        console.log(password);
     };
 
     function checkBlank(isBlank) {

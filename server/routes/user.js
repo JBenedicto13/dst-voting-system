@@ -43,6 +43,15 @@ router.post("/getEmail", async (req, res) => {
        .catch((error) => res.send(error))
 });
 
+router.post("/expiry", async (req, res) => {
+
+    const { email } = req.body;
+
+    await User.findOne({email})
+       .then((result) => res.send(result.expirationDate))
+       .catch((error) => res.send(error))
+});
+
 router.post("/addVoter", async (req, res) => {
 
     const { lastName, firstName, course, yearLevel, section, isCandidate, candidate, email, username, walletAddress } = req.body;
@@ -207,5 +216,7 @@ router.post("/candidate/updatevotes", async (req, res) => {
     )
     res.send("Votes Updated Successfully");
 });
+
+
 
 module.exports = router;

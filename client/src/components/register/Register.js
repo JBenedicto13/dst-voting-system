@@ -21,6 +21,7 @@ const Register = ({user}) => {
     const [walletAddress, setWalletAddress] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [expirationDate, setexpirationDate] = useState("");
 
     const courseOptions = ["BSBA", "BSHM", "BSED", "BSIT"];
     const yearLevelOptions = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
@@ -139,6 +140,8 @@ const Register = ({user}) => {
             
             if (result.isConfirmed) {
                 var code = generateConfirmationCode();
+                var expDate = generateExpDate();
+                setexpirationDate(expDate);
                 setsixdigitcode(code);
 
                 var email_data = {
@@ -181,6 +184,7 @@ const Register = ({user}) => {
                     username,
                     walletAddress,
                     password,
+                    expirationDate
                 }).then((res) => {
                     Swal.fire({
                         title: "Success",
@@ -274,7 +278,17 @@ const Register = ({user}) => {
         // Convert the number to a string and extract the first 6 digits
         let confirmationCode = randomNumber.toString().substring(2, 8);
         return confirmationCode;
-      }
+    }
+
+    function generateExpDate() {
+        // Get the current date
+        var currentDate = new Date();
+
+        // Add 4 years to the current date to get the expiration date
+        var expirationDate = new Date(currentDate.getFullYear() + 4, currentDate.getMonth(), currentDate.getDate());
+
+        return expirationDate
+    }
 
     /* Validations */
   var emailValidator = require('validator');
