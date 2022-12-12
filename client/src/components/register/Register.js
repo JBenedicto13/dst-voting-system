@@ -6,6 +6,7 @@ import MetamaskCpPDF from '../../assets/files/MetaMaskAccntSetupPhone.pdf';
 import MetamaskDesktopPDF from '../../assets/files/MetaMask-SetupDesktop.pdf';
 import Swal from "sweetalert2";
 import {isMobile} from 'react-device-detect';
+import emailjs from 'emailjs-com';
 
 const Register = ({user}) => {
 
@@ -47,6 +48,9 @@ const Register = ({user}) => {
     const [errMsgCP, setErrMsgCP] = useState("");
 
     const [disableSubmit, setDisableSubmit] = useState(true);
+    const [systemName, setsystemName] = useState("DST Voting System");
+    const [sixdigitcode, setsixdigitcode] = useState("");
+    const [isEmailConfirm, setisEmailConfirm] = useState(false);
 
     let navigate = useNavigate();
 
@@ -132,88 +136,151 @@ const Register = ({user}) => {
             cancelButtonText: 'Cancel',
             background: 'var(--white)'
         }).then((result) => {
+            
             if (result.isConfirmed) {
-                if (!checkBlank()) {
-                    getUsername();
-                    var candidate = {
-                        "electionName": "",
-                        "position": "",
-                        "partyList": "",
-                        "votes": 0,
-                        "isDeployed": false
-                    };
-        
-                    http.post("/user", {
-                        lastName,
-                        firstName,
-                        course,
-                        yearLevel,
-                        section,
-                        isCandidate: false,
-                        candidate,
-                        email,
-                        username,
-                        walletAddress,
-                        password,
-                    }).then((res) => {
-                        Swal.fire({
-                            title: "Success",
-                            text: "Registration successful!",
-                            icon: "success",
-                            iconColor: 'var(--maroon)',
-                            confirmButtonColor: 'var(--maroon)',
-                            background: 'var(--white)'
-                        }).then(() => {
-                            http.post("/organizations/members/add", {
-                                orgName: "DHVSU Sto. Tomas Student Council",
-                                email: email,
-                            })
-                            .then(() => {
-                                var orgName = "";
+                var code = generateConfirmationCode();
+                setsixdigitcode(code);
 
-                                switch(course) {
-                                    case "BSBA": 
-                                        orgName = "College of Business Administration";
-                                    break;
+                var email_data = {
+                    "receiver_email": email,
+                    "system_name": systemName,
+                    "receiver_name": firstName,
+                    "confirmation_code": code
+                }
 
-                                    case "BSHM":
-                                        orgName = "College of Hospitality and Management";
-                                    break;
-
-                                    case "BSED":
-                                        orgName = "College of Education";
-                                    break;
-
-                                    default: 
-                                        orgName = "College of Computing Studies";
-                                }
-
-                                http.post("/organizations/members/add", {
-                                    orgName: orgName,
-                                    email: email,
-                                }).then((res) => console.log(res));
-
-                                localStorage.setItem("token", res.data);
-                                window.location = "/";
-                            })
-                        })
-                        
-                    }).catch((err) => {
-                        setErrMsgE(err.response.data);
-                        setShowEmail(true);
-                        setPassword("");
-                        setConfirmPassword("");
-                    })
-                    }
+                console.log(email_data);
+                sendEmail(email_data)
                 }
         })
     };
+
+    function handleRegister(isEmailConfirm) {
+        if (isEmailConfirm == true) {
+            document.getElementById("btn-close").click();
+            setsixdigitcode("");
+            
+            if (!checkBlank()) {
+                getUsername();
+                var candidate = {
+                    "electionName": "",
+                    "position": "",
+                    "partyList": "",
+                    "votes": 0,
+                    "isDeployed": false
+                };
+    
+                http.post("/user", {
+                    lastName,
+                    firstName,
+                    course,
+                    yearLevel,
+                    section,
+                    isCandidate: false,
+                    candidate,
+                    email,
+                    username,
+                    walletAddress,
+                    password,
+                }).then((res) => {
+                    Swal.fire({
+                        title: "Success",
+                        text: "Registration successful!",
+                        icon: "success",
+                        iconColor: 'var(--maroon)',
+                        confirmButtonColor: 'var(--maroon)',
+                        background: 'var(--white)'
+                    }).then(() => {
+                        http.post("/organizations/members/add", {
+                            orgName: "DHVSU Sto. Tomas Student Council",
+                            email: email,
+                        })
+                        .then(() => {
+                            var orgName = "";
+
+                            switch(course) {
+                                case "BSBA": 
+                                    orgName = "College of Business Administration";
+                                break;
+
+                                case "BSHM":
+                                    orgName = "College of Hospitality and Management";
+                                break;
+
+                                case "BSED":
+                                    orgName = "College of Education";
+                                break;
+
+                                default: 
+                                    orgName = "College of Computing Studies";
+                            }
+
+                            http.post("/organizations/members/add", {
+                                orgName: orgName,
+                                email: email,
+                            }).then((res) => console.log(res));
+
+                            localStorage.setItem("token", res.data);
+                            window.location = "/";
+                        })
+                    })
+                    
+                }).catch((err) => {
+                    setErrMsgE(err.response.data);
+                    setShowEmail(true);
+                    setPassword("");
+                    setConfirmPassword("");
+                })
+                }
+        } else {
+            Swal.fire({
+                title: "Invalid Code",
+                text: "Please enter a valid code",
+                icon: "error",
+                iconColor: 'var(--maroon)',
+                confirmButtonColor: 'var(--maroon)',
+                cancelButtonColor: 'var(--gold)',
+                confirmButtonText: 'Okay',
+                background: 'var(--white)'
+            })
+        }
+    }
+
+    function sendEmail(emailParams) {
+    
+        emailjs.send('dstvotingsystememail', 'emailconfirmationcode', emailParams, 'XmxVG5Jkr4p0dtGuZ')
+          .then((result) => {
+              if(result.text) {
+                document.getElementById("openCCModal").click();
+              }
+          })
+          .catch((error) => {
+              console.log(error.text);
+          });
+    }
+
+    const handleCC = async (e) => {
+        e.preventDefault();
+        var code = (e.target.confirmation_code.value);
+        if (sixdigitcode === code) {
+            handleRegister(true);
+        } else {
+            handleRegister(false);
+        }
+    }
+
+    function generateConfirmationCode() {
+        // Generate a random number between 0 and 1
+        let randomNumber = Math.random();
+        // Convert the number to a string and extract the first 6 digits
+        let confirmationCode = randomNumber.toString().substring(2, 8);
+        return confirmationCode;
+      }
 
     /* Validations */
   var emailValidator = require('validator');
   //Regex
     function dhvsuEmailRegex(input) {
-      let regex = /\d*(@dhvsu.edu.ph)/i;
+      let regex = /^\d{10}(@dhvsu.edu.ph)/i;
       return regex.test(input);
     }
   
@@ -326,7 +393,7 @@ const Register = ({user}) => {
             setShowWalletAddress(true);
           }
         }
-      }
+    }
     
     const passwordValidation = async () => {
       if (password === "") {
@@ -386,6 +453,7 @@ const Register = ({user}) => {
   
     return (
         <div className="register">
+            <button className="fade" id="openCCModal" data-bs-toggle="modal" data-bs-target="#confirmationModal">Open</button>
             <form className='frmRegister'>
                 <h1 className='head-title'>Register</h1>
                 <div className="row mb-3">
@@ -501,6 +569,33 @@ const Register = ({user}) => {
                     <Link to="/login" className="reglogLink">Already registered? Login here.</Link>
                 </div>
             </form>
+
+            {/* Confirmation Code Modal */}
+            <div className="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="confirmationModalLabel">Confirm your account</h1>
+                    <button type="button" className="btn-close" id="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div className="modal-body">
+                    <form id="frmCC" 
+                        onSubmit={handleCC}>
+                        <div className="mb-3">
+                            <h5>A 6-Digit Confirmation Code was sent to your email.</h5>
+                        </div>
+                        <div className="mb-3">
+                            <input id="inpCC" className="form-control" type="number" name="confirmation_code"></input>
+                        </div>
+                        <button type="submit" className="btn btn-primary">Confirm</button>
+                    </form>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
         
     );

@@ -104,7 +104,6 @@ const Vote = ({user}) => {
 
   const [posData, setposData] = useState([]);
   const [voteData, setvoteData] = useState([]);
-  const [voteListForDisplay, setvoteListForDisplay] = useState([]);
 
   const confirmVotes = async () => {
     var pos = [];
@@ -119,16 +118,18 @@ const Vote = ({user}) => {
       vote.push(selectedValue[pos[i]]);
     }
 
+    for (let i = 0; i < positionList.length; i++) {
+      for (let j = 0; j < positionList.length; j++) {
+        if (vote[i] < vote[j]) {
+          var temp = vote[i];
+          vote[i] = vote[j];
+          vote[j] = temp;
+        }
+      }
+    }
+
     setposData(pos);
     setvoteData(vote);
-
-      const newItems = [];
-      
-      for (let i = 0; i < pos.length; i++) {
-        newItems.push(`${pos[i]}: ${vote[i]}`);
-      }
-
-      setvoteListForDisplay(newItems);
 
     pos = JSON.stringify(pos);
     vote = JSON.stringify(vote);
@@ -262,7 +263,7 @@ const Vote = ({user}) => {
                 return (
                   <div key={index}>
                     {candidateList
-                    .filter((chosen) => chosen.candidate[0].id === vote)
+                    .filter((chosen) => chosen.candidate[0].id == vote)
                     .map((candidate, key) => {
                       return (
                         <p key={candidate._id}><b>{candidate.candidate[0].position}:</b> {candidate.lastName}, {candidate.firstName}</p>

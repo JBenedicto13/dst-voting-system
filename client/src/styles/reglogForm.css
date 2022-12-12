@@ -64,6 +64,10 @@
     color: var(--maroon);
 }
 
+#inpCC {
+    text-align: center;
+}
+
 @media only screen and (max-width: 1024px) {
     .frmRegister, .frmLogin {
         width: max-content;

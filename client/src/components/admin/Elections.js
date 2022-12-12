@@ -520,7 +520,8 @@ const handleAddPosition = async (e) => {
                             }}
                             className='btn btn-warning' 
                             data-bs-toggle="modal" 
-                            data-bs-target="#editPositionsModal">EDIT POSITIONS</button>
+                            data-bs-target="#editPositionsModal"
+                            {val.isStart ? disabled : ""}>EDIT POSITIONS</button>
                           </td>
                           <td><button
                             onClick={()=>{
