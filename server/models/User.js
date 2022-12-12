@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     walletAddress: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    expirationDate: { type: String }
+    expirationDate: { type: Number }
 });
 
 module.exports = mongoose.model("accountLogin", userSchema);

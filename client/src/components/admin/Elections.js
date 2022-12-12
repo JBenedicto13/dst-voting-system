@@ -578,6 +578,9 @@ const handleAddPosition = async (e) => {
                           placeholder='[{...},{...}]'
                           className='form-control' type='text' name='inpABI' id='inpABI' />
                     </div>
+                    <div className='mb-3'>
+                      <a href='https://thirdweb.com/0x7C562AF4d61Eaa06F3CFB37435c4Bc18b7641a7e/Election' target='_blank'>Deploy Smart Contract and get Contract Address and ABI here.</a>
+                    </div>
                   </div>
                   <div className='row btnRow'>
                     <button onClick={handleAdd} className='btn btn-warning btnAdd'>Add</button>

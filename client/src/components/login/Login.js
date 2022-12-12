@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import http from "../../utils/http";
 import "../../styles/reglogForm.css";
+import Swal from "sweetalert2";
 
 const Login = ({user}) => {
 
@@ -39,7 +40,6 @@ const Login = ({user}) => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        // checkExpiry();
         if (user) {
             navigate(-1);
         }
@@ -65,29 +65,34 @@ const Login = ({user}) => {
         return isBlank;
     }
 
-    // const checkExpiry = async () => {
-    //     await http.post("/user/expiry", {email: "2019988131@dhvsu.edu.ph"})
-    //         .then((res) => {
-
-    //             let newDate = new Date()
-    //             let now = newDate.getFullYear();
-
-    //             var isExpire = (now > res);
-
-    //             if (isExpire == true) {
-    //                 console.log(res);
-    //                 console.log("Expired");
-    //             } else {
-    //                 console.log(res);
-    //                 console.log("Not Expired");
-    //             }
-    //         })
-    //         .catch((err) => console.log(err))
-    // }
-
-    const handleSubmit = async (e) => {
+    const checkExpiry = async (e) => {
         e.preventDefault();
-        
+        await http.post("/user/expiry", {email: "2019988131@dhvsu.edu.ph"})
+            .then((exp) => {
+
+                const currentDate = new Date();
+                const year = currentDate.getFullYear();
+                
+                var isExpire = (parseInt(exp.data.expirationDate) < parseInt(year));
+
+                if (isExpire == true) {
+                    Swal.fire({
+                        title: "Account Expired",
+                        text: "If you think this is a mistake, please contact the administrator",
+                        icon: "error",
+                        iconColor: 'var(--maroon)',
+                        confirmButtonColor: 'var(--maroon)',
+                        background: 'var(--white)'
+                    })
+                } else {
+                    handleSubmit()
+                }
+            })
+            .catch((err) => console.log(err))
+    }
+
+    const handleSubmit = async () => {
+
         if (!checkBlank()) {
             try {
                 await http.post("/auth", {
@@ -111,6 +116,7 @@ const Login = ({user}) => {
                 }
             }
         }
+
     };
 
 
@@ -309,7 +315,7 @@ const Login = ({user}) => {
                     </div>
                 )}
                 <div className="row mb-3">
-                    <button onClick={handleSubmit} disabled={disableSubmit} className="btn btn-danger btnSubmit" type='submit'>Login</button>
+                    <button onClick={checkExpiry} disabled={disableSubmit} className="btn btn-danger btnSubmit" type='submit'>Login</button>
                     <Link to="/register" className="reglogLink">Not yet registered? Register here.</Link>
                 </div>
             </form>

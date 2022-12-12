@@ -48,7 +48,16 @@ router.post("/expiry", async (req, res) => {
     const { email } = req.body;
 
     await User.findOne({email})
-       .then((result) => res.send(result.expirationDate))
+       .then((result) => res.send(result))
+       .catch((error) => res.send(error))
+});
+
+router.post("/expirywallet", async (req, res) => {
+
+    const { walletAddress } = req.body;
+
+    await User.findOne({walletAddress})
+       .then((result) => res.send(result))
        .catch((error) => res.send(error))
 });
 

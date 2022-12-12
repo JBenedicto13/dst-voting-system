@@ -19,6 +19,7 @@
     border-radius: 30px;
     background-color: var(--grey);
     padding-bottom: 1rem;
+    display: none;
 }
 
 .elections-container-top h2 {

@@ -8,11 +8,11 @@ import { MdOutlineManageAccounts } from "react-icons/md";
 import { CiLogout } from "react-icons/ci";
 
 export const SideBarData = [
-  {
-    title: "Dashboard",
-    icon: <MdOutlineSpaceDashboard />,
-    link: "/admin/dashboard"
-  },
+  // {
+  //   title: "Dashboard",
+  //   icon: <MdOutlineSpaceDashboard />,
+  //   link: "/admin/dashboard"
+  // },
   {
     title: "Elections",
     icon: <MdOutlineHowToVote />,
@@ -28,11 +28,11 @@ export const SideBarData = [
     icon: <MdPeopleOutline />,
     link: "/admin/candidates"
   },
-  {
-    title: "Contents",
-    icon: <TfiLayoutMediaCenter />,
-    link: "/admin/contents"
-  },
+  // {
+  //   title: "Contents",
+  //   icon: <TfiLayoutMediaCenter />,
+  //   link: "/admin/contents"
+  // },
   {
     title: "Accounts",
     icon: <MdOutlineManageAccounts />,
