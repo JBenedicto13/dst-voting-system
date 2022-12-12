@@ -75,15 +75,14 @@ function Election() {
                         sContract.candidates(i)
                             .then((res) => {
                                 var vcount = parseInt(res[3], 16);
+                                console.log(vcount)
 
                                 setvoteCount((prev) => [...prev, vcount]);
                                 http.post("/user/candidate/updatevotes", {
                                     "walletAddress": candidatesList[i].walletAddress,
                                     "electionName": candidatesList[i].candidate[0].electionName,
-                                    "votes": candidatesList[i].candidate[0].vote
-                                }).then((res) => {
-                                    console.log(res);
-                                }).catch((err) => console.log(err))
+                                    "votes": voteCount[i]
+                                })
                             })
                             .catch((err) => console.log(err))
                     }

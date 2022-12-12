@@ -283,9 +283,24 @@ const Register = ({user}) => {
     function generateExpDate() {
         // Get the current date
         var currentDate = new Date();
+        var increment = 0;
 
-        // Add 4 years to the current date to get the expiration date
-        var expirationDate = new Date(currentDate.getFullYear() + 4, currentDate.getMonth(), currentDate.getDate());
+        switch (yearLevel) {
+            case "1st Year": {
+                increment = 1
+            }
+            case "1st Year": {
+                increment = 2
+            }
+            case "1st Year": {
+                increment = 3
+            }
+            default: {
+                increment = 4
+            }
+        }
+        
+        var expirationDate = new Date(currentDate.getFullYear() + increment, currentDate.getMonth(), currentDate.getDate());
 
         return expirationDate
     }

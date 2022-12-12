@@ -250,7 +250,7 @@ const Candidates = () => {
     const handleMakeCandidate = () => {
         if (!candidateCheckBlank()) {
             Swal.fire({
-                title: 'Are you sure you want to delete this candidate?',
+                title: 'Are you sure you want to add this candidate?',
                 text: "You won't be able to revert this!",
                 icon: 'question',
                 iconColor: 'var(--maroon)',
@@ -366,7 +366,7 @@ const Candidates = () => {
         } else {
             setDisableSubmit(true);
         }
-    }, [loadCandidatesData, loadUserData])
+    }, [])
 
   return (
     <div className='voters'>
