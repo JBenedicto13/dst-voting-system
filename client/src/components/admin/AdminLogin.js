@@ -70,22 +70,18 @@ const AdminLogin = ({admin}) => {
 
 /* Validations */
   var emailValidator = require('validator');
-    //Regex
-    function dhvsuEmailRegex(input) {
-      let regex = /\d*(@dhvsu.edu.ph)/i;
-      return regex.test(input);
-    }
+
     const emailValidation = async () => {
         if (email === "") {
             setErrMsgE("Please enter your email");
             setShowEmail(true);
         } else {
             var emailValidity = emailValidator.isEmail(email);
-            var dhvsuValidity = dhvsuEmailRegex(email);
-            if (emailValidity && dhvsuValidity) {
+
+            if (emailValidity) {
                 setShowEmail(false);
             } else {
-                setErrMsgE("Please enter a valid DHVSU Email Address");
+                setErrMsgE("Please enter a valid Email Address");
                 setShowEmail(true);
             }
         }
@@ -122,7 +118,7 @@ const AdminLogin = ({admin}) => {
                     <label htmlFor='Email'>Email</label>
                     <input
                         className='form-control'
-                        placeholder="12345678@dhvsu.edu.ph"
+                        placeholder="juandelacruz@gmail.com"
                         type='email'
                         name='email'
                         onChange={(e) => {setEmail(e.target.value)}}

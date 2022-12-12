@@ -20,7 +20,7 @@ import AdminLogout from "../admin/AdminLogout";
 import AdminElections from "../admin/Elections";
 import AdminVoters from "../admin/Voters";
 import AdminCandidates from "../admin/Candidates";
-
+import Accounts from "../admin/Accounts";
 
 const Routing = ({user, admin}) => {
     return (
@@ -47,6 +47,7 @@ const Routing = ({user, admin}) => {
                 <Route path='admin/elections' element={<AdminElections />}/>
                 <Route path='admin/voters' element={<AdminVoters />} />
                 <Route path='admin/candidates' element={<AdminCandidates />} />
+                <Route path='admin/accounts' element={<Accounts />} />
             </Route>
 
         </Routes>

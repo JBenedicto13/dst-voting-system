@@ -80,7 +80,7 @@ function Election() {
                                 http.post("/user/candidate/updatevotes", {
                                     "walletAddress": candidatesList[i].walletAddress,
                                     "electionName": candidatesList[i].candidate[0].electionName,
-                                    "votes": voteCount[i+1]
+                                    "votes": candidatesList[i].candidate[0].vote
                                 }).then((res) => {
                                     console.log(res);
                                 }).catch((err) => console.log(err))

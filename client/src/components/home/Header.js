@@ -1,6 +1,7 @@
 import { React, useEffect } from "react";
 import '../../styles/header.css';
 import { useNavigate } from 'react-router-dom';
+import UserGuide from "./UserGuide";
 
 function Header({user}) {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function Header({user}) {
                     <h1>Honorians, cast your votes now!</h1>
                 </div>
                 <div className="row headerButtons">
-                    <button onClick={() => navigate("vote")} type="button" className="btnVote">Vote</button>
+                    <button onClick={() => navigate("/election")} type="button" className="btnVote">Vote</button>
                     <button onClick={() => navigate("register")} type="button" className="btnRegister">Register</button>
                 </div>
                 <div className="row pGuide">
