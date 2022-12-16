@@ -7,8 +7,11 @@ import MetamaskDesktopPDF from '../../assets/files/MetaMask-SetupDesktop.pdf';
 import Swal from "sweetalert2";
 import {isMobile} from 'react-device-detect';
 import emailjs from 'emailjs-com';
+import {BiShow, BiHide} from 'react-icons/bi';
 
 const Register = ({user}) => {
+
+    const [isShow, setisShow] = useState(false);
 
     //useState for user inputs
     let username;
@@ -255,6 +258,9 @@ const Register = ({user}) => {
           .then((result) => {
               if(result.text) {
                 document.getElementById("openCCModal").click();
+                setTimeout(() => {
+                    setsixdigitcode("");
+                }, 300000) //5m
               }
           })
           .catch((error) => {
@@ -265,9 +271,20 @@ const Register = ({user}) => {
     const handleCC = async (e) => {
         e.preventDefault();
         var code = (e.target.confirmation_code.value);
+
         if (sixdigitcode === code) {
             handleRegister(true);
-        } else {
+        } else if (sixdigitcode === "") {
+            Swal.fire({
+                title: "Code Expired",
+                text: "The code has expired, please try again",
+                icon: "error",
+                iconColor: 'var(--maroon)',
+                confirmButtonColor: 'var(--maroon)',
+            })
+            handleRegister(false);
+        }
+        else {
             handleRegister(false);
         }
     }
@@ -569,8 +586,10 @@ const Register = ({user}) => {
                 </div>
                 <div className="row mb-3">
                     <label htmlFor='Password'>Password</label>
+                    <div className="passDiv">
                     <input 
                         className='form-control'
+                        id="password"
                         placeholder="Password"
                         type='password' 
                         name='password'
@@ -578,12 +597,29 @@ const Register = ({user}) => {
                         value={password}
                         onBlur={passwordValidation}
                     />
+                    <span onClick={() => {
+                        
+                        if (isShow == true) {
+                            setisShow(false)
+                        } else {
+                            setisShow(true)
+                        }
+
+                        const type = document.getElementById("password").getAttribute("type") === "password" ? "text" : "password";
+                        document.getElementById("password").setAttribute("type", type);
+                        const type1 = document.getElementById("confirmpassword").getAttribute("type") === "password" ? "text" : "password";
+                        document.getElementById("confirmpassword").setAttribute("type", type);
+
+                    }}>{ isShow ? <BiHide /> : <BiShow />}</span>
+                    </div>
                     {showPassword && <p className='spanErrors'>{errMsgP}</p>}
                 </div>
                 <div className="row mb-3">
                     <label htmlFor='confirmPassword'>Confirm Password</label>
+                    <div className="passDiv">
                     <input 
                         className='form-control'
+                        id="confirmpassword"
                         placeholder="Confirm Password"
                         type='password' 
                         name='confirmPassword'
@@ -591,6 +627,21 @@ const Register = ({user}) => {
                         value={confirmPassword}
                         onBlur={confirmPasswordValidation}
                     />
+                    <span onClick={() => {
+                        
+                        if (isShow == true) {
+                            setisShow(false)
+                        } else {
+                            setisShow(true)
+                        }
+
+                        const type = document.getElementById("password").getAttribute("type") === "password" ? "text" : "password";
+                        document.getElementById("password").setAttribute("type", type);
+                        const type1 = document.getElementById("confirmpassword").getAttribute("type") === "password" ? "text" : "password";
+                        document.getElementById("confirmpassword").setAttribute("type", type);
+
+                    }}>{ isShow ? <BiHide /> : <BiShow />}</span>
+                    </div>
                     {showConfirmPassword && <p className='spanErrors'>{errMsgCP}</p>}
                 </div>
                 <div className="row mb-3">
