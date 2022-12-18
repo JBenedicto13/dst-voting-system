@@ -5,7 +5,58 @@ import "../../styles/election.css";
 import { Link } from 'react-router-dom';
 import {GrRefresh} from "react-icons/gr";
 
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+    
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
 function Election() {
+
+    const [chartData, setchartData] = useState({
+        datasets:[],
+    })
+    const [chartOptions, setchartOptions] = useState({});
+
+    useEffect(() => {
+        setchartData({
+            labels: ["Almario", "Ardena", "Benedicto", "Lopez"],
+            datasets: [
+                {
+                    label: "Fight for the throne!",
+                    data: [12, 35, 179, 5],
+                    borderColor: "rgba(0, 0, 0, 0.5)",
+                    backgroundColor: "rgb(92, 0, 23)",
+                },
+            ],
+        });
+        setchartOptions({
+            responsive: true,
+            plugins: {
+                legend: {
+                    positions: "top"
+                },
+                title: {
+                    display: true,
+                    text: "Fight for the throne!",
+                },
+            },
+        });
+    }, [])
 
     const [electionList, setElectionList] = useState([]);
     const [electionListCount, setElectionListCount] = useState(0);
@@ -182,6 +233,13 @@ function Election() {
                             </div>
                         )
                     })}
+
+                    <div className="chart">
+                        <Bar 
+                        options={chartOptions}
+                        data={chartData}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

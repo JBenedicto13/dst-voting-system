@@ -449,7 +449,7 @@ const Register = ({user}) => {
         if (passwordRegex(password)) {
           setShowPassword(false);
         } else {
-          setErrMsgP("Password must contain at least one lowercase, one uppercase and a digit");
+          setErrMsgP("Password must contain at least 8 characters, one lowercase, one uppercase and a digit");
           setShowPassword(true);
         }
       }
