@@ -1,0 +1,49 @@
+
+.uploadedList {
+    border: 2px dashed var(--maroon);
+    padding: 20px;
+    margin-top: 2rem;
+}
+
+.uploadedList li {
+    list-style: none;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.uploads .actions{
+    display: flex;
+    gap: 2rem;
+}
+
+
+.reqDiv {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.reqDiv label {
+    font-size: 24px;
+}
+
+.reqDiv button {
+    background-color: var(--maroon);
+    border: none;
+}
+
+.requirementsMainDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.dpphotoandlabel {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.dpphotoandlabel button {
+    background-color: var(--maroon);
+    border: none;
+}

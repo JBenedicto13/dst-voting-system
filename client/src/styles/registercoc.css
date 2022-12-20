@@ -1,0 +1,21 @@
+.registercoc {
+    margin: auto;
+    padding: 0;
+    width: 75%;
+}
+
+.registercoc-header {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.registercoc-header h1 {
+    text-transform: uppercase;
+}
+
+.registercoc-body {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}

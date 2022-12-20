@@ -21,6 +21,7 @@ import AdminElections from "../admin/Elections";
 import AdminVoters from "../admin/Voters";
 import AdminCandidates from "../admin/Candidates";
 import Accounts from "../admin/Accounts";
+import RegisterCOC from "../election/RegisterCOC";
 
 const Routing = ({user, admin}) => {
     return (
@@ -34,6 +35,7 @@ const Routing = ({user, admin}) => {
             <Route path='/election' element={<Election />}/>
             <Route element={<PrivateRoute user={user} />}>
                 <Route path='/vote/:address' element={<Vote user={user} />} />
+                <Route path='/register/coc' element={<RegisterCOC user={user} />} />
             </Route>
             <Route path='/about' element={<About />} />
 
