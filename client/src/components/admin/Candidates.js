@@ -4,6 +4,11 @@ import '../admin/adminStyle/voters.css';
 import http from "../../utils/http";
 import Swal from 'sweetalert2';
 import { ethers } from 'ethers';
+// import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+// const docs = [
+//     { uri: require("../../../../server/uploads/0x7c561a7e(2)_MailMerge.pdf") },
+//     { uri: require("../../../../server/uploads/0x7c561a7e(1)gif.jpg") },
+//   ];
 // import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
 // import { id } from 'ethers/lib/utils';
 
@@ -15,7 +20,7 @@ const Candidates = () => {
     function successAlert(res) {
         Swal.fire({
             title: "Success",
-            text: res.data,
+            text: res,
             icon: "success",
             iconColor: 'var(--maroon)',
             confirmButtonColor: 'var(--maroon)',
@@ -221,10 +226,10 @@ const Candidates = () => {
     }
     //setdeploymentData
 
-    const removeCandidate = (id) => {
+    const pendingCandidate = (id) => {
         Swal.fire({
-            title: 'Are you sure you want to remove this candidate?',
-            text: "You won't be able to revert this!",
+            title: 'Approval',
+            text: "Are you sure you want to move this candidate to pending?",
             icon: 'question',
             iconColor: 'var(--maroon)',
             showCancelButton: true,
@@ -235,14 +240,87 @@ const Candidates = () => {
             background: 'var(--white)'
         }).then((result) => {
             if (result.isConfirmed) {
-                http.post("/user/removeCandidate", {id})
-                .then((res) => successAlert(res.data))
+                http.post("/coc/pending", {id})
+                .then((res) => Swal.fire({
+                    title: "Success",
+                    text: res,
+                    icon: "success",
+                    iconColor: 'var(--maroon)',
+                    showConfirmButton: true,
+                    confirmButtonColor: 'var(--maroon)',
+                    background: 'var(--white)'
+                }).then(window.location.reload()))
                 .catch((err) => {
                     if (err.response && err.response.status === 400) {
                         errorAlert(err);
                     }
                 })
-                window.location.reload();
+            }
+        })
+    }
+
+    const approveCandidate = (id) => {
+        Swal.fire({
+            title: 'Approval',
+            text: "Are you sure you want to approve this candidate?",
+            icon: 'question',
+            iconColor: 'var(--maroon)',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--maroon)',
+            cancelButtonColor: 'var(--gold)',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            background: 'var(--white)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                http.post("/coc/approve", {id})
+                .then((res) => Swal.fire({
+                    title: "Success",
+                    text: res,
+                    icon: "success",
+                    iconColor: 'var(--maroon)',
+                    showConfirmButton: true,
+                    confirmButtonColor: 'var(--maroon)',
+                    background: 'var(--white)'
+                }).then(window.location.reload()))
+                .catch((err) => {
+                    if (err.response && err.response.status === 400) {
+                        errorAlert(err);
+                    }
+                })
+            }
+        })
+    }
+
+    const disapproveCandidate = (id) => {
+        Swal.fire({
+            title: 'Approval',
+            text: "Are you sure you want to disapprove this candidate?",
+            icon: 'question',
+            iconColor: 'var(--maroon)',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--maroon)',
+            cancelButtonColor: 'var(--gold)',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            background: 'var(--white)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                http.post("/coc/disapprove", {id})
+                .then((res) => Swal.fire({
+                    title: "Success",
+                    text: res,
+                    icon: "success",
+                    iconColor: 'var(--maroon)',
+                    showConfirmButton: true,
+                    confirmButtonColor: 'var(--maroon)',
+                    background: 'var(--white)'
+                }).then(window.location.reload()))
+                .catch((err) => {
+                    if (err.response && err.response.status === 400) {
+                        errorAlert(err);
+                    }
+                })
             }
         })
     }
@@ -356,10 +434,19 @@ const Candidates = () => {
         .catch((err) => errorAlert(err))
     }
 
+    const [coclist, setcoclist] = useState([]);
+
+    function getcoc() {
+        http.get('/coc/load')
+            .then((res) => setcoclist(res.data))
+            .catch((err) => console.log(err))
+    }
+
     useEffect(() => {
         loadUserData()
         loadCandidatesData()
         loadElectionData()
+        getcoc()
         
         if (validateForm() === false) {
             setDisableSubmit(false);
@@ -372,39 +459,34 @@ const Candidates = () => {
     <div className='voters'>
         <Sidebar />
         <div className='voters-main-container'>
-        <div className='tblVoters'>
-                <h2>Voters List</h2>
+            <div className='tblVoters'>
+                <h2>Pending for Approval</h2>
                 <table>
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>No.</th>
                         <th>Last Name</th>
                         <th>First Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Wallet Address</th>
-                        <th className='colActions'>Actions</th>
+                        <th>Election</th>
+                        <th>Position</th>
+                        <th>Political Party</th>
+                        <th className='colActions' colSpan={2}>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {userList.map((val, key) => {
+                        {coclist
+                        .filter(approved => approved.approvalStatus === "Pending")
+                        .map((val, key) => {
                             return (
                             <tr key={key}>
-                                <td>{key+1}</td>
+                                <td>{key + 1}</td>
                                 <td>{val.lastName}</td>
                                 <td>{val.firstName}</td>
-                                <td>{val.username}</td>
-                                <td>{val.email}</td>
-                                <td>{val.walletAddress}</td>
-                                <td className='tdActions'>
-                                    <button onClick={()=>{
-                                        setcandidateEmail(val.email)
-                                        setcandidateId(key+1)
-                                        }} 
-                                        className='btn btn-danger btnDelete' 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#makeCandidateModal">MAKE CANDIDATE</button>
-                                </td>
+                                <td>{val.election}</td>
+                                <td>{val.position}</td>
+                                <td>{val.politicalParty}</td>
+                                <td className='tdActions'><button onClick={() => disapproveCandidate(val._id)} className='btn btn-danger btnDelete'>Disapprove</button></td>
+                                <td className='tdActions'><button onClick={() => approveCandidate(val._id)} className='btn btn-danger btnDelete'>Approve</button></td>
                             </tr>
                             )
                         })}
@@ -412,35 +494,79 @@ const Candidates = () => {
                 </table>
             </div>
             <div className='tblVoters'>
-                <h2>CANDIDATES READY FOR DEPLOYMENT</h2>
+                <h2>Inelligible Candidates</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>No.</th>
                         <th>Last Name</th>
                         <th>First Name</th>
-                        <th>Username</th>
-                        <th>Wallet Address</th>
-                        <th>Election Name</th>
+                        <th>Election</th>
                         <th>Position</th>
-                        <th>Party List</th>
-                        <th className='colActions'>Actions</th>
+                        <th>Political Party</th>
+                        <th className='colActions' colSpan={2}>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {candidatesList.filter(currentCandidate => currentCandidate.candidate[0].isDeployed === false)
+                        {coclist
+                        .filter(approved => approved.approvalStatus === "Disapproved")
                         .map((val, key) => {
                             return (
                             <tr key={key}>
                                 <td>{key + 1}</td>
                                 <td>{val.lastName}</td>
                                 <td>{val.firstName}</td>
-                                <td>{val.username}</td>
-                                <td>{val.walletAddress}</td>
-                                <td>{val.candidate[0].electionName}</td>
-                                <td>{val.candidate[0].position}</td>
-                                <td>{val.candidate[0].partyList}</td>
-                                <td className='tdActions'><button onClick={() => removeCandidate(val._id)} className='btn btn-danger btnDelete'>REMOVE</button></td>
+                                <td>{val.election}</td>
+                                <td>{val.position}</td>
+                                <td>{val.politicalParty}</td>
+                                <td className='tdActions'><button onClick={() => pendingCandidate(val._id)} className='btn btn-danger btnDelete'>Move to Pending</button></td>
+                            </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                {/* <DocViewer
+                    pluginRenderers={DocViewerRenderers}
+                    documents={docs}
+                    config={{
+                    header: {
+                        disableHeader: false,
+                        disableFileName: false,
+                        retainURLParams: false
+                    }
+                    }}
+                    style={{ height: 500 }}
+                /> */}
+            </div>
+            <div className='tblVoters'>
+                <h2>Approved Candidates</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Election</th>
+                        <th>Position</th>
+                        <th>Political Party</th>
+                        <th className='colActions' colSpan={2}>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {coclist
+                        .filter(approved => approved.approvalStatus === "Approved")
+                        .map((val, key) => {
+                            return (
+                            <tr key={key}>
+                                <td>{key + 1}</td>
+                                <td>{val.lastName}</td>
+                                <td>{val.firstName}</td>
+                                <td>{val.election}</td>
+                                <td>{val.position}</td>
+                                <td>{val.politicalParty}</td>
+                                <td className='tdActions'><button onClick={() => pendingCandidate(val._id)} className='btn btn-danger btnDelete'>Move to Pending</button></td>
                             </tr>
                             )
                         })}

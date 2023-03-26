@@ -31,6 +31,7 @@ function errorAlert(err) {
     })
 }
 
+  const [cocState, setcocState] = useState(null);
   const [voteCount, setvoteCount] = useState(0);
   const [orgList, setorgList] = useState([]);
   const [contractOrg, setcontractOrg] = useState("");
@@ -372,10 +373,26 @@ const handleAddPosition = async (e) => {
     //   .then((res) => console.log(parseInt(res.winningVoteCount, 16)))
   }
 
+  const changestatus = async () => {
+    await http.post('/pagestates/changeStatus', {
+      name: "Filing of COC", 
+      status: cocState
+    })
+      .then((res) => {successAlert(res); window.location.reload()})
+      .catch((err) => errorAlert(err))
+  }
+
+  function getPageStatus() {
+    http.post('/pagestates/find', {name: "Filing of COC"})
+        .then((res) => setcocState(res.data.status))
+        .catch((err) => errorAlert(err))
+  }
+
   useEffect(() => {
     loadElectionData()
     populateTempDataDisplay()
     updateEthers()
+    getPageStatus()
   }, [electionListCount])
 
   return (
@@ -515,24 +532,9 @@ const handleAddPosition = async (e) => {
                           </td>
                           <td><button
                             onClick={()=>{
-                              setselectedElectionName(val.title)
-                              setaddress(val.address)
-                              loadPositionData(val.address)
+                              changestatus()
                             }}
-                            className='btn btn-warning' 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editPositionsModal"
-                            >EDIT POSITIONS</button>
-                          </td>
-                          <td><button
-                            onClick={()=>{
-                              setselectedElectionName(val.title)
-                              setaddress(val.address)
-                              loadPartylistData(val.address)
-                            }}
-                            className='btn btn-warning' 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editpartylistsModal">EDIT PARTYLISTS</button>
+                            className='btn btn-warning'>{!cocState ? "Open filing of COC": "Close filing of COC"}</button>
                           </td>
                         </tr>
                       )

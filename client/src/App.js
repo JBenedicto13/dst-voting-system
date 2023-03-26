@@ -8,8 +8,6 @@ import Routing from "./components/routing/Routing";
 import setAuthToken from "./utils/setAuthToken";
 import setAuthTokenAdmin from "./utils/setAuthTokenAdmin";
 
-
-
 let logUser;
 if (localStorage.getItem("token")) {
     const jwt = localStorage.getItem("token");

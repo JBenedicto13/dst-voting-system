@@ -18,6 +18,30 @@ router.post("/add", async (req, res) => {
     res.send("PageState Added!");
 });
 
+router.post("/changestatus", async (req, res) => {
+
+  const { name, status } = req.body;
+  if (status == true) {
+    await PageStates.findOneAndUpdate(
+      {"name": name},
+      {$set: 
+          {"status": false}
+      }
+    )
+    .then((res) => res.send("Closed!"))
+    .catch((err) => res.send(err))
+  } else {
+    await PageStates.findOneAndUpdate(
+      {"name": name},
+      {$set: 
+          {"status": true}
+      }
+    )
+    .then((res) => res.send("Open!"))
+    .catch((err) => res.send(err))
+  }
+});
+
 router.post("/find", async (req, res) => {
   const { name, status } = req.body;
 

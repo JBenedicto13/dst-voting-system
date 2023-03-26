@@ -10,7 +10,8 @@ const cocSchema = new mongoose.Schema({
     election: { type: String },
     position: { type: String },
     politicalParty: { type: String },
-    dp: { type: String }
+    dp: { type: String },
+    approvalStatus: { type: String, required: true }
 });
 
 module.exports = mongoose.model("cocData", cocSchema);

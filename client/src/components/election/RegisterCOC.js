@@ -94,7 +94,8 @@ const RegisterCOC = () => {
                     election: election,
                     position: position,
                     politicalParty: politicalpt,
-                    dp: dpname
+                    dp: dpname,
+                    approvalStatus: "Pending"
                 })
                 .then(() => {
                     handleUpload(dpname)
