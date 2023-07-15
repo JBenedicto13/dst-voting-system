@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react'
-import Sidebar from './Sidebar'
+import Sidebar from '../admin/Sidebar';
 import './adminStyle/elections.css';
 import { ethers } from 'ethers';
 import http from "../../utils/http";

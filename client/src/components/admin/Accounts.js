@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../admin/Sidebar';
 import '../admin/adminStyle/voters.css';
 import http from "../../utils/http";
 import Swal from 'sweetalert2';
