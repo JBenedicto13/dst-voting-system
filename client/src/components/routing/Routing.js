@@ -12,7 +12,6 @@ import About from "../about/About";
 import Election from "../election/Election";
 import Vote from "../election/Vote";
 
-import Dashboard from "../admin/Dashboard";
 import SmartContract from "../election/SmartContract";
 import AdminLogin from "../admin/AdminLogin";
 import AddAdmin from "../admin/AddAdmin";
@@ -42,8 +41,7 @@ const Routing = ({user, admin}) => {
             <Route path='/admin/login' element={<AdminLogin admin={admin}/>}/>
             
             <Route element={<PrivateAdmin admin={admin} />}>
-                <Route path='admin' element={<Dashboard />}/>
-                <Route path='admin/dashboard' element={<Dashboard />}/>
+                <Route path='admin' element={<AdminElections />}/>
                 <Route path='admin/addadmin' element={<AddAdmin/>}/>
                 <Route path='admin/smartcontract' element={<SmartContract />}/>
                 <Route path='admin/logout' element={<AdminLogout />}/>
