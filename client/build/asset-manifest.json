@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.316aef20.css",
-    "main.js": "/static/js/main.dbab8955.js",
+    "main.css": "/static/css/main.04fb1ece.css",
+    "main.js": "/static/js/main.9edca4a3.js",
     "static/media/dstsc-logo.png": "/static/media/dstsc-logo.d2608d13e1b6fb20be6b.png",
     "static/media/MetaMaskAccntSetupPhone.pdf": "/static/media/MetaMaskAccntSetupPhone.aa207d58ff675514d53b.pdf",
     "static/media/MetaMask-SetupDesktop.pdf": "/static/media/MetaMask-SetupDesktop.2646e46e9affafa46a53.pdf",
@@ -15,11 +15,11 @@
     "static/media/candidate1.png": "/static/media/candidate1.82325a689670cecdff5b.png",
     "static/media/gif.jpg": "/static/media/gif.e453e8e61a7482ef8119.jpg",
     "index.html": "/index.html",
-    "main.316aef20.css.map": "/static/css/main.316aef20.css.map",
-    "main.dbab8955.js.map": "/static/js/main.dbab8955.js.map"
+    "main.04fb1ece.css.map": "/static/css/main.04fb1ece.css.map",
+    "main.9edca4a3.js.map": "/static/js/main.9edca4a3.js.map"
   },
   "entrypoints": [
-    "static/css/main.316aef20.css",
-    "static/js/main.dbab8955.js"
+    "static/css/main.04fb1ece.css",
+    "static/js/main.9edca4a3.js"
   ]
 }
