@@ -6,8 +6,6 @@ const app = express();
 const PORT = process.env.PORT;
 const fileUpload = require('express-fileupload');
 
-
-
 // import routes
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
@@ -32,6 +30,9 @@ app.use("/api/organizations", organizationsRoutes);
 app.use("/api/coc", cocRoutes);
 app.use("/api/pagestates", pageStates);
 
+app.get('/', (req, res) => {
+    res.send('Welcome to DST Voting System Server');
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
