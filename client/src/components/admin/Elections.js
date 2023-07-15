@@ -32,13 +32,12 @@ function errorAlert(err) {
 }
 
   const [cocState, setcocState] = useState(null);
-  const [voteCount, setvoteCount] = useState(0);
   const [orgList, setorgList] = useState([]);
   const [contractOrg, setcontractOrg] = useState("");
   const [contractTitle, setContractTitle] = useState("");
   const [contractAddress, setContractAddress] = useState("");
   const [contractABI, setContractABI] = useState("");
-  const [voted, setVoted] = useState(0);
+  let voted = 0;
   const [voters, setVoters] = useState(300);
 
   const [electionList, setElectionList] = useState([]);
@@ -46,26 +45,23 @@ function errorAlert(err) {
 
   const [dataDisplay, setDataDisplay] = useState([]);
 
-  const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
-  const [signerContract, setSignerContract] = useState([]);
-  const [providerContract, setProviderContract] = useState([]);
 
   const [btnStart, setbtnStart] = useState("");
   const [isStart, setIsStart] = useState(null);
   const [selectedId, setselectedId] = useState("");
 
-  function GetCurrentDate() {
-    let newDate = new Date()
-    let h = newDate.getHours();
-    let m = newDate.getMinutes();
-    let s = newDate.getSeconds();
-    let date = newDate.getDate();
-    let month = newDate.getMonth() + 1;
-    let year = newDate.getFullYear();
+//   function GetCurrentDate() {
+//     let newDate = new Date()
+//     let h = newDate.getHours();
+//     let m = newDate.getMinutes();
+//     let s = newDate.getSeconds();
+//     let date = newDate.getDate();
+//     let month = newDate.getMonth() + 1;
+//     let year = newDate.getFullYear();
 
-    return(`${month}/${date}/${year}-${h}:${m}:${s}`);
-}
+//     return(`${month}/${date}/${year}-${h}:${m}:${s}`);
+// }
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -160,15 +156,14 @@ function errorAlert(err) {
     if (typeof window.ethereum != "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      var counter = electionListCount;
-      for (var i = 0; i < counter; i++) {
-        const sContract = new ethers.Contract(tempDataDisplay[i].address, tempDataDisplay[i].abi, signer);
-        const pContract = new ethers.Contract(tempDataDisplay[i].address, tempDataDisplay[i].abi, provider);
+      // var counter = electionListCount;
+      // for (var i = 0; i < counter; i++) {
+      //   const sContract = new ethers.Contract(tempDataDisplay[i].address, tempDataDisplay[i].abi, signer);
+      //   const pContract = new ethers.Contract(tempDataDisplay[i].address, tempDataDisplay[i].abi, provider);
 
-        setSignerContract((previousState) => [...previousState, sContract]);
-        setProviderContract((previousState) => [...previousState, pContract]);
-      }
-      setProvider(provider);
+      //   setSignerContract((previousState) => [...previousState, sContract]);
+      //   setProviderContract((previousState) => [...previousState, pContract]);
+      // }
       setSigner(signer);
     }
   }
@@ -206,8 +201,7 @@ const [posTitle, setposTitle] = useState("");
 const [posTitleErr, setposTitleErr] = useState("");
 const [numberErr, setnumberErr] = useState("");
 const [positions, setpositions] = useState([]);
-const [selectedElectionName, setselectedElectionName] = useState("");
-const [address, setaddress] = useState("");
+let address = '';
 const [numberinPos, setnumberinPos] = useState(0);
 const [partylistTitle, setpartylistTitle] = useState("");
 const [partylistTitleErr, setpartylistTitleErr] = useState("");
@@ -366,12 +360,12 @@ const handleAddPosition = async (e) => {
       })
     }
 
-  const getVoteCount = async () => {
-    updateTotalVoters();
+  // const getVoteCount = async () => {
+  //   updateTotalVoters();
     // console.log(providerContract[0]);
     // await providerContract[0].showWinning("Governor")
     //   .then((res) => console.log(parseInt(res.winningVoteCount, 16)))
-  }
+  // }
 
   const changestatus = async () => {
     await http.post('/pagestates/changeStatus', {
@@ -581,7 +575,7 @@ const handleAddPosition = async (e) => {
                           className='form-control' type='text' name='inpABI' id='inpABI' />
                     </div>
                     <div className='mb-3'>
-                      <a href='https://thirdweb.com/0x7C562AF4d61Eaa06F3CFB37435c4Bc18b7641a7e/Election' target='_blank'>Deploy Smart Contract and get Contract Address and ABI here.</a>
+                      <a href='https://thirdweb.com/0x7C562AF4d61Eaa06F3CFB37435c4Bc18b7641a7e/Election' target='_blank' rel='noreferrer'>Deploy Smart Contract and get Contract Address and ABI here.</a>
                     </div>
                   </div>
                   <div className='row btnRow'>

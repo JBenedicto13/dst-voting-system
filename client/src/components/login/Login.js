@@ -12,11 +12,11 @@ const Login = ({user}) => {
     //Show Errors
     const [showEmail, setShowEmail] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [showError, setShowError] = useState(false);
+    let showError = false;
    
     const [errMsgE, setErrMsgE] = useState("");
     const [errMsgP, setErrMsgP] = useState("");
-    const [errMsg, setErrMsg] = useState("");
+    let errMsg = "";
     
     const [error, setError] = useState(null);
     const [disableSubmit, setDisableSubmit] = useState(true);
@@ -75,7 +75,7 @@ const Login = ({user}) => {
                 
                 var isExpire = (parseInt(exp.data.expirationDate) < parseInt(year));
 
-                if (isExpire == true) {
+                if (isExpire === true) {
                     Swal.fire({
                         title: "Account Expired",
                         text: "If you think this is a mistake, please contact the administrator",

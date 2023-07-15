@@ -38,7 +38,6 @@ const RegisterCOC = () => {
     const [dpfile, setdpfile] = useState(null);
     const inputRef = useRef();
     const dpRef = useRef();
-    const [gendpname, setgendpname] = useState("");
     const [email, setemail] = useState("");
     const [walletAddress, setwalletAddress] = useState("");
     const [lastName, setlastName] = useState("");

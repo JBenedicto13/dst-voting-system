@@ -32,10 +32,7 @@ const Vote = ({user}) => {
   const [orgNameState, setOrgNameState] = useState("");
 
   const [selectedValue, setSelectedValue] = useState([]);
-  const [provider, setProvider] = useState(null);
-  const [signer, setSigner] = useState(null);
   const [signerContract, setSignerContract] = useState(null);
-  const [providerContract, setProviderContract] = useState(null);
 
   const [candidateList, setCandidateList] = useState([]);
   const [positionList, setpositionList] = useState([]);
@@ -77,9 +74,6 @@ const Vote = ({user}) => {
       const signerContract = new ethers.Contract(address, abi, signer);
       const providerContract = new ethers.Contract(address, abi, provider);
 
-      setProvider(provider);
-      setSigner(signer);
-      setProviderContract(providerContract);
       setSignerContract(signerContract);
       loadCandidates(providerContract);
     }
@@ -102,7 +96,6 @@ const Vote = ({user}) => {
     checkIsVoted(email);
   }
 
-  const [posData, setposData] = useState([]);
   const [voteData, setvoteData] = useState([]);
 
   const confirmVotes = async () => {
@@ -128,7 +121,6 @@ const Vote = ({user}) => {
       }
     }
 
-    setposData(pos);
     setvoteData(vote);
 
     pos = JSON.stringify(pos);
@@ -164,7 +156,7 @@ const Vote = ({user}) => {
     });
   }
 
-  useEffect(()=>{
+  useEffect(()=> {
     fetchABI()
     email = (user.username + "@dhvsu.edu.ph")
   },[])
@@ -263,7 +255,7 @@ const Vote = ({user}) => {
                 return (
                   <div key={index}>
                     {candidateList
-                    .filter((chosen) => chosen.candidate[0].id == vote)
+                    .filter((chosen) => chosen.candidate[0].id === vote)
                     .map((candidate, key) => {
                       return (
                         <p key={candidate._id}><b>{candidate.candidate[0].position}:</b> {candidate.lastName}, {candidate.firstName}</p>

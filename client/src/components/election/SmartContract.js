@@ -4,9 +4,8 @@ import { ethers } from 'ethers';
 // import ElectionSrc from '../../artifacts/contracts/Election.sol/Election.json';
 
 const SmartContract = () => {
-  const [abi, setabi] = useState("");
+  let abi = '';
   const ElectionContract = "0xe42473F1e11418c7D9C6E302E082008D9103D813";
-  const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [signerContract, setSignerContract] = useState(null);
   const [providerContract, setProviderContract] = useState(null);
@@ -22,7 +21,6 @@ const SmartContract = () => {
        const signerContract = new ethers.Contract(ElectionContract, abi, signer);
        const providerContract = new ethers.Contract(ElectionContract, abi, provider);
 
-       setProvider(provider);
        setSigner(signer);
        setProviderContract(providerContract);
        setSignerContract(signerContract);
@@ -84,7 +82,7 @@ const SmartContract = () => {
   const [candidateName, setCandidateName] = useState([]);
   const [voteList, setVoteList] = useState([]);
   const [regCandidates, setRegCandidates] = useState([]);
-  const [initialState, setInitialState] = useState([]);
+  const initialState = [];
 
   const newCandidate = async (_pos, _name) => {
 

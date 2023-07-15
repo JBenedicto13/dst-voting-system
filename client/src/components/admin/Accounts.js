@@ -37,9 +37,6 @@ const Accounts = () => {
     const [email, setEmail] = useState("");
     const [walletAddress, setWalletAddress] = useState("");
 
-    const courseOptions = ["BSBA", "BSHM", "BSED", "BSIT"];
-    const yearLevelOptions = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
-    const sectionOptions = ["A", "B", "C", "D"];
     const [adminlist, setadminlist] = useState([]);
 
     //Show Errors
@@ -182,15 +179,6 @@ const Accounts = () => {
 
 /* Validations */
 
-    function clearForm() {
-        setLastName("");
-        setfirstName("");
-        setEmail("");
-        setWalletAddress("");
-        username = "";
-        password = "";
-    }
-
     const saveData = async(e) => {
         e.preventDefault();
         Swal.fire({
@@ -307,7 +295,7 @@ const Accounts = () => {
         } else {
             setDisableSubmit(true);
         }
-    }, [])
+    }, [validateForm])
 
   return (
     <div className='voters'>

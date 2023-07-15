@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
 
@@ -24,8 +24,8 @@ if (localStorage.getItem("admin-token")) {
 
 const App = () => {
 
-    const [user, setUser] = useState(logUser);
-    const [admin, setAdmin] = useState(logAdmin);
+    const user = logUser;
+    const admin = logAdmin;
 
     if (user) {
         sessionStorage.setItem("user-email", user.email);

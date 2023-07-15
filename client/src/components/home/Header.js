@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
 import '../../styles/header.css';
 import { useNavigate } from 'react-router-dom';
-import UserGuide from "./UserGuide";
 import http from "../../utils/http";
 
 function Header({user}) {

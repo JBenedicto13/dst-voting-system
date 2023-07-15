@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.316aef20.css",
+    "main.js": "/static/js/main.dbab8955.js",
+    "static/media/dstsc-logo.png": "/static/media/dstsc-logo.d2608d13e1b6fb20be6b.png",
+    "static/media/MetaMaskAccntSetupPhone.pdf": "/static/media/MetaMaskAccntSetupPhone.aa207d58ff675514d53b.pdf",
+    "static/media/MetaMask-SetupDesktop.pdf": "/static/media/MetaMask-SetupDesktop.2646e46e9affafa46a53.pdf",
+    "static/media/Manalang.png": "/static/media/Manalang.c36e686322818da39bf5.png",
+    "static/media/candidate2.png": "/static/media/candidate2.acf6407f073c30e5da97.png",
+    "static/media/Almario.png": "/static/media/Almario.c2bc852949fa6c9861f9.png",
+    "static/media/Nuqui.png": "/static/media/Nuqui.495d58c1c69ffa4f9f9f.png",
+    "static/media/Benedicto.png": "/static/media/Benedicto.7f7cec2a3f872bcd8cfb.png",
+    "static/media/Lopez.png": "/static/media/Lopez.fefd5047b9484a5de81d.png",
+    "static/media/Ardena.png": "/static/media/Ardena.5fa9259e6072ccda62dc.png",
+    "static/media/candidate1.png": "/static/media/candidate1.82325a689670cecdff5b.png",
+    "static/media/gif.jpg": "/static/media/gif.e453e8e61a7482ef8119.jpg",
+    "index.html": "/index.html",
+    "main.316aef20.css.map": "/static/css/main.316aef20.css.map",
+    "main.dbab8955.js.map": "/static/js/main.dbab8955.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.316aef20.css",
+    "static/js/main.dbab8955.js"
+  ]
+}

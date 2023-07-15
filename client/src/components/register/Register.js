@@ -52,9 +52,8 @@ const Register = ({user}) => {
     const [errMsgCP, setErrMsgCP] = useState("");
 
     const [disableSubmit, setDisableSubmit] = useState(true);
-    const [systemName, setsystemName] = useState("DST Voting System");
+    const systemName = "DST Voting System";
     const [sixdigitcode, setsixdigitcode] = useState("");
-    const [isEmailConfirm, setisEmailConfirm] = useState(false);
 
     let navigate = useNavigate();
 
@@ -161,7 +160,7 @@ const Register = ({user}) => {
     };
 
     function handleRegister(isEmailConfirm) {
-        if (isEmailConfirm == true) {
+        if (isEmailConfirm === true) {
             document.getElementById("btn-close").click();
             setsixdigitcode("");
             
@@ -304,13 +303,16 @@ const Register = ({user}) => {
 
         switch (yearLevel) {
             case "1st Year": {
-                increment = 1
+                increment = 1;
+                break;
             }
-            case "1st Year": {
-                increment = 2
+            case "2nd Year": {
+                increment = 2;
+                break;
             }
-            case "1st Year": {
-                increment = 3
+            case "3rd Year": {
+                increment = 3;
+                break;
             }
             default: {
                 increment = 4
@@ -599,7 +601,7 @@ const Register = ({user}) => {
                     />
                     <span onClick={() => {
                         
-                        if (isShow == true) {
+                        if (isShow === true) {
                             setisShow(false)
                         } else {
                             setisShow(true)
@@ -607,7 +609,7 @@ const Register = ({user}) => {
 
                         const type = document.getElementById("password").getAttribute("type") === "password" ? "text" : "password";
                         document.getElementById("password").setAttribute("type", type);
-                        const type1 = document.getElementById("confirmpassword").getAttribute("type") === "password" ? "text" : "password";
+                        // const type1 = document.getElementById("confirmpassword").getAttribute("type") === "password" ? "text" : "password";
                         document.getElementById("confirmpassword").setAttribute("type", type);
 
                     }}>{ isShow ? <BiHide /> : <BiShow />}</span>
@@ -629,7 +631,7 @@ const Register = ({user}) => {
                     />
                     <span onClick={() => {
                         
-                        if (isShow == true) {
+                        if (isShow === true) {
                             setisShow(false)
                         } else {
                             setisShow(true)
@@ -637,7 +639,7 @@ const Register = ({user}) => {
 
                         const type = document.getElementById("password").getAttribute("type") === "password" ? "text" : "password";
                         document.getElementById("password").setAttribute("type", type);
-                        const type1 = document.getElementById("confirmpassword").getAttribute("type") === "password" ? "text" : "password";
+                        // const type1 = document.getElementById("confirmpassword").getAttribute("type") === "password" ? "text" : "password";
                         document.getElementById("confirmpassword").setAttribute("type", type);
 
                     }}>{ isShow ? <BiHide /> : <BiShow />}</span>

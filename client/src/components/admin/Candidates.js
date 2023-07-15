@@ -39,16 +39,17 @@ const Candidates = () => {
         })
     }
 
-    const [candidateId, setcandidateId] = useState("");
-    let username;
-    let password;
-    const [lastName, setLastName] = useState("");
-    const [firstName, setfirstName] = useState("");
-    const [course, setCourse] = useState("");
-    const [yearLevel, setYearLevel] = useState("");
-    const [section, setSection] = useState("");
-    const [email, setEmail] = useState("");
-    const [walletAddress, setWalletAddress] = useState("");
+    // const [candidateId, setcandidateId] = useState("");
+    let candidateId = '';
+    // let username;
+    // let password;
+    // const [lastName, setLastName] = useState("");
+    // const [firstName, setfirstName] = useState("");
+    // const [course, setCourse] = useState("");
+    // const [yearLevel, setYearLevel] = useState("");
+    // const [section, setSection] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [walletAddress, setWalletAddress] = useState("");
 
     const [electionNameOptions, setelectionNameOptions] = useState([]);
     const [positionOptions, setpositionOptions] = useState([]);
@@ -57,32 +58,20 @@ const Candidates = () => {
     const [electionName, setelectionName] = useState("");
     const [runningPosistion, setrunningPosistion] = useState("");
     const [partyList, setpartyList] = useState("");
-    const [candidateEmail, setcandidateEmail] = useState("");
+    let candidateEmail = '';
     
 
-    const [userList, setuserList] = useState([]);
+    // let userList = [];
     const [candidatesList, setcandidatesList] = useState([]);
     const [deploymentData, setdeploymentData] = useState([]);
 
     //Show Errors
-    const [showLastName, setShowLastName] = useState(false);
-    const [showFirstName, setShowFirstName] = useState(false);
-    const [showCourse, setShowCourse] = useState(false);
-    const [showYearLevel, setShowYearLevel] = useState(false);
-    const [showSection, setShowSection] = useState(false);
-    const [showEmail, setShowEmail] = useState(false);
-    const [showWalletAddress, setShowWalletAddress] = useState(false);
+    let showEmail = false;
+    let showWalletAddress = false;
     const [showElectionName, setshowElectionName] = useState(false);
     const [showRunningPosition, setshowRunningPosition] = useState(false);
     const [showPartylist, setshowPartylist] = useState(false);
 
-    const [errMsgLN, setErrMsgLN] = useState("");
-    const [errMsgFN, setErrMsgFN] = useState("");
-    const [errMsgC, setErrMsgC] = useState("");
-    const [errMsgY, setErrMsgY] = useState("");
-    const [errMsgS, setErrMsgS] = useState("");
-    const [errMsgE, setErrMsgE] = useState("");
-    const [errMsgW, setErrMsgW] = useState("");
     const [errMsgEN, seterrMsgEN] = useState("");
     const [errMsgRP, seterrMsgRP] = useState("");
     const [errMsgPT, seterrMsgPT] = useState("");
@@ -165,42 +154,42 @@ const Candidates = () => {
         }
     }
   
-    function validateForm() {
-        if (showEmail) {
-            return true;
-        }
-        if (showWalletAddress) {
-            return true;
-        }
-        return false;
-    }
+    // function validateForm() {
+    //     if (showEmail) {
+    //         return true;
+    //     }
+    //     if (showWalletAddress) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 /* Validations */
 
-    function clearForm() {
-        setLastName("");
-        setfirstName("");
-        setCourse("");
-        setYearLevel("");
-        setSection("");
-        setEmail("");
-        setWalletAddress("");
-        username = "";
-        password = "";
-        setelectionName("");
-        setrunningPosistion("");
-        setpartyList("");
-    }
+    // function clearForm() {
+    //     setLastName("");
+    //     setfirstName("");
+    //     setCourse("");
+    //     setYearLevel("");
+    //     setSection("");
+    //     setEmail("");
+    //     setWalletAddress("");
+    //     username = "";
+    //     password = "";
+    //     setelectionName("");
+    //     setrunningPosistion("");
+    //     setpartyList("");
+    // }
 
-    const loadUserData = async() => {
-        await http.get("/user/viewNonCandidate")
-        .then((res) => setuserList(res.data))
-        .catch ((err) => {
-            if (err.response && err.response.status === 400) {
-                errorAlert(err);
-            }
-        })
-    }
+    // const loadUserData = async() => {
+    //     await http.get("/user/viewNonCandidate")
+    //     .then((res) => userList = res.data)
+    //     .catch ((err) => {
+    //         if (err.response && err.response.status === 400) {
+    //             errorAlert(err);
+    //         }
+    //     })
+    // }
 
     const loadCandidatesData = async() => {
         await http.get("/user/viewCandidate")
@@ -350,7 +339,7 @@ const Candidates = () => {
                     })
                     .then((res)=>{
                         successAlert(res)
-                        clearForm()
+                        // clearForm()
                         document.getElementById('btnCloseModalCandidate').click()
                         window.location.reload();
                     })
@@ -443,16 +432,16 @@ const Candidates = () => {
     }
 
     useEffect(() => {
-        loadUserData()
+        // loadUserData()
         loadCandidatesData()
         loadElectionData()
         getcoc()
         
-        if (validateForm() === false) {
-            setDisableSubmit(false);
-        } else {
-            setDisableSubmit(true);
-        }
+        // if (validateForm() === false) {
+        //     setDisableSubmit(false);
+        // } else {
+        //     setDisableSubmit(true);
+        // }
     }, [])
 
   return (
