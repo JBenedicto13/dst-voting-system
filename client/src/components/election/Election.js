@@ -147,7 +147,7 @@ function Election() {
 
     return (
         <>
-        <div className="election">
+        <div className="election row">
             <div className="electionHeader">
                 <h1>Web-based Voting System DHVSU Sto. Tomas</h1>
                 <p>
