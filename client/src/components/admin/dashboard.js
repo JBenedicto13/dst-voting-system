@@ -1,6 +1,6 @@
 import React from 'react';
 import SideBar from './Sidebar';
-import '../admin/adminStyle/dashboard.css';
+import './adminStyle/dashboard.css';
 
 const Dashboard = () => {
 
