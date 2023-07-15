@@ -147,14 +147,14 @@ function Election() {
 
     return (
         <>
-        <div className="election row">
-            <div className="electionHeader col">
+        <div className="election">
+            <div className="electionHeader">
                 <h1>Web-based Voting System DHVSU Sto. Tomas</h1>
                 <p>
                     This was developed to provide online access to voting and it was integrated with the blockchain for added security through the help of a voting smart contract.
                 </p>
             </div>
-            <div className="chooseEvent col">
+            <div className="chooseEvent">
                 <div className="listbox row">
                     <div className="eventList row">
                         <h1>Choose an Election Event</h1>
