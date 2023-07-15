@@ -42,6 +42,7 @@ const Routing = ({user, admin}) => {
             <Route path='/admin/login' element={<AdminLogin admin={admin}/>}/>
             
             <Route element={<PrivateAdmin admin={admin} />}>
+                <Route path='admin' element={<Dashboard />}/>
                 <Route path='admin/dashboard' element={<Dashboard />}/>
                 <Route path='admin/addadmin' element={<AddAdmin/>}/>
                 <Route path='admin/smartcontract' element={<SmartContract />}/>
